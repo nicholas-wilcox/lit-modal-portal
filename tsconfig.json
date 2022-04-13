@@ -1,0 +1,14 @@
+{
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "lib": [ "esnext", "DOM", "DOM.Iterable" ],
+    "target": "es2019",
+  }
+}
+
