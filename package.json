@@ -13,7 +13,11 @@
     "portal"
   ],
   "author": "Nicholas Wilcox",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cirrus-logic/lit-modal-portal.git"
+  },
   "type": "module",
   "devDependencies": {
     "esbuild": "^0.14.36",
