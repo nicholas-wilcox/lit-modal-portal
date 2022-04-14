@@ -6,7 +6,7 @@ a focus on utilizing the Lit API wherever possible, with the intent to both prov
 [principle of least surprise](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
 
 Specifically, the package exports a `<modal-portal>` Lit component that is added to the bottom of your app root
-and implements a modal stack that can be consumed from *anywhere* in your component hierarchy
+and implements a modal stack that can be consumed from *anywhere* with an exported function `pushModal()`
 (even from within a modal).
 
 ### Note on UI/UX Best Practices for Modals, Dialogs, Overlays, etc.
