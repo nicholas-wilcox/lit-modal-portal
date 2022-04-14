@@ -9,6 +9,9 @@
     "experimentalDecorators": true,
     "lib": [ "esnext", "DOM", "DOM.Iterable" ],
     "target": "es2019",
+    "plugins": [
+      "name": "ts-lit-plugin"
+    ]
   }
 }
 
