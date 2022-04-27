@@ -5,6 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "node esbuild.config.js",
+    "build:watch": "node esbuild.config.js -w",
+    "clean": "rimraf dist/*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -25,8 +27,10 @@
   "type": "module",
   "devDependencies": {
     "esbuild": "^0.14.36",
+    "rimraf": "^3.0.2",
     "ts-lit-plugin": "^1.2.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "yargs-parser": "^21.0.1"
   },
   "dependencies": {
     "lit": "^2.2.2"
