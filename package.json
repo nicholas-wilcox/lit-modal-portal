@@ -4,9 +4,13 @@
   "description": "A specialized portal mechanism for modals developed with the Lit framework.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node esbuild.config.js",
-    "build:watch": "node esbuild.config.js -w",
+    "build": "npm run clean && npm run tsc && npm run esbuild",
+    "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
     "clean": "rimraf dist/*",
+    "esbuild": "node esbuild.config.js",
+    "esbuild:watch": "node esbuild.config.js -w",
+    "tsc": "tsc",
+    "tsc:watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -26,6 +30,7 @@
   "homepage": "https://github.com/cirrus-logic/lit-modal-portal#readme",
   "type": "module",
   "devDependencies": {
+    "concurrently": "^7.1.0",
     "esbuild": "^0.14.36",
     "rimraf": "^3.0.2",
     "ts-lit-plugin": "^1.2.1",

@@ -3,7 +3,9 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",
-    "noEmit": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
     "esModuleInterop": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
@@ -11,7 +13,11 @@
     "target": "es2019",
     "plugins": [
       { "name": "ts-lit-plugin" }
-    ]
+    ],
+    "preserveWatchOutput": true
+  },
+  "watchOptions": {
+    "excludeDirectories": ["**/node_modules"]
   }
 }
 

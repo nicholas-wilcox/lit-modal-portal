@@ -24,15 +24,13 @@ esbuild.build({
   outdir: "dist",
   external: ["node_modules/*"],
   format: "esm",
-  watch: !shouldWatch
-    ? false
-    : {
-      onRebuild(error, result) {
-        const timeString = getNowAsString();
-        if (error) console.log(`${timeString}: watch build failed`);
-        else console.log(`${timeString}: watch build succeeded`);
-      },
-    },
+  watch: shouldWatch ? {
+    onRebuild(error, result) {
+      const timeString = getNowAsString();
+      if (error) console.log(`${timeString}: watch build failed`);
+      else console.log(`${timeString}: watch build succeeded`);
+    }
+  } : false,
 }).then(result => {
   if (shouldWatch) console.log("watching...");
 });
