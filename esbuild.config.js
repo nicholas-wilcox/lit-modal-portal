@@ -19,10 +19,8 @@ const argv = parser(process.argv.slice(2));
 const shouldWatch = isBooleanAndTrue(argv.w) || isBooleanAndTrue(argv.watch);
 
 esbuild.build({
-  entryPoints: ["src/index.ts", "src/util.ts"],
-  bundle: true,
+  entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
   outdir: "dist",
-  external: ["node_modules/*"],
   format: "esm",
   watch: shouldWatch ? {
     onRebuild(error, result) {

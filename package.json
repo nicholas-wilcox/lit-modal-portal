@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "A specialized portal mechanism for modals developed with the Lit framework.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
@@ -38,6 +39,7 @@
     "yargs-parser": "^21.0.1"
   },
   "dependencies": {
+    "immutable": "^4.0.0",
     "lit": "^2.2.2"
   }
 }
