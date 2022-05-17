@@ -22,6 +22,9 @@ esbuild.build({
   entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
   outdir: "dist",
   format: "esm",
+  bundle: true,
+  splitting: true,
+  external: ["lit", "immutable"],
   watch: shouldWatch ? {
     onRebuild(error, result) {
       const timeString = getNowAsString();

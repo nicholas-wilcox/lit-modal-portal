@@ -1,6 +1,10 @@
+import {
+  ModalController
+} from "./chunk-QUZ5KEGT.js";
+
+// src/portal.ts
 import { Directive, directive } from "lit/directive.js";
-import ModalController from "./modal-controller";
-class PortalDirective extends Directive {
+var PortalDirective = class extends Directive {
   getTemplate(templateOrSupplier) {
     if (templateOrSupplier instanceof Function) {
       return templateOrSupplier();
@@ -23,8 +27,8 @@ class PortalDirective extends Directive {
       this.modalRegistry = ModalController.getInstance().push(this.getTemplate(template), closeCallback);
     }
   }
-}
-const portal = directive(PortalDirective);
+};
+var portal = directive(PortalDirective);
 export {
   portal
 };

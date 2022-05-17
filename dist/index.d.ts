@@ -90,3 +90,4 @@ declare module "src/portal" {
     }
     export const portal: (showModal: boolean | Function, template: TemplateResult<2 | 1> | (() => TemplateResult), closeCallback?: Function) => import("lit-html/directive").DirectiveResult<typeof PortalDirective>;
 }
+//# sourceMappingURL=index.d.ts.map

@@ -1,21 +1,15 @@
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __decorateClass = (decorators, target, key, kind) => {
-  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
-  for (var i = decorators.length - 1, decorator; i >= 0; i--)
-    if (decorator = decorators[i])
-      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
-  if (kind && result)
-    __defProp(target, key, result);
-  return result;
-};
+import {
+  ModalController,
+  __decorateClass
+} from "./chunk-QUZ5KEGT.js";
+
+// src/modal-portal.ts
 import { LitElement, html } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { ref, createRef } from "lit/directives/ref.js";
 import { List, is } from "immutable";
-import ModalController from "./modal-controller";
-let ModalPortal = class extends LitElement {
+var ModalPortal = class extends LitElement {
   constructor() {
     super();
     this.modalC = ModalController.getInstance();

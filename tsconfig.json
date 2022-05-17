@@ -4,6 +4,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationMap": true,
     "emitDeclarationOnly": true,
     "removeComments": true,
     "outFile": "dist/index",
@@ -14,7 +15,9 @@
     "plugins": [
       { "name": "ts-lit-plugin" }
     ],
-    "preserveWatchOutput": true
+    "preserveWatchOutput": true,
+    "incremental": true,
+    "useDefineForClassFields": false
   },
   "watchOptions": {
     "excludeDirectories": ["**/node_modules"]
