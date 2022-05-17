@@ -17,7 +17,8 @@
   "keywords": [
     "Lit",
     "modal",
-    "portal"
+    "portal",
+    "custom element"
   ],
   "author": "Nicholas Wilcox",
   "license": "MIT",
