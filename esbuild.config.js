@@ -17,14 +17,24 @@ function getNowAsString() {
 
 const argv = parser(process.argv.slice(2));
 const shouldWatch = isBooleanAndTrue(argv.w) || isBooleanAndTrue(argv.watch);
+const shouldMinify = isBooleanAndTrue(argv.m) || isBooleanAndTrue(argv.minify);
 
-esbuild.build({
-  entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
-  outdir: "dist",
+const baseConfig = shouldMinify
+  ? {
+    entryPoints: ["src/index.ts"],
+    outfile: "dist/build.min.js",
+    minify: true,
+    external: ["lit"],
+  } : {
+    entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
+    outdir: "dist",
+    splitting: true,
+    external: ["lit", "immutable"],
+  };
+
+esbuild.build(Object.assign(baseConfig, {
   format: "esm",
   bundle: true,
-  splitting: true,
-  external: ["lit", "immutable"],
   watch: shouldWatch ? {
     onRebuild(error, result) {
       const timeString = getNowAsString();
@@ -32,6 +42,6 @@ esbuild.build({
       else console.log(`${timeString}: watch build succeeded`);
     }
   } : false,
-}).then(result => {
+})).then(result => {
   if (shouldWatch) console.log("watching...");
 });

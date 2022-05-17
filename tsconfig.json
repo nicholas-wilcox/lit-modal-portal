@@ -1,5 +1,6 @@
 {
   "include": ["src/**/*.ts"],
+  "exclude": ["src/index.ts"],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",

@@ -9,10 +9,11 @@
   },
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "npm run clean && npm run tsc && npm run esbuild",
+    "build": "npm run clean && npm run tsc && npm run esbuild && npm run esbuild:min",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
     "clean": "rimraf dist/*",
     "esbuild": "node esbuild.config.js",
+    "esbuild:min": "node esbuild.config.js -m",
     "esbuild:watch": "node esbuild.config.js -w",
     "tsc": "tsc",
     "tsc:watch": "tsc -w",
