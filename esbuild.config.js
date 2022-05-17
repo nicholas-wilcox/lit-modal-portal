@@ -24,6 +24,7 @@ const baseConfig = shouldMinify
     entryPoints: ["src/index.ts"],
     outfile: "dist/build.min.js",
     minify: true,
+    sourcemap: true,
     external: ["lit"],
   } : {
     entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
