@@ -5,13 +5,15 @@
   "exports": {
     "./modal-controller": "./dist/modal-controller.js",
     "./modal-portal": "./dist/modal-portal.js",
-    "./portal": "./dist/portal.js"
+    "./portal": "./dist/portal.js",
+    "./lib/*": "./dist/lib/*"
   },
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild && npm run esbuild:min",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
     "clean": "rimraf dist/*",
+    "dev": "wds --node-resolve --watch --app-index dev/index.html",
     "esbuild": "node esbuild.config.js",
     "esbuild:min": "node esbuild.config.js -m",
     "esbuild:watch": "node esbuild.config.js -w",
@@ -37,6 +39,8 @@
   "homepage": "https://github.com/cirrus-logic/lit-modal-portal#readme",
   "type": "module",
   "devDependencies": {
+    "@web/dev-server": "^0.1.31",
+    "@web/dev-server-esbuild": "^0.3.0",
     "concurrently": "^7.1.0",
     "esbuild": "^0.14.36",
     "rimraf": "^3.0.2",

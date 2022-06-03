@@ -1,10 +1,12 @@
 import {
-  ModalController,
+  ModalController
+} from "./chunk-37HP3PVJ.js";
+import {
   __decorateClass
-} from "./chunk-QUZ5KEGT.js";
+} from "./chunk-S65R2BUY.js";
 
 // src/modal-portal.ts
-import { LitElement, html } from "lit";
+import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import { ref, createRef } from "lit/directives/ref.js";
@@ -54,6 +56,7 @@ var ModalPortal = class extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener("keydown", this.popOnEscape);
+    this.addEventListener("closeModal", this.closeModal);
   }
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -62,12 +65,17 @@ var ModalPortal = class extends LitElement {
   render() {
     var _a;
     return html`
-      <div id="portal" ${ref(this.portalRef)} class="isolate">
+      <div id="portal" ${ref(this.portalRef)}>
         ${repeat((_a = this.modalStack) == null ? void 0 : _a.values(), (modal) => modal.key, (modal) => html`<div class="modal-node">${modal}</div>`)}
       </div>
     `;
   }
 };
+ModalPortal.styles = css`
+    #portal {
+      isolation: isolate;
+    }
+  `;
 __decorateClass([
   state()
 ], ModalPortal.prototype, "modalStack", 2);

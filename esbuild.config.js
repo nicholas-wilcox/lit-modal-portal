@@ -27,7 +27,13 @@ const baseConfig = shouldMinify
     sourcemap: true,
     external: ["lit"],
   } : {
-    entryPoints: ["src/modal-portal.ts", "src/modal-controller.ts", "src/portal.ts"],
+    entryPoints: [
+      "src/modal-portal.ts",
+      "src/modal-controller.ts",
+      "src/portal.ts",
+      "src/lib/modal-backdrop.ts",
+      "src/lib/modal-overlay.ts",
+    ],
     outdir: "dist",
     splitting: true,
     external: ["lit", "immutable"],

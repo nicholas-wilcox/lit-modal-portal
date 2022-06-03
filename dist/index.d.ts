@@ -12,17 +12,19 @@ declare module "lib/state" {
     export interface StatefulElement<T> extends ReactiveElement {
         offerState(state: MapOf<T>): void;
     }
+    export function isNew<T>(newState: MapOf<T>, name: keyof T, current: any): boolean;
 }
-declare module "src/modal-portal" {
+declare module "modal-portal" {
     import { LitElement } from "lit";
     import { Ref } from "lit/directives/ref.js";
     import { List } from "immutable";
-    import { KeyedTemplateResult } from "src/modal-controller";
+    import { KeyedTemplateResult } from "modal-controller";
     import { MapOf, StatefulElement } from "lib/state";
     export type ModalPortalState = {
         modalStack: List<KeyedTemplateResult>;
     };
     export class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
+        static styles: import("lit").CSSResult;
         private modalC;
         modalStack: List<KeyedTemplateResult>;
         portalRef: Ref<HTMLElement>;
@@ -37,15 +39,15 @@ declare module "src/modal-portal" {
     }
     global {
         interface HTMLElementTagNameMap {
-            "modal-portal": ModalPortal;
+            'modal-portal': ModalPortal;
         }
     }
 }
-declare module "src/modal-controller" {
+declare module "modal-controller" {
     import { ReactiveController, TemplateResult } from "lit";
     import { List, Map } from "immutable";
     import { StateManager } from "lib/state";
-    import { ModalPortal } from "src/modal-portal";
+    import { ModalPortal } from "modal-portal";
     export type KeyedTemplateResult = TemplateResult & {
         key: string;
     };
@@ -79,15 +81,49 @@ declare module "src/modal-controller" {
         removeAll(): void;
     }
 }
-declare module "src/portal" {
+declare module "portal" {
     import { TemplateResult } from "lit";
     import { Directive } from "lit/directive.js";
-    import { ModalRegistry } from "src/modal-controller";
+    import { ModalRegistry } from "modal-controller";
     class PortalDirective extends Directive {
         modalRegistry?: ModalRegistry;
         getTemplate(templateOrSupplier: TemplateResult | (() => TemplateResult)): TemplateResult;
         render(showModal: boolean | Function, template: TemplateResult | (() => TemplateResult), closeCallback?: Function): void;
     }
     export const portal: (showModal: boolean | Function, template: TemplateResult<2 | 1> | (() => TemplateResult), closeCallback?: Function) => import("lit-html/directive").DirectiveResult<typeof PortalDirective>;
+}
+declare module "lib/modal-overlay" {
+    import { LitElement, CSSResultGroup } from "lit";
+    import "./modal-backdrop.ts";
+    export default class ModalOverlay extends LitElement {
+        static styles: CSSResultGroup;
+        label: string;
+        closeModal(): void;
+        render(): import("lit-html").TemplateResult<1>;
+    }
+}
+declare module "lib/confirm-modal" {
+    import ModalOverlay from "lib/modal-overlay";
+    import './modal-backdrop.ts';
+    export default class ConfirmModal extends ModalOverlay {
+        static styles: import("lit").CSSResultGroup[];
+        cancelLabel: string;
+        confirmLabel: string;
+        confirmCallback: Function | undefined;
+        secondaryLabel: string;
+        secondaryAction: Function | undefined;
+        closeOnConfirmation: boolean;
+        handleConfirm(): void;
+        handleSecondaryAction(): void;
+        render(): import("lit-html").TemplateResult<1>;
+    }
+}
+declare module "lib/modal-backdrop" {
+    import { LitElement } from "lit";
+    export default class ModalBackdrop extends LitElement {
+        static styles: import("lit").CSSResult;
+        label: string;
+        render(): import("lit-html").TemplateResult<1>;
+    }
 }
 //# sourceMappingURL=index.d.ts.map

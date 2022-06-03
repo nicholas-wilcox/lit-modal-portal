@@ -1,26 +1,15 @@
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __decorateClass = (decorators, target, key, kind) => {
-  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
-  for (var i = decorators.length - 1, decorator; i >= 0; i--)
-    if (decorator = decorators[i])
-      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
-  if (kind && result)
-    __defProp(target, key, result);
-  return result;
-};
-
 // src/modal-controller.ts
-import { List, Map, is } from "immutable";
+import { List, Map as Map2 } from "immutable";
 
-// lib/uuid.ts
+// src/lib/uuid.ts
 var template = `${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`;
 var hexChar = (a) => (a ^ Math.random() * 16 >> a / 4).toString(16);
 function uuid(a) {
   return a ? hexChar(Number(a)) : template.replace(/[018]/g, uuid);
 }
 
-// lib/state.ts
+// src/lib/state.ts
+import { is } from "immutable";
 var StateManager = class {
   constructor() {
   }
@@ -31,6 +20,9 @@ var StateManager = class {
     return existingState.merge(Object.entries(newState));
   }
 };
+function isNew(newState, name, current) {
+  return newState.has(name) && !is(newState.get(name), current);
+}
 
 // src/modal-controller.ts
 function addKeyToTemplate(el, key) {
@@ -38,10 +30,10 @@ function addKeyToTemplate(el, key) {
   keyedTemplate.key = key;
   return keyedTemplate;
 }
-var _modalState = Map({
+var _modalState = Map2({
   modalStack: List(),
   modalNodes: List(),
-  closeCallbacks: Map()
+  closeCallbacks: Map2()
 });
 var ModalController = class extends StateManager {
   static getInstance() {
@@ -51,8 +43,8 @@ var ModalController = class extends StateManager {
     return this.instance;
   }
   set modalState(newState) {
-    if (is(newState.get("modalStack"), this.modalStack)) {
-      this.host.offerState(Map({ "modalStack": newState.get("modalStack") }));
+    if (isNew(newState, "modalStack", this.modalStack)) {
+      this.host.offerState(Map2({ "modalStack": newState.get("modalStack") }));
     }
     _modalState = newState;
   }
@@ -76,7 +68,7 @@ var ModalController = class extends StateManager {
     }
   }
   hostConnected() {
-    this.host.offerState(Map({ "modalStack": this.modalStack }));
+    this.host.offerState(Map2({ "modalStack": this.modalStack }));
   }
   hostUpdated() {
     this.modalState = this.applyState(this.modalState, { modalNodes: List(this.host.modalNodes) });
@@ -133,6 +125,5 @@ var ModalController = class extends StateManager {
 };
 
 export {
-  __decorateClass,
   ModalController
 };

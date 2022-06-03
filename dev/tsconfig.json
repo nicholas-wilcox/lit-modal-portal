@@ -1,0 +1,11 @@
+// For use by typescript-language-server
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+    "plugins": [
+      {
+        "name": "ts-lit-plugin"
+      }
+    ],
+  }
+}

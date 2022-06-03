@@ -4,7 +4,7 @@
  */
 
 import { ReactiveElement } from "lit";
-import { Map } from "immutable";
+import { Map, is } from "immutable";
 
 /**
  * Creates a typed (immutable) Map whose keys are parameterized to be
@@ -36,3 +36,10 @@ export class StateManager<T> {
 export interface StatefulElement<T> extends ReactiveElement {
   offerState(state: MapOf<T>): void
 };
+
+/**
+ * Typed wrapper around membership checking for MapOf's.
+ */
+export function isNew<T>(newState: MapOf<T>, name: keyof T, current: any) {
+  return (newState.has(name) && !is(newState.get(name), current)); 
+}

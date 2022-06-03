@@ -1,8 +1,8 @@
 import { ReactiveController, TemplateResult } from "lit";
 import { List, Map, is } from "immutable";
 
-import uuid from "../lib/uuid";
-import { MapOf, StateManager } from "../lib/state";
+import uuid from "./lib/uuid";
+import { MapOf, StateManager, isNew } from "./lib/state";
 import { ModalPortal, ModalPortalState } from "./modal-portal";
 
 export type KeyedTemplateResult = TemplateResult & { key: string };
@@ -45,7 +45,7 @@ export default class ModalController extends StateManager<ModalState> implements
   private host: ModalPortal;
 
   private set modalState(newState: MapOf<ModalState>) {
-    if (is(newState.get("modalStack"), this.modalStack)) {
+    if (isNew(newState, "modalStack", this.modalStack)) {
       this.host.offerState(Map<keyof ModalPortalState, any>({ "modalStack": newState.get("modalStack") }));
     }
     _modalState = newState;
