@@ -1,16 +1,13 @@
-import { html, css, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import ModalOverlay from '../src/lib/modal-overlay';
+import { html, css } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { LitModal } from '../src/lib/lit-modal';
+
+import '../src/lib/modal-overlay.ts';
 
 @customElement('large-modal')
-export default class LargeModal extends ModalOverlay {
+export default class LargeModal extends LitModal {
   static styles = [
-    ModalOverlay.styles,
     css`
-      .modal-container {
-        padding: 4rem;
-      }
-
       .modal-content {
         background: white;
         min-height: 100%;
@@ -23,14 +20,12 @@ export default class LargeModal extends ModalOverlay {
 
   render() {
     return html`
-      <modal-backdrop label="Large Modal Example">
-        <div class="modal-container">
-          <div class="modal-content">
-            <p>This is an example of a large modal that necessitates vertical scrolling.</p>
-            <button @click=${() => this.closeModal()}>Close Modal</button>
-          </div>
+      <modal-overlay label="Large Modal Example" .containerStyles=${{ padding: '4rem' }}>
+        <div class="modal-content">
+          <p>This is an example of a large modal that necessitates vertical scrolling.</p>
+          <button @click=${() => this.closeModal()}>Close Modal</button>
         </div>
-      </modal-backdrop>
+      </modal-overlay>
     `;
   }
 }
