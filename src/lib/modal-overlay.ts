@@ -7,12 +7,9 @@ import "./modal-backdrop.ts";
 export default class ModalOverlay extends LitElement {
   static styles = css`
     .modal-container {
-      bottom: 0;
-      left: 0;
       overflow-y: auto;
       position: absolute;
-      right: 0;
-      top: 0;
+      inset: 0;
     }
   ` as CSSResultGroup;
 

@@ -6,11 +6,8 @@ export default class ModalBackdrop extends LitElement {
   static styles = css`
     .modal-backdrop {
       background-color: hsl(0deg 0% 0% / 75%);
-      bottom: 0;
-      left: 0;
       position: fixed;
-      right: 0;
-      top: 0;
+      inset: 0;
     }
   `;
 
