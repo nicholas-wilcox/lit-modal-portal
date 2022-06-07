@@ -3,6 +3,8 @@ import { customElement, state } from 'lit/decorators.js';
 import { portal } from '../src/portal';
 
 import '../src/lib/confirm-modal.ts';
+import './large-modal.ts';
+import './nested-modal.ts';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
@@ -13,6 +15,12 @@ export class AppRoot extends LitElement {
 
   @state()
   showCase2Modal: boolean = false;
+
+  @state()
+  showCase3Modal: boolean = false;
+
+  @state()
+  showCase4Modal: boolean = false;
 
   @state()
   currentTime: Date = new Date();
@@ -48,6 +56,22 @@ export class AppRoot extends LitElement {
     );
   }
 
+  case3Portal() {
+    return portal(
+      this.showCase3Modal,
+      html`<large-modal></large-modal>`,
+      () => this.showCase3Modal = false
+    );
+  }
+
+  case4Portal() {
+    return portal(
+      this.showCase4Modal,
+      html`<nested-modal></nested-modal>`,
+      () => this.showCase4Modal = false
+    );
+  }
+
   render() {
     return html`
       <h1>lit-modal-portal Demo</h1>
@@ -63,12 +87,16 @@ export class AppRoot extends LitElement {
       </div>
       <div>
         <h2>Case 3: Large Modal</h2>
+        <button @click=${() => this.showCase3Modal = true}>Show Modal</button>
       </div>
       <div>
         <h2>Case 4: Nested Modals</h2>
+        <button @click=${() => this.showCase4Modal = true}>Show Modal</button>
       </div>
       ${this.case1Portal()}
       ${this.case2Portal()}
+      ${this.case3Portal()}
+      ${this.case4Portal()}
     `;
   }
 };
