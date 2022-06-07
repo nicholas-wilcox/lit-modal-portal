@@ -1,5 +1,5 @@
 import { ReactiveController, TemplateResult } from "lit";
-import { List, Map, is } from "immutable";
+import { List, Map } from "immutable";
 
 import uuid from "./lib/uuid";
 import { MapOf, StateManager, isNew } from "./lib/state";
