@@ -92,21 +92,17 @@ declare module "portal" {
     }
     export const portal: (showModal: boolean | Function, template: TemplateResult<2 | 1> | (() => TemplateResult), closeCallback?: Function) => import("lit-html/directive").DirectiveResult<typeof PortalDirective>;
 }
-declare module "lib/modal-overlay" {
-    import { LitElement, CSSResultGroup } from "lit";
-    import "./modal-backdrop.ts";
-    export default class ModalOverlay extends LitElement {
-        static styles: CSSResultGroup;
-        label: string;
+declare module "lib/lit-modal" {
+    import { LitElement } from 'lit';
+    export abstract class LitModal extends LitElement {
         closeModal(): void;
-        render(): import("lit-html").TemplateResult<1>;
     }
 }
 declare module "lib/confirm-modal" {
-    import ModalOverlay from "lib/modal-overlay";
-    import './modal-backdrop.ts';
-    export default class ConfirmModal extends ModalOverlay {
-        static styles: import("lit").CSSResultGroup[];
+    import { LitModal } from "lib/lit-modal";
+    import './modal-overlay.ts';
+    export default class ConfirmModal extends LitModal {
+        static styles: import("lit").CSSResult[];
         cancelLabel: string;
         confirmLabel: string;
         confirmCallback: Function | undefined;
@@ -123,6 +119,22 @@ declare module "lib/modal-backdrop" {
     export default class ModalBackdrop extends LitElement {
         static styles: import("lit").CSSResult;
         label: string;
+        render(): import("lit-html").TemplateResult<1>;
+    }
+}
+declare module "lib/modal-overlay" {
+    import { LitElement } from 'lit';
+    import { StyleInfo } from 'lit/directives/style-map.js';
+    import "./modal-backdrop.ts";
+    export default class ModalOverlay extends LitElement {
+        static styles: import("lit").CSSResult[];
+        label: string;
+        flexCentering: boolean;
+        containerStyles: StyleInfo;
+        get classes(): {
+            'modal-container': boolean;
+            flex: boolean;
+        };
         render(): import("lit-html").TemplateResult<1>;
     }
 }
