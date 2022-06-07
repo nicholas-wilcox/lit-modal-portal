@@ -1,10 +1,11 @@
 import { html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import { ref } from 'lit/directives/ref.js';
 import { portal } from '../src/portal';
 import LargeModal from './large-modal';
 
 import '../src/lib/confirm-modal.ts';
-import '../src/lib/modal-overlay.ts';
+import '../src/lib/lit-dialog.ts';
 
 @customElement('nested-modal')
 export default class NestedModal extends LargeModal {
@@ -13,13 +14,13 @@ export default class NestedModal extends LargeModal {
 
   render() {
     return html`
-      <modal-overlay label="Nested Modal Example" .containerStyles=${{ padding: '4rem' }}>
+      <lit-dialog ${ref(this.litDialogRef)} label="Nested Modal Example">
         <div class="modal-content">
           <p>This is an example of a modal that can spawn "nested" submodals.</p>
-          <button @click=${() => this.showConfirmModal = true}>Show Submodal</button>
-          <button @click=${() => this.closeModal()}>Close Modal</button>
+          <button @click=${() => this.showConfirmModal = true} autofocus>Show Submodal</button>
+          <button @click=${() => this.closeDialog()}>Close Modal</button>
         </div>
-      </modal-overlay>
+      </lit-dialog>
       ${portal(
         this.showConfirmModal,
         html`<confirm-modal .confirmCallback=${() => console.log('Action confirmed')}></confirm-modal>`,

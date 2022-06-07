@@ -12,7 +12,7 @@ export type ModalPortalState = {
 };
 
 @customElement("modal-portal")
-export class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
+export default class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
   static styles = css`
     #portal {
       isolation: isolate;
@@ -46,24 +46,10 @@ export class ModalPortal extends LitElement implements StatefulElement<ModalPort
     }
   }
 
-  private popOnEscape = (e: KeyboardEvent) => {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event
-    // see the end of the article -- this is to ignore the compose key sequences
-    // such as creating an emoji or entering Kanji or something like that.
-    if (e.isComposing || e.keyCode === 229) {
-      return;
-    }
-    // https://w3c.github.io/uievents/#dom-keyboardeventk-key
-    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
-    if ((e.key == "Escape" || e.key == "Esc") && this.modalStack.size > 0) {
-      this.modalC.pop();
-    }
-  }
-
   /**
    * Looks for the div#portal in the event's path, and removes the modal found in the chain.
    */
-  protected closeModal = (e: Event) => {
+  protected removeModal = (e: Event) => {
     e.stopImmediatePropagation();
     e.preventDefault();
 
@@ -71,7 +57,7 @@ export class ModalPortal extends LitElement implements StatefulElement<ModalPort
     const eventPath = e.composedPath();
     const portalEventPathIndex = eventPath.findIndex(el => el === this.portalRef.value);
     if (portalEventPathIndex < 1) {
-      console.warn('Could not locate modal portal at appropriate depth in the @closeModal event path');
+      console.warn('Could not locate modal portal at appropriate depth in the @removeModal event path');
     } else {
       const modalNode = eventPath[portalEventPathIndex - 1];
       this.modalC.removeByNode(modalNode);
@@ -80,13 +66,7 @@ export class ModalPortal extends LitElement implements StatefulElement<ModalPort
 
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener('keydown', this.popOnEscape);
-    this.addEventListener('closeModal', this.closeModal);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener('keydown', this.popOnEscape);
+    this.addEventListener('removeModal', this.removeModal);
   }
 
   render() {

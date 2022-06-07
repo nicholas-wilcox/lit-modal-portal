@@ -1,11 +1,12 @@
-import { html, css } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { LitModal } from '../src/lib/lit-modal';
+import { ref } from 'lit/directives/ref.js';
+import { WithLitDialog } from '../src/lib/with-lit-dialog';
 
-import '../src/lib/modal-overlay.ts';
+import '../src/lib/lit-dialog.ts';
 
 @customElement('large-modal')
-export default class LargeModal extends LitModal {
+export default class LargeModal extends WithLitDialog(LitElement) {
   static styles = [
     css`
       .modal-content {
@@ -20,12 +21,12 @@ export default class LargeModal extends LitModal {
 
   render() {
     return html`
-      <modal-overlay label="Large Modal Example" .containerStyles=${{ padding: '4rem' }}>
+      <lit-dialog ${ref(this.litDialogRef)} label="Large Modal Example">
         <div class="modal-content">
           <p>This is an example of a large modal that necessitates vertical scrolling.</p>
-          <button @click=${() => this.closeModal()}>Close Modal</button>
+          <button @click=${() => this.closeDialog()} autofocus>Close Modal</button>
         </div>
-      </modal-overlay>
+      </lit-dialog>
     `;
   }
 }

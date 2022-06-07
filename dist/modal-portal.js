@@ -17,21 +17,13 @@ var ModalPortal = class extends LitElement {
     this.modalC = ModalController.getInstance();
     this.modalStack = List();
     this.portalRef = createRef();
-    this.popOnEscape = (e) => {
-      if (e.isComposing || e.keyCode === 229) {
-        return;
-      }
-      if ((e.key == "Escape" || e.key == "Esc") && this.modalStack.size > 0) {
-        this.modalC.pop();
-      }
-    };
-    this.closeModal = (e) => {
+    this.removeModal = (e) => {
       e.stopImmediatePropagation();
       e.preventDefault();
       const eventPath = e.composedPath();
       const portalEventPathIndex = eventPath.findIndex((el) => el === this.portalRef.value);
       if (portalEventPathIndex < 1) {
-        console.warn("Could not locate modal portal at appropriate depth in the @closeModal event path");
+        console.warn("Could not locate modal portal at appropriate depth in the @removeModal event path");
       } else {
         const modalNode = eventPath[portalEventPathIndex - 1];
         this.modalC.removeByNode(modalNode);
@@ -55,12 +47,7 @@ var ModalPortal = class extends LitElement {
   }
   connectedCallback() {
     super.connectedCallback();
-    document.addEventListener("keydown", this.popOnEscape);
-    this.addEventListener("closeModal", this.closeModal);
-  }
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener("keydown", this.popOnEscape);
+    this.addEventListener("removeModal", this.removeModal);
   }
   render() {
     var _a;
@@ -83,5 +70,5 @@ ModalPortal = __decorateClass([
   customElement("modal-portal")
 ], ModalPortal);
 export {
-  ModalPortal
+  ModalPortal as default
 };

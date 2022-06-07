@@ -23,7 +23,7 @@ declare module "modal-portal" {
     export type ModalPortalState = {
         modalStack: List<KeyedTemplateResult>;
     };
-    export class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
+    export default class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
         static styles: import("lit").CSSResult;
         private modalC;
         modalStack: List<KeyedTemplateResult>;
@@ -31,10 +31,8 @@ declare module "modal-portal" {
         get modalNodes(): HTMLCollection | undefined;
         constructor();
         offerState(newState: MapOf<ModalPortalState>): void;
-        private popOnEscape;
-        protected closeModal: (e: Event) => void;
+        protected removeModal: (e: Event) => void;
         connectedCallback(): void;
-        disconnectedCallback(): void;
         render(): import("lit-html").TemplateResult<1>;
     }
     global {
@@ -47,7 +45,7 @@ declare module "modal-controller" {
     import { ReactiveController, TemplateResult } from "lit";
     import { List, Map } from "immutable";
     import { StateManager } from "lib/state";
-    import { ModalPortal } from "modal-portal";
+    import ModalPortal from "modal-portal";
     export type KeyedTemplateResult = TemplateResult & {
         key: string;
     };
@@ -92,16 +90,40 @@ declare module "portal" {
     }
     export const portal: (showModal: boolean | Function, template: TemplateResult<2 | 1> | (() => TemplateResult), closeCallback?: Function) => import("lit-html/directive").DirectiveResult<typeof PortalDirective>;
 }
-declare module "lib/lit-modal" {
+declare module "lib/lit-dialog" {
     import { LitElement } from 'lit';
-    export abstract class LitModal extends LitElement {
-        closeModal(): void;
+    export default class LitDialog extends LitElement {
+        private dialogRef;
+        private get dialog();
+        label: string;
+        close(): void;
+        onDialogClose(): void;
+        firstUpdated(): void;
+        onClick(event: MouseEvent): void;
+        render(): import("lit-html").TemplateResult<1>;
+    }
+    global {
+        interface HTMLElementTagNameMap {
+            'lit-dialog': LitDialog;
+        }
     }
 }
+declare module "lib/with-lit-dialog" {
+    import { LitElement } from 'lit';
+    import { Ref } from 'lit/directives/ref.js';
+    import LitDialog from "lib/lit-dialog";
+    type Constructor<T = {}> = new (...args: any[]) => T;
+    export class WithLitDialogInterface {
+        litDialogRef: Ref<LitDialog>;
+        closeDialog(): void;
+    }
+    export const WithLitDialog: <T extends Constructor<LitElement>>(superclass: T) => Constructor<WithLitDialogInterface> & T;
+}
 declare module "lib/confirm-modal" {
-    import { LitModal } from "lib/lit-modal";
-    import './modal-overlay.ts';
-    export default class ConfirmModal extends LitModal {
+    import { LitElement } from 'lit';
+    import './lit-dialog.ts';
+    const ConfirmModal_base: (new (...args: any[]) => import("lib/with-lit-dialog").WithLitDialogInterface) & typeof LitElement;
+    export default class ConfirmModal extends ConfirmModal_base {
         static styles: import("lit").CSSResult[];
         cancelLabel: string;
         confirmLabel: string;
@@ -113,29 +135,10 @@ declare module "lib/confirm-modal" {
         handleSecondaryAction(): void;
         render(): import("lit-html").TemplateResult<1>;
     }
-}
-declare module "lib/modal-backdrop" {
-    import { LitElement } from "lit";
-    export default class ModalBackdrop extends LitElement {
-        static styles: import("lit").CSSResult;
-        label: string;
-        render(): import("lit-html").TemplateResult<1>;
-    }
-}
-declare module "lib/modal-overlay" {
-    import { LitElement } from 'lit';
-    import { StyleInfo } from 'lit/directives/style-map.js';
-    import "./modal-backdrop.ts";
-    export default class ModalOverlay extends LitElement {
-        static styles: import("lit").CSSResult[];
-        label: string;
-        flexCentering: boolean;
-        containerStyles: StyleInfo;
-        get classes(): {
-            'modal-container': boolean;
-            flex: boolean;
-        };
-        render(): import("lit-html").TemplateResult<1>;
+    global {
+        interface HTMLElementTagNameMap {
+            'confirm-modal': ConfirmModal;
+        }
     }
 }
 //# sourceMappingURL=index.d.ts.map

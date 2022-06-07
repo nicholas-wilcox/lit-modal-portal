@@ -1,19 +1,20 @@
-import { html, css } from 'lit';
+import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import { LitModal } from './lit-modal';
+import { ref } from 'lit/directives/ref.js';
+import { WithLitDialog } from './with-lit-dialog';
 
-import './modal-overlay.ts';
+import './lit-dialog.ts';
 
 @customElement('confirm-modal')
-export default class ConfirmModal extends LitModal {
+export default class ConfirmModal extends WithLitDialog(LitElement) {
   static styles = [
     css`
       .confirmation-dialog {
         background: white;
-        flex-basis: 480px;
         padding: 1rem;
         border-radius: 0.5rem;
+        max-width: 480px;
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -45,14 +46,14 @@ export default class ConfirmModal extends LitModal {
   @property({ attribute: false })
   secondaryAction: Function | undefined;
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: false })
   closeOnConfirmation: boolean = true;
 
   handleConfirm() {
     if (this.confirmCallback) {
       this.confirmCallback();
       if (this.closeOnConfirmation) {
-        this.closeModal();
+        this.closeDialog();
       }
     }
   }
@@ -60,19 +61,19 @@ export default class ConfirmModal extends LitModal {
   handleSecondaryAction() {
     if (this.secondaryAction) {
       this.secondaryAction();
-      this.closeModal();
+      this.closeDialog();
     }
   }
 
   render() {
     return html`
-      <modal-overlay label=${this.confirmLabel} .flexCentering=${true}>
+      <lit-dialog ${ref(this.litDialogRef)} label=${this.confirmLabel}>
         <div class="confirmation-dialog">
           <div>
             <slot>This is the message that asks the user to confirm the action.</slot>
           </div>
           <div class="button-row">
-            <button @click=${this.closeModal}>${this.cancelLabel}</button>
+            <button @click=${() => this.closeDialog()} autofocus>${this.cancelLabel}</button>
             <span class="spacer"></span>
             ${when(
               this.secondaryAction,
@@ -83,7 +84,13 @@ export default class ConfirmModal extends LitModal {
             <button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>
           </div>
         </div>
-      </modal-overlay>
+      </lit-dialog>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'confirm-modal': ConfirmModal;
   }
 }

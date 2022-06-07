@@ -3,7 +3,7 @@ import { List, Map } from "immutable";
 
 import uuid from "./lib/uuid";
 import { MapOf, StateManager, isNew } from "./lib/state";
-import { ModalPortal, ModalPortalState } from "./modal-portal";
+import ModalPortal, { ModalPortalState } from "./modal-portal";
 
 export type KeyedTemplateResult = TemplateResult & { key: string };
 
