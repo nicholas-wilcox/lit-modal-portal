@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, CSSResultGroup, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Ref, ref, createRef } from 'lit/directives/ref.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -7,35 +7,33 @@ type ModalSize = 'small' | 'large';
 
 @customElement('lit-dialog')
 export default class LitDialog extends LitElement {
-  static styles = [
-    css`
-      dialog {
-        display: flex;
-        justify-content: center;
-      }
+  static styles = css`
+    dialog {
+      display: flex;
+      justify-content: center;
+    }
 
-      dialog.unset {
-        border: unset;
-        background: unset;
-        max-width: unset;
-        max-height: unset;
-        height: unset;
-        width: unset;
-        margin: unset;
-      }
+    dialog.unset {
+      border: unset;
+      background: unset;
+      max-width: unset;
+      max-height: unset;
+      height: unset;
+      width: unset;
+      margin: unset;
+    }
 
-      dialog[size=small] {
-        align-items: center;
-      }
+    dialog[size=small] {
+      align-items: center;
+    }
 
-      dialog[size=large] {
-        padding: 4rem;
-      }
-    `
-  ];
+    dialog[size=large] {
+      padding: 4rem;
+    }
+  ` as CSSResultGroup;
 
-  private dialogRef: Ref<HTMLDialogElement> = createRef();
-  private get dialog(): HTMLDialogElement | undefined { return this.dialogRef.value; }
+  protected dialogRef: Ref<HTMLDialogElement> = createRef();
+  protected get dialog(): HTMLDialogElement | undefined { return this.dialogRef.value; }
 
   @property()
   label: string = '';

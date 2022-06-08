@@ -54,32 +54,30 @@ var LitDialog = class extends LitElement {
     `;
   }
 };
-LitDialog.styles = [
-  css`
-      dialog {
-        display: flex;
-        justify-content: center;
-      }
+LitDialog.styles = css`
+    dialog {
+      display: flex;
+      justify-content: center;
+    }
 
-      dialog.unset {
-        border: unset;
-        background: unset;
-        max-width: unset;
-        max-height: unset;
-        height: unset;
-        width: unset;
-        margin: unset;
-      }
+    dialog.unset {
+      border: unset;
+      background: unset;
+      max-width: unset;
+      max-height: unset;
+      height: unset;
+      width: unset;
+      margin: unset;
+    }
 
-      dialog[size=small] {
-        align-items: center;
-      }
+    dialog[size=small] {
+      align-items: center;
+    }
 
-      dialog[size=large] {
-        padding: 4rem;
-      }
-    `
-];
+    dialog[size=large] {
+      padding: 4rem;
+    }
+  `;
 __decorateClass([
   property()
 ], LitDialog.prototype, "label", 2);

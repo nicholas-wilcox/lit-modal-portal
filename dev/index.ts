@@ -6,6 +6,7 @@ import ModalController from '../src/modal-controller';
 import '../src/lib/confirm-modal.ts';
 import './large-modal.ts';
 import './nested-modal.ts';
+import './form-modal.ts';
 
 const mockConfirmAction = () => console.log('Action confirmed');
 
@@ -92,6 +93,16 @@ export class AppRoot extends LitElement {
     );
   }
 
+  pushCase6Modal() {
+    ModalController.getInstance().push(
+      html`
+        <form-modal .submitCallback=${(formData) => {
+          this.shadowRoot.querySelector('#form-modal-output').innerHTML = JSON.stringify(formData);
+        }}></form-modal>
+      `
+    );
+  }
+
   render() {
     return html`
       <h1>lit-modal-portal Demo</h1>
@@ -104,6 +115,7 @@ export class AppRoot extends LitElement {
         </p>
         <button @click=${() => this.pushCase1Modal()}>Show Modal</button>
       </div>
+
       <div>
         <h2>Case 2: Reactive Update</h2>
         <p>
@@ -113,6 +125,7 @@ export class AppRoot extends LitElement {
         <div>${this.timeString}</div>
         <button @click=${() => this.showCase2Modal = true}>Show Modal</button>
       </div>
+
       <div>
         <h2>Case 3: Large Modal</h2>
         <p>
@@ -120,11 +133,13 @@ export class AppRoot extends LitElement {
         </p>
         <button @click=${() => this.pushCase3Modal()}>Show Modal</button>
       </div>
+
       <div>
         <h2>Case 4: Nested Modals</h2>
         <p>This modal contains a component that can push a <emph>second</emph> on top of itself.</p>
         <button @click=${() => this.pushCase4Modal()}>Show Modal</button>
       </div>
+
       <div>
         <h2>Case 5: Light Dismiss Override</h2>
         <p>
@@ -137,6 +152,23 @@ export class AppRoot extends LitElement {
           but it is exposed by <code>&lt;confirm-modal&gt;</code> and enabled by default there.
         </p>
         <button @click=${() => this.pushCase5Modal()}>Show Modal</button>
+      </div>
+
+      <div>
+        <h2>Case 6: Handling Form Submission</h2>
+        <p>
+          This example shows how to extract user input from the modal.
+          There isn't anything special about the library components that facilitate this pattern,
+          as it works simply by passing a callback function into the component that manages the form.
+        </p>
+        <p>
+          I ran into some issues when wrapping a <code>&lt;form&gt;</code> element inside
+          of a <code>&lt;slot&gt;</code> in a <code>&lt;lit-dialog&gt;</code>.
+          Instead, I extended <code>&lt;lit-dialog&gt;</code> and made a subclass
+          <code>&lt;form-modal&gt;</code>.
+        </p>
+        <button @click=${() => this.pushCase6Modal()}>Show Modal</button>
+        <span id="form-modal-output"></span>
       </div>
       ${this.case2Portal()}
     `;

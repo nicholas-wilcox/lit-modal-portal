@@ -91,12 +91,13 @@ declare module "portal" {
     export const portal: (showModal: boolean | Function, template: TemplateResult<2 | 1> | (() => TemplateResult), closeCallback?: Function) => import("lit-html/directive").DirectiveResult<typeof PortalDirective>;
 }
 declare module "lib/lit-dialog" {
-    import { LitElement } from 'lit';
+    import { LitElement, CSSResultGroup } from 'lit';
+    import { Ref } from 'lit/directives/ref.js';
     type ModalSize = 'small' | 'large';
     export default class LitDialog extends LitElement {
-        static styles: import("lit").CSSResult[];
-        private dialogRef;
-        private get dialog();
+        static styles: CSSResultGroup;
+        protected dialogRef: Ref<HTMLDialogElement>;
+        protected get dialog(): HTMLDialogElement | undefined;
         label: string;
         enableLightDismiss: boolean;
         size: ModalSize;
