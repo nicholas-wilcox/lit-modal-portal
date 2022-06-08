@@ -23,6 +23,10 @@ export default class LitDialog extends LitElement {
       margin: unset;
     }
 
+    dialog::backdrop {
+      background: var(--lit-dialog-backdrop-bg, hsl(0 0% 0% / 0.3));
+    }
+
     dialog[size=small] {
       align-items: center;
     }

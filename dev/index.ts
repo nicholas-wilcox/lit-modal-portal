@@ -7,6 +7,7 @@ import '../src/lib/confirm-modal.ts';
 import './large-modal.ts';
 import './nested-modal.ts';
 import './form-modal.ts';
+import './styled-dialog.ts';
 
 const mockConfirmAction = () => console.log('Action confirmed');
 
@@ -16,6 +17,10 @@ export class AppRoot extends LitElement {
     css`
       :host {
         font-size: 1.125rem;
+      }
+
+      dialog::backdrop {
+        --lit-dialog-backdrop-bg: hsl(90 100% 50% / 0.4);
       }
 
       p {
@@ -103,6 +108,10 @@ export class AppRoot extends LitElement {
     );
   }
 
+  pushCase7Modal() {
+    ModalController.getInstance().push(html`<styled-dialog></styled-dialog>`);
+  }
+
   render() {
     return html`
       <h1>lit-modal-portal Demo</h1>
@@ -169,6 +178,16 @@ export class AppRoot extends LitElement {
         </p>
         <button @click=${() => this.pushCase6Modal()}>Show Modal</button>
         <span id="form-modal-output"></span>
+      </div>
+
+      <div>
+        <h2>Case 7: Styled Modal</h2>
+        <p>
+          If you have specific reasons to style the <code>&lt;dialog&gt;</code> element
+          contained in the <code>&lt;lit-dialog&gt;</code> component, then you may wish to
+          extend it as a superclass to inherit/override its styles, or even rewrite it entirely.
+        </p>
+        <button @click=${() => this.pushCase7Modal()}>Show Modal</button>
       </div>
       ${this.case2Portal()}
     `;
