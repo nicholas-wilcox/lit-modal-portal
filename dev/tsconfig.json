@@ -1,7 +1,9 @@
 // For use by typescript-language-server
 {
   "compilerOptions": {
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "target": "es2019",
+    "moduleResolution": "node",
     "plugins": [
       {
         "name": "ts-lit-plugin"

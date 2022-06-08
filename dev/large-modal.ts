@@ -21,7 +21,7 @@ export default class LargeModal extends WithLitDialog(LitElement) {
 
   render() {
     return html`
-      <lit-dialog ${ref(this.litDialogRef)} label="Large Modal Example">
+      <lit-dialog ${ref(this.litDialogRef)} label="Large Modal Example" .enableLightDismiss=${true}>
         <div class="modal-content">
           <p>This is an example of a large modal that necessitates vertical scrolling.</p>
           <button @click=${() => this.closeDialog()} autofocus>Close Modal</button>
