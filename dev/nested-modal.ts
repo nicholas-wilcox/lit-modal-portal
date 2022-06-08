@@ -19,7 +19,7 @@ export default class NestedModal extends LargeModal {
 
   render() {
     return html`
-      <lit-dialog ${ref(this.litDialogRef)} label="Nested Modal Example" .enableLightDismiss=${true}>
+      <lit-dialog ${ref(this.litDialogRef)} label="Nested Modal Example" .enableLightDismiss=${true} size=large>
         <div class="modal-content">
           <p>This is an example of a modal that can spawn "nested" submodals.</p>
           <button @click=${() => this.pushSubmodal()} autofocus>Show Submodal</button>

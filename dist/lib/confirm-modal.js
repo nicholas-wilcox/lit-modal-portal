@@ -1,4 +1,4 @@
-import "../chunk-GZGRHGR7.js";
+import "../chunk-PQ3MFPXU.js";
 import {
   WithLitDialog
 } from "../chunk-GUI3FRUZ.js";
@@ -68,6 +68,7 @@ ConfirmModal.styles = [
         background: white;
         padding: 1rem;
         border-radius: 0.5rem;
+        border: 2px solid black;
         max-width: 480px;
         display: flex;
         flex-direction: column;

@@ -92,11 +92,18 @@ declare module "portal" {
 }
 declare module "lib/lit-dialog" {
     import { LitElement } from 'lit';
+    type ModalSize = 'small' | 'large';
     export default class LitDialog extends LitElement {
+        static styles: import("lit").CSSResult[];
         private dialogRef;
         private get dialog();
         label: string;
         enableLightDismiss: boolean;
+        size: ModalSize;
+        unsetStyles: boolean;
+        get classes(): {
+            unset: boolean;
+        };
         close(): void;
         onDialogClose(): void;
         firstUpdated(): void;

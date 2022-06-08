@@ -14,6 +14,7 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
         background: white;
         padding: 1rem;
         border-radius: 0.5rem;
+        border: 2px solid black;
         max-width: 480px;
         display: flex;
         flex-direction: column;
