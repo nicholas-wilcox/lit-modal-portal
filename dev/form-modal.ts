@@ -25,7 +25,7 @@ export default class FormModal extends LitDialog {
         gap: 1rem;
         justify-content: space-between;
       }
-    `
+    `,
   ];
 
   @property({ attribute: false })
@@ -34,17 +34,19 @@ export default class FormModal extends LitDialog {
   handleSubmit() {
     const fd = new FormData(this.shadowRoot.querySelector('form'));
     const obj = {};
-    fd.forEach((value, key) => obj[key] = value);
+    fd.forEach((value, key) => (obj[key] = value));
     this.submitCallback(obj);
   }
 
   render() {
     return html`
-      <dialog ${ref(this.dialogRef)}
+      <dialog
+        ${ref(this.dialogRef)}
         class=${classMap(this.classes)}
         size=${this.size}
         aria-labelledby="${this.label}"
-        aria-modal="true">
+        aria-modal="true"
+      >
         <form method="dialog">
           <label for="example-select">Pick something!</label>
           <select name="selection" id="example-select">
@@ -53,7 +55,7 @@ export default class FormModal extends LitDialog {
             <option value="Password123!">Password123!</option>
           </select>
           <label for="text-input">Input something!</label>
-          <input name="text-input" id="text-input" autofocus type="text">
+          <input name="text-input" id="text-input" autofocus type="text" />
           <div class="button-row">
             <button type="button" @click=${() => this.close()} autofocus>Cancel</button>
             <button type="submit" @click=${() => this.handleSubmit()}>Submit</button>

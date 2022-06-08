@@ -3,8 +3,8 @@
  *
  */
 
-import { ReactiveElement } from "lit";
-import { Map, is } from "immutable";
+import { ReactiveElement } from 'lit';
+import { Map, is } from 'immutable';
 
 /**
  * Creates a typed (immutable) Map whose keys are parameterized to be
@@ -20,13 +20,13 @@ export class StateManager<T> {
   protected constructor() {}
 
   applyState(existingState: MapOf<T>, newState: Partial<T>): MapOf<T> {
-    if ((newState === undefined) || Object.keys(newState).length == 0) {
+    if (newState === undefined || Object.keys(newState).length == 0) {
       return existingState;
     }
 
     return existingState.merge(Object.entries(newState) as [keyof T, any]);
   }
-};
+}
 
 /**
  * The StatefulElement interface is ideally implemented by a component whose state
@@ -34,12 +34,12 @@ export class StateManager<T> {
  * to update the component's state from the controller.
  */
 export interface StatefulElement<T> extends ReactiveElement {
-  offerState(state: MapOf<T>): void
-};
+  offerState(state: MapOf<T>): void;
+}
 
 /**
  * Typed wrapper around membership checking for MapOf's.
  */
 export function isNew<T>(newState: MapOf<T>, name: keyof T, current: any) {
-  return (newState.has(name) && !is(newState.get(name), current)); 
+  return newState.has(name) && !is(newState.get(name), current);
 }

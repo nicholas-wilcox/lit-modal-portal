@@ -27,17 +27,19 @@ export default class LitDialog extends LitElement {
       background: var(--lit-dialog-backdrop-bg, hsl(0 0% 0% / 0.3));
     }
 
-    dialog[size=small] {
+    dialog[size='small'] {
       align-items: center;
     }
 
-    dialog[size=large] {
+    dialog[size='large'] {
       padding: 4rem;
     }
   ` as CSSResultGroup;
 
   protected dialogRef: Ref<HTMLDialogElement> = createRef();
-  protected get dialog(): HTMLDialogElement | undefined { return this.dialogRef.value; }
+  protected get dialog(): HTMLDialogElement | undefined {
+    return this.dialogRef.value;
+  }
 
   @property()
   label: string = '';
@@ -52,7 +54,7 @@ export default class LitDialog extends LitElement {
   unsetStyles: boolean = true;
 
   get classes() {
-    return { 'unset': this.unsetStyles };
+    return { unset: this.unsetStyles };
   }
 
   close() {
@@ -68,7 +70,7 @@ export default class LitDialog extends LitElement {
     this.dialog.addEventListener('close', () => this.onDialogClose());
 
     if (this.enableLightDismiss) {
-      this.dialog.addEventListener('click', e => this.onClick(e));
+      this.dialog.addEventListener('click', (e) => this.onClick(e));
     }
   }
 
@@ -85,7 +87,8 @@ export default class LitDialog extends LitElement {
         class=${classMap(this.classes)}
         size=${this.size}
         aria-labelledby="${this.label}"
-        aria-modal="true">
+        aria-modal="true"
+      >
         <slot></slot>
       </dialog>
     `;

@@ -1,6 +1,6 @@
 import {
   LitDialog
-} from "../chunk-CG4U4SRJ.js";
+} from "../chunk-VAKNQUL3.js";
 import "../chunk-S65R2BUY.js";
 export {
   LitDialog as default

@@ -20,20 +20,22 @@ export default class StyledDialog extends LitDialog {
         border: 2px solid black;
         max-width: 480px;
       }
-    `
+    `,
   ];
 
   render() {
     return html`
-      <dialog ${ref(this.dialogRef)}
+      <dialog
+        ${ref(this.dialogRef)}
         class=${classMap(this.classes)}
         size=${this.size}
         aria-labelledby="${this.label}"
-        aria-modal="true">
+        aria-modal="true"
+      >
         <div class="content">
           <p>
-            This modal has a green backdrop. This is accomplished by extending the LitDialog
-            class, inheriting its styles, and adding a rule for the <code>::backdrop</code>
+            This modal has a green backdrop. This is accomplished by extending the LitDialog class,
+            inheriting its styles, and adding a rule for the <code>::backdrop</code>
             pseudo-element that declares a custom property used in LitDialog's styles.
           </p>
           <button type="button" @click=${() => this.close()} autofocus>Cancel</button>

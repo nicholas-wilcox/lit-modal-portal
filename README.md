@@ -6,7 +6,7 @@ a focus on utilizing the Lit API wherever possible, with the intent to both prov
 [principle of least surprise](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
 
 Specifically, the package exports a `<modal-portal>` Lit component that should be added to the bottom of your app root
-and implements a modal stack that can be consumed from *anywhere* with an exported `pushModal()` function
+and implements a modal stack that can be consumed from _anywhere_ with an exported `pushModal()` function
 (even from within a modal).
 The package also provides a `portal()` directive that encapsulates the behavior of evaluating the template
 for a modal and pushing/popping it from the modal stack based on a given boolean expression.
@@ -22,8 +22,8 @@ Many common suggestions fall into one of the two following categories:
 
 The responsibilities of the first category, as well as most of the second category, are left to you
 as the consumer of this package.
-We *do* provide some accessibility features and common desired behaviors (see below).
-Ironically, the ability to "nest" modals inside (or rather, *in front of*) each other is considered bad practice.
+We _do_ provide some accessibility features and common desired behaviors (see below).
+Ironically, the ability to "nest" modals inside (or rather, _in front of_) each other is considered bad practice.
 While we do not expect you to purposefully creating a large modal stack in production, the code in this package
 was designed with a specific use case in mind, in which a modal contains buttons whose actions require confirmation.
 

@@ -9,8 +9,8 @@
  * The 'y' is a random hexadecimal number from 8 to b, which specifies Variant 1 UUIDs.
  * (see https://datatracker.ietf.org/doc/html/rfc4122)
  *
- * use just like: 
- * import uuid from './path/to/uuid.ts'; 
+ * use just like:
+ * import uuid from './path/to/uuid.ts';
  * const id = uuid();
  */
 

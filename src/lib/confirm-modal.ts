@@ -29,7 +29,7 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
       .spacer {
         flex-grow: 1;
       }
-    `
+    `,
   ];
 
   @property({ attribute: 'cancel-label' })
@@ -74,13 +74,14 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
       <lit-dialog
         ${ref(this.litDialogRef)}
         label=${this.confirmLabel}
-        .enableLightDismiss=${this.enableLightDismiss}>
+        .enableLightDismiss=${this.enableLightDismiss}
+      >
         <div class="confirmation-dialog">
           <div>
             <slot>
               <p>
-                This is the message that asks the user to confirm the action.
-                This component also has properties for a secondary action.
+                This is the message that asks the user to confirm the action. This component also
+                has properties for a secondary action.
               </p>
             </slot>
           </div>
@@ -89,9 +90,12 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
             <span class="spacer"></span>
             ${when(
               this.secondaryAction,
-              () => html`
-                <button @click=${() => this.handleSecondaryAction()}>${this.secondaryLabel}</button>
-              `
+              () =>
+                html`
+                  <button @click=${() => this.handleSecondaryAction()}>
+                    ${this.secondaryLabel}
+                  </button>
+                `
             )}
             <button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>
           </div>

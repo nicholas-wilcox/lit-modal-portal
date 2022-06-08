@@ -48,7 +48,7 @@ export class AppRoot extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.clockInterval = setInterval(() => this.currentTime = new Date(), 1000);
+    this.clockInterval = setInterval(() => (this.currentTime = new Date()), 1000);
   }
 
   disconnectedCallback(): void {
@@ -76,7 +76,7 @@ export class AppRoot extends LitElement {
           <p>This value comes from the application root: ${this.timeString}</p>
         </confirm-modal>
       `,
-      () => this.showCase2Modal = false
+      () => (this.showCase2Modal = false)
     );
   }
 
@@ -101,9 +101,12 @@ export class AppRoot extends LitElement {
   pushCase6Modal() {
     ModalController.getInstance().push(
       html`
-        <form-modal .submitCallback=${(formData) => {
-          this.shadowRoot.querySelector('#form-modal-output').innerHTML = JSON.stringify(formData);
-        }}></form-modal>
+        <form-modal
+          .submitCallback=${(formData) => {
+            this.shadowRoot.querySelector('#form-modal-output').innerHTML =
+              JSON.stringify(formData);
+          }}
+        ></form-modal>
       `
     );
   }
@@ -115,12 +118,12 @@ export class AppRoot extends LitElement {
   render() {
     return html`
       <h1>lit-modal-portal Demo</h1>
-      <hr>
+      <hr />
       <div>
         <h2>Case 1: Confirmation Modal</h2>
         <p>
-          A simple example of using <code>ModalController::push()</code>
-          on the provided <code>&lt;confirm-modal&gt;</code> component.
+          A simple example of using <code>ModalController::push()</code> on the provided
+          <code>&lt;confirm-modal&gt;</code> component.
         </p>
         <button @click=${() => this.pushCase1Modal()}>Show Modal</button>
       </div>
@@ -128,18 +131,16 @@ export class AppRoot extends LitElement {
       <div>
         <h2>Case 2: Reactive Update</h2>
         <p>
-          This example uses the <code>portal</code> directive, because it features a template
-          that is asynchronously updated by the component that spawned the modal.
+          This example uses the <code>portal</code> directive, because it features a template that
+          is asynchronously updated by the component that spawned the modal.
         </p>
         <div>${this.timeString}</div>
-        <button @click=${() => this.showCase2Modal = true}>Show Modal</button>
+        <button @click=${() => (this.showCase2Modal = true)}>Show Modal</button>
       </div>
 
       <div>
         <h2>Case 3: Large Modal</h2>
-        <p>
-          This is an example of a large modal that should exceed the height of the viewport.
-        </p>
+        <p>This is an example of a large modal that should exceed the height of the viewport.</p>
         <button @click=${() => this.pushCase3Modal()}>Show Modal</button>
       </div>
 
@@ -152,13 +153,13 @@ export class AppRoot extends LitElement {
       <div>
         <h2>Case 5: Light Dismiss Override</h2>
         <p>
-          This modal disables a feature present in the other examples,
-          in which a user can close a modal by clicking in the backdrop area surrounding
-          the content of the modal.
+          This modal disables a feature present in the other examples, in which a user can close a
+          modal by clicking in the backdrop area surrounding the content of the modal.
         </p>
         <p>
-          This feature is disabled by default for the <code>&lt;lit-dialog&gt;</code> component,
-          but it is exposed by <code>&lt;confirm-modal&gt;</code> and enabled by default there.
+          This feature is disabled by default for the
+          <code>&lt;lit-dialog&gt;</code> component, but it is exposed by
+          <code>&lt;confirm-modal&gt;</code> and enabled by default there.
         </p>
         <button @click=${() => this.pushCase5Modal()}>Show Modal</button>
       </div>
@@ -166,15 +167,15 @@ export class AppRoot extends LitElement {
       <div>
         <h2>Case 6: Handling Form Submission</h2>
         <p>
-          This example shows how to extract user input from the modal.
-          There isn't anything special about the library components that facilitate this pattern,
-          as it works simply by passing a callback function into the component that manages the form.
+          This example shows how to extract user input from the modal. There isn't anything special
+          about the library components that facilitate this pattern, as it works simply by passing a
+          callback function into the component that manages the form.
         </p>
         <p>
-          I ran into some issues when wrapping a <code>&lt;form&gt;</code> element inside
-          of a <code>&lt;slot&gt;</code> in a <code>&lt;lit-dialog&gt;</code>.
-          Instead, I extended <code>&lt;lit-dialog&gt;</code> and made a subclass
-          <code>&lt;form-modal&gt;</code>.
+          I ran into some issues when wrapping a
+          <code>&lt;form&gt;</code> element inside of a <code>&lt;slot&gt;</code> in a
+          <code>&lt;lit-dialog&gt;</code>. Instead, I extended <code>&lt;lit-dialog&gt;</code> and
+          made a subclass <code>&lt;form-modal&gt;</code>.
         </p>
         <button @click=${() => this.pushCase6Modal()}>Show Modal</button>
         <span id="form-modal-output"></span>
@@ -183,14 +184,14 @@ export class AppRoot extends LitElement {
       <div>
         <h2>Case 7: Styled Modal</h2>
         <p>
-          If you have specific reasons to style the <code>&lt;dialog&gt;</code> element
-          contained in the <code>&lt;lit-dialog&gt;</code> component, then you may wish to
-          extend it as a superclass to inherit/override its styles, or even rewrite it entirely.
+          If you have specific reasons to style the
+          <code>&lt;dialog&gt;</code> element contained in the
+          <code>&lt;lit-dialog&gt;</code> component, then you may wish to extend it as a superclass
+          to inherit/override its styles, or even rewrite it entirely.
         </p>
         <button @click=${() => this.pushCase7Modal()}>Show Modal</button>
       </div>
       ${this.case2Portal()}
     `;
   }
-};
-
+}

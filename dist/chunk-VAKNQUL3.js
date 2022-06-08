@@ -20,7 +20,7 @@ var LitDialog = class extends LitElement {
     return this.dialogRef.value;
   }
   get classes() {
-    return { "unset": this.unsetStyles };
+    return { unset: this.unsetStyles };
   }
   close() {
     var _a;
@@ -48,7 +48,8 @@ var LitDialog = class extends LitElement {
         class=${classMap(this.classes)}
         size=${this.size}
         aria-labelledby="${this.label}"
-        aria-modal="true">
+        aria-modal="true"
+      >
         <slot></slot>
       </dialog>
     `;
@@ -74,11 +75,11 @@ LitDialog.styles = css`
       background: var(--lit-dialog-backdrop-bg, hsl(0 0% 0% / 0.3));
     }
 
-    dialog[size=small] {
+    dialog[size='small'] {
       align-items: center;
     }
 
-    dialog[size=large] {
+    dialog[size='large'] {
       padding: 4rem;
     }
   `;

@@ -2,8 +2,8 @@ declare module "lib/uuid" {
     export default function uuid(a?: string): string;
 }
 declare module "lib/state" {
-    import { ReactiveElement } from "lit";
-    import { Map } from "immutable";
+    import { ReactiveElement } from 'lit';
+    import { Map } from 'immutable';
     export type MapOf<T> = Map<keyof T, any>;
     export class StateManager<T> {
         protected constructor();
@@ -15,9 +15,9 @@ declare module "lib/state" {
     export function isNew<T>(newState: MapOf<T>, name: keyof T, current: any): boolean;
 }
 declare module "modal-portal" {
-    import { LitElement } from "lit";
-    import { Ref } from "lit/directives/ref.js";
-    import { List } from "immutable";
+    import { LitElement } from 'lit';
+    import { Ref } from 'lit/directives/ref.js';
+    import { List } from 'immutable';
     import { KeyedTemplateResult } from "modal-controller";
     import { MapOf, StatefulElement } from "lib/state";
     export type ModalPortalState = {
@@ -42,8 +42,8 @@ declare module "modal-portal" {
     }
 }
 declare module "modal-controller" {
-    import { ReactiveController, TemplateResult } from "lit";
-    import { List, Map } from "immutable";
+    import { ReactiveController, TemplateResult } from 'lit';
+    import { List, Map } from 'immutable';
     import { StateManager } from "lib/state";
     import ModalPortal from "modal-portal";
     export type KeyedTemplateResult = TemplateResult & {
@@ -80,8 +80,8 @@ declare module "modal-controller" {
     }
 }
 declare module "portal" {
-    import { TemplateResult } from "lit";
-    import { Directive } from "lit/directive.js";
+    import { TemplateResult } from 'lit';
+    import { Directive } from 'lit/directive.js';
     import { ModalRegistry } from "modal-controller";
     class PortalDirective extends Directive {
         modalRegistry?: ModalRegistry;

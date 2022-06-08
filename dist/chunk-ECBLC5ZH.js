@@ -44,7 +44,9 @@ var ModalController = class extends StateManager {
   }
   set modalState(newState) {
     if (isNew(newState, "modalStack", this.modalStack)) {
-      this.host.offerState(Map2({ "modalStack": newState.get("modalStack") }));
+      this.host.offerState(Map2({
+        modalStack: newState.get("modalStack")
+      }));
     }
     _modalState = newState;
   }
@@ -68,10 +70,12 @@ var ModalController = class extends StateManager {
     }
   }
   hostConnected() {
-    this.host.offerState(Map2({ "modalStack": this.modalStack }));
+    this.host.offerState(Map2({ modalStack: this.modalStack }));
   }
   hostUpdated() {
-    this.modalState = this.applyState(this.modalState, { modalNodes: List(this.host.modalNodes) });
+    this.modalState = this.applyState(this.modalState, {
+      modalNodes: List(this.host.modalNodes)
+    });
   }
   push(template2, closeCallback) {
     const key = uuid();

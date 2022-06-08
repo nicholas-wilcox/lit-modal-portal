@@ -11,11 +11,9 @@
     "outFile": "dist/index",
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": [ "esnext", "DOM", "DOM.Iterable" ],
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
     "target": "es2019",
-    "plugins": [
-      { "name": "ts-lit-plugin" }
-    ],
+    "plugins": [{ "name": "ts-lit-plugin" }],
     "preserveWatchOutput": true,
     "incremental": true,
     "useDefineForClassFields": false
@@ -24,4 +22,3 @@
     "excludeDirectories": ["**/node_modules"]
   }
 }
-

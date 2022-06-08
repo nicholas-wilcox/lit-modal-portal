@@ -19,4 +19,4 @@ export const WithLitDialog = <T extends Constructor<LitElement>>(superclass: T) 
   }
 
   return LitElementWithLitDialog as Constructor<WithLitDialogInterface> & T;
-}
+};
