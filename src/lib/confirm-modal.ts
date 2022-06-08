@@ -49,6 +49,9 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
   @property({ type: Boolean, attribute: false })
   closeOnConfirmation: boolean = true;
 
+  @property({ type: Boolean, attribute: false })
+  enableLightDismiss: boolean = true;
+
   handleConfirm() {
     if (this.confirmCallback) {
       this.confirmCallback();
@@ -67,10 +70,18 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
 
   render() {
     return html`
-      <lit-dialog ${ref(this.litDialogRef)} label=${this.confirmLabel}>
+      <lit-dialog
+        ${ref(this.litDialogRef)}
+        label=${this.confirmLabel}
+        .enableLightDismiss=${this.enableLightDismiss}>
         <div class="confirmation-dialog">
           <div>
-            <slot>This is the message that asks the user to confirm the action.</slot>
+            <slot>
+              <p>
+                This is the message that asks the user to confirm the action.
+                This component also has properties for a secondary action.
+              </p>
+            </slot>
           </div>
           <div class="button-row">
             <button @click=${() => this.closeDialog()} autofocus>${this.cancelLabel}</button>

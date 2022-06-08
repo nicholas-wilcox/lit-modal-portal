@@ -11,6 +11,7 @@ var LitDialog = class extends LitElement {
     super(...arguments);
     this.dialogRef = createRef();
     this.label = "";
+    this.enableLightDismiss = false;
   }
   get dialog() {
     return this.dialogRef.value;
@@ -24,8 +25,10 @@ var LitDialog = class extends LitElement {
   }
   firstUpdated() {
     this.dialog.showModal();
-    this.dialog.addEventListener("click", (e) => this.onClick(e));
     this.dialog.addEventListener("close", () => this.onDialogClose());
+    if (this.enableLightDismiss) {
+      this.dialog.addEventListener("click", (e) => this.onClick(e));
+    }
   }
   onClick(event) {
     if (event.target === this.dialog) {
@@ -43,6 +46,9 @@ var LitDialog = class extends LitElement {
 __decorateClass([
   property()
 ], LitDialog.prototype, "label", 2);
+__decorateClass([
+  property({ type: Boolean, attribute: false })
+], LitDialog.prototype, "enableLightDismiss", 2);
 LitDialog = __decorateClass([
   customElement("lit-dialog")
 ], LitDialog);

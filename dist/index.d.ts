@@ -96,6 +96,7 @@ declare module "lib/lit-dialog" {
         private dialogRef;
         private get dialog();
         label: string;
+        enableLightDismiss: boolean;
         close(): void;
         onDialogClose(): void;
         firstUpdated(): void;
@@ -131,6 +132,7 @@ declare module "lib/confirm-modal" {
         secondaryLabel: string;
         secondaryAction: Function | undefined;
         closeOnConfirmation: boolean;
+        enableLightDismiss: boolean;
         handleConfirm(): void;
         handleSecondaryAction(): void;
         render(): import("lit-html").TemplateResult<1>;

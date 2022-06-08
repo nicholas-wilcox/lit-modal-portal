@@ -1,4 +1,4 @@
-import "../chunk-RC65TP3A.js";
+import "../chunk-GZGRHGR7.js";
 import {
   WithLitDialog
 } from "../chunk-GUI3FRUZ.js";
@@ -18,6 +18,7 @@ var ConfirmModal = class extends WithLitDialog(LitElement) {
     this.confirmLabel = "Confirm";
     this.secondaryLabel = "Alternative";
     this.closeOnConfirmation = true;
+    this.enableLightDismiss = true;
   }
   handleConfirm() {
     if (this.confirmCallback) {
@@ -35,10 +36,18 @@ var ConfirmModal = class extends WithLitDialog(LitElement) {
   }
   render() {
     return html`
-      <lit-dialog ${ref(this.litDialogRef)} label=${this.confirmLabel}>
+      <lit-dialog
+        ${ref(this.litDialogRef)}
+        label=${this.confirmLabel}
+        .enableLightDismiss=${this.enableLightDismiss}>
         <div class="confirmation-dialog">
           <div>
-            <slot>This is the message that asks the user to confirm the action.</slot>
+            <slot>
+              <p>
+                This is the message that asks the user to confirm the action.
+                This component also has properties for a secondary action.
+              </p>
+            </slot>
           </div>
           <div class="button-row">
             <button @click=${() => this.closeDialog()} autofocus>${this.cancelLabel}</button>
@@ -93,6 +102,9 @@ __decorateClass([
 __decorateClass([
   property({ type: Boolean, attribute: false })
 ], ConfirmModal.prototype, "closeOnConfirmation", 2);
+__decorateClass([
+  property({ type: Boolean, attribute: false })
+], ConfirmModal.prototype, "enableLightDismiss", 2);
 ConfirmModal = __decorateClass([
   customElement("confirm-modal")
 ], ConfirmModal);

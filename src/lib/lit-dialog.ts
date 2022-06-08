@@ -10,6 +10,9 @@ export default class LitDialog extends LitElement {
   @property()
   label: string = '';
 
+  @property({ type: Boolean, attribute: false })
+  enableLightDismiss: boolean = false;
+
   close() {
     this.dialog?.close();
   }
@@ -20,8 +23,11 @@ export default class LitDialog extends LitElement {
 
   firstUpdated() {
     this.dialog.showModal();
-    this.dialog.addEventListener('click', e => this.onClick(e));
     this.dialog.addEventListener('close', () => this.onDialogClose());
+
+    if (this.enableLightDismiss) {
+      this.dialog.addEventListener('click', e => this.onClick(e));
+    }
   }
 
   onClick(event: MouseEvent) {
