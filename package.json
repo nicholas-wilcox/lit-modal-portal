@@ -14,6 +14,8 @@
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
     "clean": "rimraf dist/*",
     "dev": "wds --node-resolve --watch --app-index dev/index.html",
+    "docs": "typedoc --out docs --tsconfig ./docs.tsconfig.json src",
+    "docs:watch": "typedoc --out docs --tsconfig ./docs.tsconfig.json --watch src",
     "esbuild": "node esbuild.config.js",
     "esbuild:min": "node esbuild.config.js -m",
     "esbuild:watch": "node esbuild.config.js -w",
@@ -47,6 +49,7 @@
     "prettier": "2.6.2",
     "rimraf": "^3.0.2",
     "ts-lit-plugin": "^1.2.1",
+    "typedoc": "^0.22.17",
     "typescript": "^4.7.3",
     "yargs-parser": "^21.0.1"
   },

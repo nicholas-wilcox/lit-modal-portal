@@ -1,0 +1,21 @@
+{
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "target": "es2019",
+    "plugins": [{ "name": "ts-lit-plugin" }],
+    "preserveWatchOutput": true,
+    "incremental": true,
+    "useDefineForClassFields": false
+  },
+  "watchOptions": {
+    "excludeDirectories": ["**/node_modules"]
+  }
+}
