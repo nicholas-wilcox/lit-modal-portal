@@ -46,6 +46,7 @@
     "@web/dev-server-esbuild": "^0.3.0",
     "concurrently": "^7.1.0",
     "esbuild": "^0.14.36",
+    "immutable": "^4.1.0",
     "prettier": "2.6.2",
     "rimraf": "^3.0.2",
     "ts-lit-plugin": "^1.2.1",
@@ -54,7 +55,6 @@
     "yargs-parser": "^21.0.1"
   },
   "dependencies": {
-    "immutable": "^4.0.0",
     "lit": "^2.2.2"
   }
 }
