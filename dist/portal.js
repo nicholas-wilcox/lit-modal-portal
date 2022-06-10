@@ -1,6 +1,6 @@
 import {
-  ModalController
-} from "./chunk-ECBLC5ZH.js";
+  modal_controller_default
+} from "./chunk-SZOHRYBO.js";
 import "./chunk-S65R2BUY.js";
 
 // src/portal.ts
@@ -25,11 +25,12 @@ var PortalDirective = class extends Directive {
         this.modalRegistry = void 0;
       }
     } else if (showModal) {
-      this.modalRegistry = ModalController.getInstance().push(this.getTemplate(template), closeCallback);
+      this.modalRegistry = modal_controller_default.push(this.getTemplate(template), closeCallback);
     }
   }
 };
 var portal = directive(PortalDirective);
 export {
+  PortalDirective,
   portal
 };

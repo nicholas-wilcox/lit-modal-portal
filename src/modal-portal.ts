@@ -4,13 +4,35 @@ import { repeat } from 'lit/directives/repeat.js';
 import { ref, createRef, Ref } from 'lit/directives/ref.js';
 import { List, is } from 'immutable';
 
-import ModalController, { KeyedTemplateResult } from './modal-controller';
+import modalC, { KeyedTemplateResult } from './modal-controller';
 import { MapOf, StatefulElement } from './lib/state';
 
+/** @internal State accepted by the [[ModalPortal]]. */
 export type ModalPortalState = {
   modalStack: List<KeyedTemplateResult>;
 };
 
+/**
+ * A component that manages the rendering of Lit templates given by the [[ModalController]].
+ * It should be placed at the end of the `<body>` tag in you application like so:
+ *
+ * ```html
+ *  <!DOCTYPE html>
+ *  <html>
+ *    <head>
+ *      <!-- meta, scripts, etc. -->
+ *    </head>
+ *    <body>
+ *      <my-lit-app></my-lit-app>
+ *      <modal-portal></modal-portal>
+ *    </body>
+ *  </html>
+ * ```
+ *
+ * This element listens to the `"removeModal"` event.
+ * Upon receiving the event, it inspects the event's `composedPath()` the determine
+ * which modal the event came from and removes that one.
+ */
 @customElement('modal-portal')
 export default class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
   static styles = css`
@@ -19,22 +41,28 @@ export default class ModalPortal extends LitElement implements StatefulElement<M
     }
   `;
 
-  private modalC: ModalController = ModalController.getInstance();
-
   @state()
-  modalStack: List<KeyedTemplateResult> = List();
+  private modalStack: List<KeyedTemplateResult> = List();
 
-  portalRef: Ref<HTMLElement> = createRef();
+  private portalRef: Ref<HTMLElement> = createRef();
 
+  /**
+   * A list of the modals currently present in the DOM. Used by the [[ModalController]].
+   */
   get modalNodes(): HTMLCollection | undefined {
     return this.portalRef.value?.children;
   }
 
   constructor() {
     super();
-    this.modalC.attach(this);
+    modalC.attach(this);
   }
 
+  /**
+   * Used by the [[ModalController]] when a modal is added or removed.
+   * Updates the `<body>` element to have the `"modal-portal-active"` class
+   * precisely when the `<modal-portal>` contains at least one modal.
+   */
   offerState(newState: MapOf<ModalPortalState>) {
     if (!is(this.modalStack, newState.get('modalStack'))) {
       this.modalStack = newState.get('modalStack');
@@ -47,7 +75,8 @@ export default class ModalPortal extends LitElement implements StatefulElement<M
   }
 
   /**
-   * Looks for the div#portal in the event's path, and removes the modal found in the chain.
+   * Inspects the `composedPath()` of the given event and removes the modal that
+   * intersects with the path, if any.
    */
   protected removeModal = (e: Event) => {
     e.stopImmediatePropagation();
@@ -62,7 +91,7 @@ export default class ModalPortal extends LitElement implements StatefulElement<M
       );
     } else {
       const modalNode = eventPath[portalEventPathIndex - 1];
-      this.modalC.removeByNode(modalNode);
+      modalC.removeByNode(modalNode);
     }
   };
 

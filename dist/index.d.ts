@@ -5,10 +5,7 @@ declare module "lib/state" {
     import { ReactiveElement } from 'lit';
     import { Map } from 'immutable';
     export type MapOf<T> = Map<keyof T, any>;
-    export class StateManager<T> {
-        protected constructor();
-        applyState(existingState: MapOf<T>, newState: Partial<T>): MapOf<T>;
-    }
+    export function applyState<T>(existingState: MapOf<T>, newState: Partial<T>): MapOf<T>;
     export interface StatefulElement<T> extends ReactiveElement {
         offerState(state: MapOf<T>): void;
     }
@@ -16,7 +13,6 @@ declare module "lib/state" {
 }
 declare module "modal-portal" {
     import { LitElement } from 'lit';
-    import { Ref } from 'lit/directives/ref.js';
     import { List } from 'immutable';
     import { KeyedTemplateResult } from "modal-controller";
     import { MapOf, StatefulElement } from "lib/state";
@@ -25,9 +21,8 @@ declare module "modal-portal" {
     };
     export default class ModalPortal extends LitElement implements StatefulElement<ModalPortalState> {
         static styles: import("lit").CSSResult;
-        private modalC;
-        modalStack: List<KeyedTemplateResult>;
-        portalRef: Ref<HTMLElement>;
+        private modalStack;
+        private portalRef;
         get modalNodes(): HTMLCollection | undefined;
         constructor();
         offerState(newState: MapOf<ModalPortalState>): void;
@@ -44,46 +39,41 @@ declare module "modal-portal" {
 declare module "modal-controller" {
     import { ReactiveController, TemplateResult } from 'lit';
     import { List, Map } from 'immutable';
-    import { StateManager } from "lib/state";
+    import { MapOf } from "lib/state";
     import ModalPortal from "modal-portal";
     export type KeyedTemplateResult = TemplateResult & {
         key: string;
     };
     export type ModalRegistry = {
         remove: Function;
-        replace: (arg0: TemplateResult, arg1?: Function) => void;
+        replace: (template: TemplateResult, closeCallback?: Function) => void;
     };
-    type ModalState = {
+    export type ModalState = {
         modalStack: List<KeyedTemplateResult>;
         modalNodes: List<EventTarget>;
         closeCallbacks: Map<string, Function>;
     };
-    export default class ModalController extends StateManager<ModalState> implements ReactiveController {
-        private static instance?;
-        static getInstance(): ModalController;
-        private host;
-        private set modalState(value);
-        private get modalState();
-        private get modalStack();
-        private get modalNodes();
-        private get closeCallbacks();
-        attach(host: ModalPortal): void;
-        hostConnected(): void;
-        hostUpdated(): void;
-        push(template: TemplateResult, closeCallback?: Function): ModalRegistry;
-        private replace;
-        pop(): void;
-        private remove;
-        removeByNode(modal: EventTarget): void;
-        removeByKey(key: string): void;
-        removeAll(): void;
+    export interface ModalController extends ReactiveController {
+        host?: ModalPortal;
+        modalState: MapOf<ModalState>;
+        modalStack: List<KeyedTemplateResult>;
+        modalNodes: List<EventTarget>;
+        closeCallbacks: Map<string, Function>;
+        attach: (host: ModalPortal) => void;
+        push: (template: TemplateResult, closeCallback?: Function) => ModalRegistry;
+        pop: () => void;
+        removeByNode: (modal: EventTarget) => void;
+        removeByKey: (key: string) => void;
+        removeAll: () => void;
     }
+    const modalController: ModalController;
+    export default modalController;
 }
 declare module "portal" {
     import { TemplateResult } from 'lit';
     import { Directive } from 'lit/directive.js';
     import { ModalRegistry } from "modal-controller";
-    class PortalDirective extends Directive {
+    export class PortalDirective extends Directive {
         modalRegistry?: ModalRegistry;
         getTemplate(templateOrSupplier: TemplateResult | (() => TemplateResult)): TemplateResult;
         render(showModal: boolean | Function, template: TemplateResult | (() => TemplateResult), closeCallback?: Function): void;
@@ -93,7 +83,7 @@ declare module "portal" {
 declare module "lib/lit-dialog" {
     import { LitElement, CSSResultGroup } from 'lit';
     import { Ref } from 'lit/directives/ref.js';
-    type ModalSize = 'small' | 'large';
+    export type ModalSize = 'small' | 'large';
     export default class LitDialog extends LitElement {
         static styles: CSSResultGroup;
         protected dialogRef: Ref<HTMLDialogElement>;

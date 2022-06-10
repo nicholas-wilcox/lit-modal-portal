@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { portal } from '../src/portal';
-import ModalController from '../src/modal-controller';
+import modalC from '../src/modal-controller';
 
 import '../src/lib/confirm-modal.ts';
 import './large-modal.ts';
@@ -58,7 +58,7 @@ export class AppRoot extends LitElement {
   }
 
   pushCase1Modal() {
-    ModalController.getInstance().push(
+    modalC.push(
       html`
         <confirm-modal
           .confirmCallback=${mockConfirmAction}
@@ -81,15 +81,15 @@ export class AppRoot extends LitElement {
   }
 
   pushCase3Modal() {
-    ModalController.getInstance().push(html`<large-modal></large-modal>`);
+    modalC.push(html`<large-modal></large-modal>`);
   }
 
   pushCase4Modal() {
-    ModalController.getInstance().push(html`<nested-modal></nested-modal>`);
+    modalC.push(html`<nested-modal></nested-modal>`);
   }
 
   pushCase5Modal() {
-    ModalController.getInstance().push(
+    modalC.push(
       html`
         <confirm-modal .confirmCallback=${mockConfirmAction} .enableLightDismiss=${false}>
           <p>You cannot close this modal by clicking out of bounds in the backdrop area.</p>
@@ -99,10 +99,10 @@ export class AppRoot extends LitElement {
   }
 
   pushCase6Modal() {
-    ModalController.getInstance().push(
+    modalC.push(
       html`
         <form-modal
-          .submitCallback=${(formData) => {
+          .submitCallback=${(formData: FormData) => {
             this.shadowRoot.querySelector('#form-modal-output').innerHTML =
               JSON.stringify(formData);
           }}
@@ -112,7 +112,7 @@ export class AppRoot extends LitElement {
   }
 
   pushCase7Modal() {
-    ModalController.getInstance().push(html`<styled-dialog></styled-dialog>`);
+    modalC.push(html`<styled-dialog></styled-dialog>`);
   }
 
   render() {

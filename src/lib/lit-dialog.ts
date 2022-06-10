@@ -3,8 +3,20 @@ import { customElement, property } from 'lit/decorators.js';
 import { Ref, ref, createRef } from 'lit/directives/ref.js';
 import { classMap } from 'lit/directives/class-map.js';
 
-type ModalSize = 'small' | 'large';
+export type ModalSize = 'small' | 'large';
 
+/**
+ * A wrapper around the `<dialog>` element that hooks into the [[ModalPortal]] API.
+ * The dialog's `showModal()` function is called after this component is first
+ * rendered in the DOM.
+ * The `"removeModal"` event is triggered whenever the dialog closes.
+ *
+ * This custom element resets some of the default styles of `<dialog>` and effectively
+ * makes its `<dialog>` a fixed flexbox container with all 0 insets.
+ * In other words, it acts as a container for whatever is the content of the modal.
+ * Whatever is put into this component's `<slot>` is responsible for having a border,
+ * a fully opaque background, etc.
+ */
 @customElement('lit-dialog')
 export default class LitDialog extends LitElement {
   static styles = css`
@@ -36,17 +48,27 @@ export default class LitDialog extends LitElement {
     }
   ` as CSSResultGroup;
 
+  /** Reference for the `<dialog>` element. */
   protected dialogRef: Ref<HTMLDialogElement> = createRef();
+
+  /** Accessor for the value stored in [[dialogRef]]. */
   protected get dialog(): HTMLDialogElement | undefined {
     return this.dialogRef.value;
   }
 
+  /** Used for the `<dialog>`'s `aria-label` attribute. */
   @property()
   label: string = '';
 
+  /**
+   * Boolean flag to determine if this modal should close when the user clicks
+   * outside of the modal content and in the backdrop area.
+   */
   @property({ type: Boolean, attribute: false })
   enableLightDismiss: boolean = false;
 
+  /**
+   * A size parameter that affects the styles of the `<dialog>` element. */
   @property()
   size: ModalSize = 'small';
 
@@ -57,10 +79,16 @@ export default class LitDialog extends LitElement {
     return { unset: this.unsetStyles };
   }
 
+  /** Convenience wrapper for the `<dialog>`'s `close()` function. */
   close() {
     this.dialog?.close();
   }
 
+  /**
+   * Handler for the `<dialog>`'s `"close"` event.
+   * Triggers the `"removeModal"` event.
+   * @event removeModal
+   */
   onDialogClose() {
     this.dispatchEvent(new Event('removeModal', { bubbles: true, composed: true }));
   }
@@ -86,7 +114,7 @@ export default class LitDialog extends LitElement {
         ${ref(this.dialogRef)}
         class=${classMap(this.classes)}
         size=${this.size}
-        aria-labelledby="${this.label}"
+        aria-label="${this.label}"
         aria-modal="true"
       >
         <slot></slot>

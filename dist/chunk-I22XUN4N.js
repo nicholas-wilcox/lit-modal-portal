@@ -47,7 +47,7 @@ var LitDialog = class extends LitElement {
         ${ref(this.dialogRef)}
         class=${classMap(this.classes)}
         size=${this.size}
-        aria-labelledby="${this.label}"
+        aria-label="${this.label}"
         aria-modal="true"
       >
         <slot></slot>

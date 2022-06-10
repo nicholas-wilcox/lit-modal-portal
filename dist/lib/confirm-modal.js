@@ -1,4 +1,4 @@
-import "../chunk-VAKNQUL3.js";
+import "../chunk-I22XUN4N.js";
 import {
   WithLitDialog
 } from "../chunk-GUI3FRUZ.js";
@@ -36,21 +36,29 @@ var ConfirmModal = class extends WithLitDialog(LitElement) {
   }
   render() {
     return html`
-      <lit-dialog ${ref(this.litDialogRef)} label=${this.confirmLabel} .enableLightDismiss=${this.enableLightDismiss}>
+      <lit-dialog
+        ${ref(this.litDialogRef)}
+        label=${this.confirmLabel}
+        .enableLightDismiss=${this.enableLightDismiss}
+      >
         <div class="confirmation-dialog">
           <div>
             <slot>
               <p>
-                This is the message that asks the user to confirm the action. This component also has properties for a
-                secondary action.
+                This is the message that asks the user to confirm the action. This component also
+                has properties for a secondary action.
               </p>
             </slot>
           </div>
           <div class="button-row">
             <button @click=${() => this.closeDialog()} autofocus>${this.cancelLabel}</button>
             <span class="spacer"></span>
-            ${when(this.secondaryAction, () => html` <button @click=${() => this.handleSecondaryAction()}>${this.secondaryLabel}</button> `)}
-            <button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>
+            ${when(this.secondaryAction, () => html`
+                  <button @click=${() => this.handleSecondaryAction()}>
+                    ${this.secondaryLabel}
+                  </button>
+                `)}
+            ${when(this.confirmCallback, () => html`<button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>`)}
           </div>
         </div>
       </lit-dialog>

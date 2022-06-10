@@ -1,7 +1,7 @@
 import { html } from 'lit';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import { ref } from 'lit/directives/ref.js';
-import ModalController from '../src/modal-controller';
+import modalC from '../src/modal-controller';
 import LargeModal from './large-modal';
 
 import '../src/lib/confirm-modal.ts';
@@ -10,7 +10,7 @@ import '../src/lib/lit-dialog.ts';
 @customElement('nested-modal')
 export default class NestedModal extends LargeModal {
   pushSubmodal() {
-    ModalController.getInstance().push(
+    modalC.push(
       html`
         <confirm-modal .confirmCallback=${() => console.log('Action confirmed')}></confirm-modal>
       `

@@ -1,6 +1,6 @@
 import {
-  ModalController
-} from "./chunk-ECBLC5ZH.js";
+  modal_controller_default
+} from "./chunk-SZOHRYBO.js";
 import {
   __decorateClass
 } from "./chunk-S65R2BUY.js";
@@ -14,7 +14,6 @@ import { List, is } from "immutable";
 var ModalPortal = class extends LitElement {
   constructor() {
     super();
-    this.modalC = ModalController.getInstance();
     this.modalStack = List();
     this.portalRef = createRef();
     this.removeModal = (e) => {
@@ -26,10 +25,10 @@ var ModalPortal = class extends LitElement {
         console.warn("Could not locate modal portal at appropriate depth in the @removeModal event path");
       } else {
         const modalNode = eventPath[portalEventPathIndex - 1];
-        this.modalC.removeByNode(modalNode);
+        modal_controller_default.removeByNode(modalNode);
       }
     };
-    this.modalC.attach(this);
+    modal_controller_default.attach(this);
   }
   get modalNodes() {
     var _a;

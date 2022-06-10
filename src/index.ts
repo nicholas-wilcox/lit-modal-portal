@@ -1,6 +1,9 @@
-import './modal-portal';
-
-import ModalController from './modal-controller';
+import ModalPortal from './modal-portal';
+import modalController from './modal-controller';
 import { portal } from './portal';
 
-export { ModalController, portal };
+export { ModalPortal, modalController, portal };
+export * as lib from './lib';
+export * from './modal-controller';
+export * from './modal-portal';
+export * from './portal';

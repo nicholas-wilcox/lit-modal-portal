@@ -6,6 +6,18 @@ import { WithLitDialog } from './with-lit-dialog';
 
 import './lit-dialog.ts';
 
+/**
+ * A stock custom element `<confirm-modal>` for a confirmation dialog modal.
+ * The content of the confirmation prompt is exposed via a `<slot>`,
+ * and the cancel/confirm buttons are displayed below.
+ * Support for a secondary, alternative action is included.
+ *
+ * There's a reactive property that controls whether the modal closes upon
+ * clicking the confirmation button, which defaults to `true`.
+ *
+ * This component exposes [[LitDialog.enableLightDismiss]] and makes it
+ * default to true.
+ */
 @customElement('confirm-modal')
 export default class ConfirmModal extends WithLitDialog(LitElement) {
   static styles = [
@@ -97,7 +109,10 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
                   </button>
                 `
             )}
-            <button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>
+            ${when(
+              this.confirmCallback,
+              () => html`<button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>`
+            )}
           </div>
         </div>
       </lit-dialog>

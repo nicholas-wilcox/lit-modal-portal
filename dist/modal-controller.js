@@ -1,7 +1,7 @@
 import {
-  ModalController
-} from "./chunk-ECBLC5ZH.js";
+  modal_controller_default
+} from "./chunk-SZOHRYBO.js";
 import "./chunk-S65R2BUY.js";
 export {
-  ModalController as default
+  modal_controller_default as default
 };
