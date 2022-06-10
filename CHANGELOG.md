@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0] - 2022-06-10
+## [0.2.1] - 2022-06-10
+### Changed
+- Set immutable-js to be a regular dependency.
 
+## [0.2.0] - 2022-06-10
 First release tag.
 
 [Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.2.0...HEAD
