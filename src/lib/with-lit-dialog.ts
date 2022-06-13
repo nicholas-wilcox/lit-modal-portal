@@ -2,8 +2,12 @@ import { LitElement } from 'lit';
 import { createRef, Ref } from 'lit/directives/ref.js';
 import LitDialog from './lit-dialog';
 
-/** @ignore */
-type Constructor<T = {}> = new (...args: any[]) => T;
+/**
+ * Generic constructor type used for mixins.
+ * See [Lit docs on TypeScript mixins](https://lit.dev/docs/composition/mixins/#mixins-in-typescript)
+ * and [TypeScript docs on constrained mixins](https://www.typescriptlang.org/docs/handbook/mixins.html#constrained-mixins).
+ */
+export type GConstructor<T = {}> = new (...args: any[]) => T;
 
 /** An interface for classes that use the [[WithLitDialog]] mixin. */
 export declare class WithLitDialogInterface {
@@ -22,7 +26,7 @@ export declare class WithLitDialogInterface {
  *
  * See [Lit documentation for mixins](https://lit.dev/docs/composition/mixins/).
  */
-export const WithLitDialog = <T extends Constructor<LitElement>>(superclass: T) => {
+export const WithLitDialog = <T extends GConstructor<LitElement>>(superclass: T) => {
   class LitElementWithLitDialog extends superclass {
     litDialogRef: Ref<LitDialog> = createRef();
 
@@ -31,5 +35,5 @@ export const WithLitDialog = <T extends Constructor<LitElement>>(superclass: T) 
     }
   }
 
-  return LitElementWithLitDialog as Constructor<WithLitDialogInterface> & T;
+  return LitElementWithLitDialog as GConstructor<WithLitDialogInterface> & T;
 };
