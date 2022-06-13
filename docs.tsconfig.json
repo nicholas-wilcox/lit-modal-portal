@@ -4,8 +4,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2019",
-    "preserveWatchOutput": true,
-    "incremental": true
+    "preserveWatchOutput": true
   },
   "watchOptions": {
     "excludeDirectories": ["**/node_modules"]

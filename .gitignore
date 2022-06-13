@@ -1,3 +1,11 @@
 node_modules
 *.swp
 *.tsbuildinfo
+
+# build output
+/lib/
+/index.*
+/modal-portal.*
+/modal-controller.*
+/portal.*
+/build.min.*

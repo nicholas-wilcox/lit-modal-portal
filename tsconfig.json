@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*.ts"],
-  "exclude": ["src/index.ts", "src/lib/index.ts"],
+  "exclude": [],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "node",
@@ -8,14 +8,13 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "removeComments": true,
-    "outFile": "dist/index",
+    "outDir": "./",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "lib": ["esnext", "DOM", "DOM.Iterable"],
     "target": "es2019",
     "plugins": [{ "name": "ts-lit-plugin" }],
     "preserveWatchOutput": true,
-    "incremental": true,
     "useDefineForClassFields": false
   },
   "watchOptions": {

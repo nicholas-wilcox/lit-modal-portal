@@ -22,30 +22,33 @@ const shouldMinify = isBooleanAndTrue(argv.m) || isBooleanAndTrue(argv.minify);
 const baseConfig = shouldMinify
   ? {
       entryPoints: ['src/index.ts'],
-      outfile: 'dist/build.min.js',
+      outfile: './build.min.js',
       minify: true,
-      sourcemap: true,
       external: ['lit'],
+      bundle: true,
     }
   : {
       entryPoints: [
+        'src/index.ts',
         'src/modal-portal.ts',
         'src/modal-controller.ts',
         'src/portal.ts',
+        'src/lib/index.ts',
         'src/lib/lit-dialog.ts',
-        'src/lib/with-lit-dialog.ts',
         'src/lib/confirm-modal.ts',
+        'src/lib/with-lit-dialog.ts',
+        'src/lib/uuid.ts',
+        'src/lib/state.ts',
       ],
-      outdir: 'dist',
-      splitting: true,
-      external: ['lit', 'immutable'],
+      outdir: './',
+      bundle: false,
     };
 
 esbuild
   .build(
     Object.assign(baseConfig, {
       format: 'esm',
-      bundle: true,
+      sourcemap: true,
       watch: shouldWatch
         ? {
             onRebuild(error, result) {

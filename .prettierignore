@@ -1,4 +1,14 @@
-dist
 node_modules
 *.swp
 *.tsbuildinfo
+/CHANGELOG.md
+
+docs
+
+# build output
+/lib/
+/index.*
+/modal-portal.*
+/modal-controller.*
+/portal.*
+/build.min.*

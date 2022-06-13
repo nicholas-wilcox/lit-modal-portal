@@ -74,7 +74,7 @@ export interface ModalController extends ReactiveController {
 
   /** Removes a modal by its key. */
   removeByKey: (key: string) => void;
-  
+
   /** Clears the modal stack. */
   removeAll: () => void;
 }
@@ -193,7 +193,10 @@ const modalController: ModalController = {
   },
 
   removeByKey(key: string) {
-    removeModal.call(this, this.modalStack.findIndex((kt: KeyedTemplateResult) => kt.key === key));
+    removeModal.call(
+      this,
+      this.modalStack.findIndex((kt: KeyedTemplateResult) => kt.key === key)
+    );
   },
 
   removeAll() {
@@ -201,6 +204,6 @@ const modalController: ModalController = {
       this.pop();
     }
   },
-}
+};
 
 export default modalController;

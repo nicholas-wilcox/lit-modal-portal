@@ -2,17 +2,39 @@
   "name": "lit-modal-portal",
   "version": "0.2.1",
   "description": "A specialized portal mechanism for modals developed with the Lit framework.",
-  "exports": {
-    "./modal-controller": "./dist/modal-controller.js",
-    "./modal-portal": "./dist/modal-portal.js",
-    "./portal": "./dist/portal.js",
-    "./lib/*": "./dist/lib/*"
+  "keywords": [
+    "Lit",
+    "modal",
+    "portal",
+    "custom element"
+  ],
+  "homepage": "https://github.com/cirrus-logic/lit-modal-portal#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cirrus-logic/lit-modal-portal.git"
   },
-  "types": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/cirrus-logic/lit-modal-portal/issues"
+  },
+  "license": "MIT",
+  "author": "Nicholas Wilcox",
+  "files": [
+    "/README.md",
+    "/CHANGELOG.md",
+    "/LICENSE.txt",
+    "/index.{js,js.map,d.ts,d.ts.map}",
+    "/modal-portal.{js,js.map,d.ts,d.ts.map}",
+    "/modal-controller.{js,js.map,d.ts,d.ts.map}",
+    "/portal.{js,js.map,d.ts,d.ts.map}",
+    "/lib/",
+    "/docs/"
+  ],
+  "main": "./index.js",
+  "type": "module",
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild && npm run esbuild:min",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
-    "clean": "rimraf dist/*",
+    "clean": "rimraf ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.* ./build.min.*",
     "dev": "wds --node-resolve --watch --app-index dev/index.html",
     "docs": "typedoc src",
     "docs:watch": "typedoc --watch src",
@@ -24,23 +46,6 @@
     "tsc:watch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "Lit",
-    "modal",
-    "portal",
-    "custom element"
-  ],
-  "author": "Nicholas Wilcox",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cirrus-logic/lit-modal-portal.git"
-  },
-  "bugs": {
-    "url": "https://github.com/cirrus-logic/lit-modal-portal/issues"
-  },
-  "homepage": "https://github.com/cirrus-logic/lit-modal-portal#readme",
-  "type": "module",
   "devDependencies": {
     "@web/dev-server": "^0.1.31",
     "@web/dev-server-esbuild": "^0.3.0",
@@ -56,5 +61,6 @@
   "dependencies": {
     "lit": "^2.2.2",
     "immutable": "^4.1.0"
-  }
+  },
+  "types": "./index.d.ts"
 }

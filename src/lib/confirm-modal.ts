@@ -4,7 +4,7 @@ import { when } from 'lit/directives/when.js';
 import { ref } from 'lit/directives/ref.js';
 import { WithLitDialog } from './with-lit-dialog';
 
-import './lit-dialog.ts';
+import './lit-dialog';
 
 /**
  * A stock custom element `<confirm-modal>` for a confirmation dialog modal.

@@ -5,7 +5,7 @@ import modalC, { ModalRegistry } from './modal-controller';
 
 /**
  * A directive to automate the act of managing a [[ModalRegistry]] based on a boolean condition.
- * 
+ *
  * See [Lit docs on Custom Directives](https://lit.dev/docs/templates/custom-directives/).
  */
 export class PortalDirective extends Directive {
@@ -52,17 +52,14 @@ export class PortalDirective extends Directive {
         this.modalRegistry = undefined;
       }
     } else if (showModal) {
-      this.modalRegistry = modalC.push(
-        this.getTemplate(template),
-        closeCallback
-      );
+      this.modalRegistry = modalC.push(this.getTemplate(template), closeCallback);
     }
   }
 }
 
 /**
-* To be used in Lit templates.
-*
-* See [[PortalDirective.render]]
-*/
+ * To be used in Lit templates.
+ *
+ * See [[PortalDirective.render]]
+ */
 export const portal = directive(PortalDirective);
