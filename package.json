@@ -1,6 +1,6 @@
 {
   "name": "lit-modal-portal",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A specialized portal mechanism for modals developed with the Lit framework.",
   "keywords": [
     "Lit",
