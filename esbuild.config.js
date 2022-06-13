@@ -21,11 +21,14 @@ const shouldMinify = isBooleanAndTrue(argv.m) || isBooleanAndTrue(argv.minify);
 
 const baseConfig = shouldMinify
   ? {
-      entryPoints: ['src/index.ts'],
-      outfile: './build.min.js',
+      entryPoints: {
+        'lit-modal-portal-core.min': 'src/index.ts',
+        'lit-modal-portal-lib.min': 'src/lib/index.ts',
+      },
+      outdir: './',
       minify: true,
-      external: ['lit'],
       bundle: true,
+      target: 'es6',
     }
   : {
       entryPoints: [

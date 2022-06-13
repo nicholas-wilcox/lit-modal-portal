@@ -11,4 +11,4 @@ docs
 /modal-portal.*
 /modal-controller.*
 /portal.*
-/build.min.*
+/lit-modal-portal-*

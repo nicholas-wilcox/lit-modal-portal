@@ -22,6 +22,8 @@
     "/README.md",
     "/CHANGELOG.md",
     "/LICENSE.txt",
+    "/lit-modal-portal-core.min.{js,js.map}",
+    "/lit-modal-portal-lib.min.{js,js.map}",
     "/index.{js,js.map,d.ts,d.ts.map}",
     "/modal-portal.{js,js.map,d.ts,d.ts.map}",
     "/modal-controller.{js,js.map,d.ts,d.ts.map}",
@@ -34,7 +36,7 @@
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild && npm run esbuild:min",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
-    "clean": "rimraf ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.* ./build.min.*",
+    "clean": "rimraf ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.* ./lit-modal-portal-*",
     "dev": "wds --node-resolve --watch --app-index dev/index.html",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
