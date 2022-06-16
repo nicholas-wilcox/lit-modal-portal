@@ -1,5 +1,7 @@
 # lit-modal-portal
 
+https://user-images.githubusercontent.com/10066251/174079212-95af47cf-685b-47a6-8b56-9bc7b3d1033f.mov
+
 The `lit-modal-portal` package provides a specialized portal mechanism for modals, developed with the [Lit](https://lit.dev) framework.
 It is inspired by [React Portals](https://reactjs.org/docs/portals.html) and also developed with
 the intent to utilize the Lit API wherever possible.
