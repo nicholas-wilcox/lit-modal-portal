@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Demo video in README.md
 
+### Removed
+- Minified build
+
 ## [0.3.1] - 2022-06-13
 ### Changed
 - Refactored the modules and exports again to permit usage of the minified build.
