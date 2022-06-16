@@ -181,14 +181,6 @@ There is also a `lib` module with the following exports:
 Of course, these components should be imported directly if they are being used as custom elements,
 like the modal portal (i.e. `import 'lit-modal-portal/lib/confirm-modal.js'`).
 
-### Minified Build
-
-There are also two minified builds
-(provided as a [JavaScript modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules))
-with dependencies included that can be dropped in to a project.
-`lit-modal-portal-core.min.js` is for the main module,
-and `lit-modal-portal-lib.min.js` is for the `lib` module.
-
 ## Documentation
 
 The documentation for this package is included in the repo, under the `/docs` directory.
