@@ -111,7 +111,7 @@ import 'lit-modal-portal/modal-portal.js';
 import './path/to/your-custom-modal.js';
 
 function pushModal() {
-  modalC.push(html`<your-custom-modal></your-custom-modal>`);
+  modalController.push(html`<your-custom-modal></your-custom-modal>`);
 }
 
 @customElement('app-root')
