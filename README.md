@@ -200,4 +200,4 @@ You are absolutely welcome to fork the repository and make a pull request,
 and to file issues if you encounter problems while using it.
 
 However, this is currently a side project of a single engineer that was developed in between sprints.
-So, I ask for you patience as I acclimate to the task of maintaining an open source repository.
+So, I ask for your patience as I acclimate to the task of maintaining an open source repository.
