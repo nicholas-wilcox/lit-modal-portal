@@ -24,7 +24,7 @@ The responsibilities of the first category, as well as most of the second catego
 as the consumer of this package.
 
 Ironically, the ability to "nest" modals inside (or rather, _in front of_) each other is considered bad practice.
-While we do not expect you to purposefully creating a large modal stack in production, the code in this package
+While we do not expect you to purposefully create a large modal stack in production, the code in this package
 was designed with a specific use case in mind, in which a modal contains buttons whose actions require confirmation.
 
 Without further ado, let's dive in.
