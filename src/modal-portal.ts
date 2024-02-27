@@ -87,7 +87,7 @@ export default class ModalPortal extends LitElement implements StatefulElement<M
     const portalEventPathIndex = eventPath.findIndex((el) => el === this.portalRef.value);
     if (portalEventPathIndex < 1) {
       console.warn(
-        'Could not locate modal portal at appropriate depth in the @removeModal event path'
+        'Could not locate modal portal at appropriate depth in the @removeModal event path',
       );
     } else {
       const modalNode = eventPath[portalEventPathIndex - 1];
@@ -106,7 +106,7 @@ export default class ModalPortal extends LitElement implements StatefulElement<M
         ${repeat(
           this.modalStack?.values(),
           (modal) => modal.key,
-          (modal) => html`<div class="modal-node">${modal}</div>`
+          (modal) => html`<div class="modal-node">${modal}</div>`,
         )}
       </div>
     `;

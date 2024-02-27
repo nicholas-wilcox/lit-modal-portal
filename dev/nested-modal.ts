@@ -10,11 +10,9 @@ import '../src/lib/lit-dialog.ts';
 @customElement('nested-modal')
 export default class NestedModal extends LargeModal {
   pushSubmodal() {
-    modalC.push(
-      html`
-        <confirm-modal .confirmCallback=${() => console.log('Action confirmed')}></confirm-modal>
-      `
-    );
+    modalC.push(html`
+      <confirm-modal .confirmCallback=${() => console.log('Action confirmed')}></confirm-modal>
+    `);
   }
 
   render() {

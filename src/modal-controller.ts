@@ -126,7 +126,7 @@ const modalController: ModalController = {
       this.host.offerState(
         Map<keyof ModalPortalState, any>({
           modalStack: newState.get('modalStack'),
-        })
+        }),
       );
     }
     _modalState = newState;
@@ -195,7 +195,7 @@ const modalController: ModalController = {
   removeByKey(key: string) {
     removeModal.call(
       this,
-      this.modalStack.findIndex((kt: KeyedTemplateResult) => kt.key === key)
+      this.modalStack.findIndex((kt: KeyedTemplateResult) => kt.key === key),
     );
   },
 

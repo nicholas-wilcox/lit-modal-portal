@@ -102,16 +102,14 @@ export default class ConfirmModal extends WithLitDialog(LitElement) {
             <span class="spacer"></span>
             ${when(
               this.secondaryAction,
-              () =>
-                html`
-                  <button @click=${() => this.handleSecondaryAction()}>
-                    ${this.secondaryLabel}
-                  </button>
-                `
+              () => html`
+                <button @click=${() => this.handleSecondaryAction()}>${this.secondaryLabel}</button>
+              `,
             )}
             ${when(
               this.confirmCallback,
-              () => html`<button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>`
+              () =>
+                html`<button @click=${() => this.handleConfirm()}>${this.confirmLabel}</button>`,
             )}
           </div>
         </div>

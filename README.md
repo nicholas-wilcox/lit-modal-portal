@@ -42,7 +42,7 @@ Suppose we have the following Lit application:
 #### `index.html`
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>lit-modal-portal Usage Example</title>
@@ -83,7 +83,7 @@ Here is an example of what the code might look like:
 #### `index.html`
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>lit-modal-portal Usage Example</title>
@@ -148,7 +148,7 @@ export class AppRoot extends LitElement {
       ${portal(
         this.showModal,
         html`<your-custom-modal></your-custom-modal>`,
-        () => (this.showModal = false)
+        () => (this.showModal = false),
       )}
     `;
   }

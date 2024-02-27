@@ -1,6 +1,6 @@
 {
   "name": "lit-modal-portal",
-  "version": "0.4.1",
+  "version": "0.5.0-pre",
   "description": "A specialized portal mechanism for modals developed with the Lit framework.",
   "keywords": [
     "Lit",
@@ -34,7 +34,7 @@
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
-    "clean": "rimraf ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.*",
+    "clean": "rimraf --glob ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.*",
     "dev": "wds --node-resolve --watch --app-index dev/index.html",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
@@ -46,20 +46,22 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@web/dev-server": "^0.1.31",
-    "@web/dev-server-esbuild": "^0.3.0",
-    "concurrently": "^7.1.0",
-    "esbuild": "^0.14.36",
-    "prettier": "2.6.2",
-    "rimraf": "^3.0.2",
-    "ts-lit-plugin": "^1.2.1",
-    "typedoc": "^0.22.17",
-    "typescript": "^4.7.3",
+    "@web/dev-server": "^0.4.3",
+    "@web/dev-server-esbuild": "^1.0.2",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.20.1",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "ts-lit-plugin": "^2.0.2",
+    "typedoc": "^0.25.9",
+    "typescript": "^5.3.3",
     "yargs-parser": "^21.0.1"
   },
   "dependencies": {
-    "lit": "^2.2.2",
-    "immutable": "^4.1.0"
+    "immutable": "^4.3.5"
+  },
+  "peerDependencies": {
+    "lit": ">=2"
   },
   "types": "./index.d.ts"
 }
