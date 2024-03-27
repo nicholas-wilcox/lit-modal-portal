@@ -35,7 +35,7 @@ export class PortalDirective extends Directive {
   render(
     showModal: boolean | Function,
     template: TemplateResult | (() => TemplateResult),
-    closeCallback?: Function
+    closeCallback?: Function,
   ) {
     // Reduce function to boolean if necessary.
     if (showModal instanceof Function) {

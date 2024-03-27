@@ -148,7 +148,7 @@ export class AppRoot extends LitElement {
       ${portal(
         this.showModal,
         html`<your-custom-modal></your-custom-modal>`,
-        () => (this.showModal = false)
+        () => (this.showModal = false),
       )}
     `;
   }

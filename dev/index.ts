@@ -58,14 +58,12 @@ export class AppRoot extends LitElement {
   }
 
   pushCase1Modal() {
-    modalC.push(
-      html`
-        <confirm-modal
-          .confirmCallback=${mockConfirmAction}
-          .secondaryAction=${() => console.log('Secondary action')}
-        ></confirm-modal>
-      `
-    );
+    modalC.push(html`
+      <confirm-modal
+        .confirmCallback=${mockConfirmAction}
+        .secondaryAction=${() => console.log('Secondary action')}
+      ></confirm-modal>
+    `);
   }
 
   case2Portal() {
@@ -76,7 +74,7 @@ export class AppRoot extends LitElement {
           <p>This value comes from the application root: ${this.timeString}</p>
         </confirm-modal>
       `,
-      () => (this.showCase2Modal = false)
+      () => (this.showCase2Modal = false),
     );
   }
 
@@ -89,26 +87,21 @@ export class AppRoot extends LitElement {
   }
 
   pushCase5Modal() {
-    modalC.push(
-      html`
-        <confirm-modal .confirmCallback=${mockConfirmAction} .enableLightDismiss=${false}>
-          <p>You cannot close this modal by clicking out of bounds in the backdrop area.</p>
-        </confirm-modal>
-      `
-    );
+    modalC.push(html`
+      <confirm-modal .confirmCallback=${mockConfirmAction} .enableLightDismiss=${false}>
+        <p>You cannot close this modal by clicking out of bounds in the backdrop area.</p>
+      </confirm-modal>
+    `);
   }
 
   pushCase6Modal() {
-    modalC.push(
-      html`
-        <form-modal
-          .submitCallback=${(formData: FormData) => {
-            this.shadowRoot.querySelector('#form-modal-output').innerHTML =
-              JSON.stringify(formData);
-          }}
-        ></form-modal>
-      `
-    );
+    modalC.push(html`
+      <form-modal
+        .submitCallback=${(formData: FormData) => {
+          this.shadowRoot.querySelector('#form-modal-output').innerHTML = JSON.stringify(formData);
+        }}
+      ></form-modal>
+    `);
   }
 
   pushCase7Modal() {
