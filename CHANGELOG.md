@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+Thanks to [klasjersevi](https://github.com/klasjersevi)
+
+### Changed
+- Updated dependencies.
+- Explicitly set tsconfig in esbuild usage.
+
+### Fixed
+- Set Lit to be a peer dependency.
 
 ## [0.4.1] - 2022-06-16
 ### Fixed
