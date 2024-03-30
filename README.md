@@ -189,9 +189,12 @@ It is also [hosted on GitHub Pages](https://nicholas-wilcox.github.io/lit-modal-
 ## Development
 
 To see more examples of the package working in the browser, you can use `npm run dev`.
-This will launch a dev server on your localhost, where a sandbox is hosted at `localhost:<PORT>/dev`.
-You can change code from the example _or_ the package's source code,
-and see those changes in the browser upon reload, which should happen automatically.
+This will launch a sandbox dev server at `localhost:8000`.
+You may override the port number by setting the PORT environment variable.
+
+The development server is [Modern Web's server](https://modern-web.dev/docs/dev-server/overview/),
+running in watch mode, so you can see code changes reloaded into the browser automatically.
+Note the middleware in `web-dev-server.config.mjs` that rewrites requests for the root so that `dev/index.html` is served.
 
 ## Contributing and Bug Reports
 

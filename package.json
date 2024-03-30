@@ -35,7 +35,7 @@
     "build": "npm run clean && npm run tsc && npm run esbuild",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
     "clean": "rimraf --glob ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.*",
-    "dev": "wds --node-resolve --watch --app-index dev/index.html",
+    "dev": "wds --watch",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
     "esbuild": "node esbuild.config.js",
