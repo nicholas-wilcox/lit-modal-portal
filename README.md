@@ -184,7 +184,7 @@ like the modal portal (i.e. `import 'lit-modal-portal/lib/confirm-modal.js'`).
 ## Documentation
 
 The documentation for this package is included in the repo, under the `/docs` directory.
-It is also [hosted on GitHub Pages](https://cirrus-logic.github.io/lit-modal-portal/index.html).
+It is also [hosted on GitHub Pages](https://nicholas-wilcox.github.io/lit-modal-portal/index.html).
 
 ## Development
 
