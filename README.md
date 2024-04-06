@@ -1,5 +1,16 @@
 # lit-modal-portal
 
+## Notice on version 0.5
+
+This library was heavily altered between versions 0.4 and 0.5.
+Changes include:
+
+- Add support for Lit v3 and fixed dependency declaration. (Thanks, [klasjersevi](https://github.com/klasjersevi).)
+- Remove dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
+- Refactor convoluted state management code.
+- Simplify usage and expand supported use cases.
+  - This was primarily inspired by the [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
+
 https://user-images.githubusercontent.com/10066251/174079212-95af47cf-685b-47a6-8b56-9bc7b3d1033f.mov
 
 The `lit-modal-portal` package provides a specialized portal mechanism for modals, developed with the [Lit](https://lit.dev) framework.

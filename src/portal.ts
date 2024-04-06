@@ -1,59 +1,88 @@
-import { TemplateResult } from 'lit';
-import { Directive, directive } from 'lit/directive.js';
+import { render as litRender, nothing } from 'lit';
+import { directive } from 'lit/directive.js';
+import { AsyncDirective } from 'lit/async-directive.js';
 
-import modalC, { ModalRegistry } from './modal-controller';
+type TargetOrSelector = HTMLElement | string;
 
 /**
- * A directive to automate the act of managing a [[ModalRegistry]] based on a boolean condition.
- *
- * See [Lit docs on Custom Directives](https://lit.dev/docs/templates/custom-directives/).
+ * Utility function to get an HTMLElement by reference or by a document query selector.
  */
-export class PortalDirective extends Directive {
-  /** Registry for a modal that is currently in the modal stack. */
-  modalRegistry?: ModalRegistry;
-
-  /** Resolves the template argument if it is a supplier function. */
-  getTemplate(templateOrSupplier: TemplateResult | (() => TemplateResult)): TemplateResult {
-    if (templateOrSupplier instanceof Function) {
-      return templateOrSupplier();
-    } else {
-      return templateOrSupplier;
+function getTarget(target: TargetOrSelector): HTMLElement {
+  // Treat the argument as a query selector if it's a string.
+  if (typeof target === 'string') {
+    target = document.querySelector(target) as HTMLElement;
+    if (target === null) {
+      throw Error(`Could not locate portal target with selector "${target}".`);
     }
   }
 
+  return target;
+}
+
+/**
+ * A directive to render a Lit template somewhere in the DOM.
+ *
+ * See [Lit docs on Custom Directives](https://lit.dev/docs/templates/custom-directives/).
+ */
+export class PortalDirective extends AsyncDirective {
+  protected containerId = `portal-${self.crypto.randomUUID()}`;
+  protected _container: HTMLElement | undefined;
+  protected target: HTMLElement | undefined;
+
   /**
-   * The core logic of the [[portal | `portal`]] directive.
-   *
-   * If `showModal` is true, or if it is a Function that produces a truthy result,
-   * then the given `template` and optional `closeCallback` will be pushed to the [[ModalPortal | `<modal-portal>`]].
-   *
-   * If there already exists a registry for a modal sent using this exact directive,
-   * then it will be replaced using the new arguments.
-   *
-   * If `showModal` is falsy, then the modal is removed and the registry is reset.
+   * Dynamic getter to safeguard a reference to the portal container that might not be initialized yet.
+   * This allows the main render function to not worry about the difference between the first render and subsequent renders.
    */
-  render(
-    showModal: boolean | Function,
-    template: TemplateResult | (() => TemplateResult),
-    closeCallback?: Function,
-  ) {
-    // Reduce function to boolean if necessary.
-    if (showModal instanceof Function) {
-      showModal = showModal();
+  get container() {
+    if (this._container) {
+      return this._container;
     }
 
-    // If a modal registry already exists for this directive,
-    // then we are either replacing or removing.
-    if (this.modalRegistry) {
-      if (showModal) {
-        this.modalRegistry.replace(this.getTemplate(template), closeCallback);
-      } else {
-        this.modalRegistry.remove();
-        this.modalRegistry = undefined;
+    // Create new container, assign the id, and update the private reference.
+    const newContainer = document.createElement('div');
+    newContainer.id = this.containerId;
+    this._container = newContainer;
+
+    return this._container;
+  }
+
+  /**
+   * Main render function for the directive.
+   * It uses references to other DOM elements to render elsewhere.
+   *
+   * This directive always returns `nothing` because nothing ever renders where the portal is used.
+   */
+  render(value: unknown, targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>) {
+    Promise.resolve(targetOrSelector).then((targetOrSelector: TargetOrSelector) => {
+      if (!targetOrSelector) {
+        throw Error(
+          "Target was falsy. Are you using a Lit ref before its value is defined? If so, try using Lit's @queryAsync decorator instead (https://lit.dev/docs/api/decorators/#queryAsync).",
+        );
       }
-    } else if (showModal) {
-      this.modalRegistry = modalC.push(this.getTemplate(template), closeCallback);
-    }
+
+      const target = getTarget(targetOrSelector);
+
+      // Move container to new target when it changes.
+      if (target !== this.target) {
+        this.target?.removeChild(this.container);
+        target.appendChild(this.container);
+        this.target = target;
+      }
+
+      litRender(value, this.container);
+    });
+
+    return nothing;
+  }
+
+  protected disconnected(): void {
+    // Remove container from target when the directive is disconnected.
+    this.target?.removeChild(this._container);
+  }
+
+  protected reconnected(): void {
+    // Append container to target when the directive is reconnected.
+    this.target?.appendChild(this._container);
   }
 }
 
