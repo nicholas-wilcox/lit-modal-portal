@@ -4,6 +4,7 @@ import { createRef, Ref } from 'lit/directives/ref.js';
 
 import './demo-intro';
 import './demo-reactive';
+import './demo-modals';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
@@ -11,19 +12,12 @@ export class AppRoot extends LitElement {
     css`
       :host {
         font-size: 1.125rem;
+        font-family: sans-serif;
+        line-height: 1.5;
       }
 
-      dialog::backdrop {
-        --lit-dialog-backdrop-bg: hsl(90 100% 50% / 0.4);
-      }
-
-      p {
-        max-width: 65ch;
-      }
-
-      code {
-        font-family: monospace;
-        font-weight: bold;
+      #wrapper {
+        max-width: 80ch;
       }
     `,
   ];
@@ -55,10 +49,13 @@ export class AppRoot extends LitElement {
 
   render() {
     return html`
-      <h1>lit-modal-portal Demo</h1>
-      <hr></hr>
-      <demo-intro></demo-intro>
-      <demo-reactive></demo-reactive>
+      <div id="wrapper">
+        <h1>lit-modal-portal Demo</h1>
+        <hr></hr>
+        <demo-intro></demo-intro>
+        <demo-reactive></demo-reactive>
+        <demo-modals></demo-modals>
+      </div>
     `;
   }
 }
