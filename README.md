@@ -111,10 +111,7 @@ export class ExampleComponent extends LitElement {
   render() {
     return html`<div>
       ${portal(html`<p>Portal content</p>`, this.portalTarget)}
-      <p>
-        The portal isn't rendered before this paragraph, but in the following
-        <code>&lt;div&gt;</code>
-      </p>
+      <p>The portal isn't rendered before this paragraph, but in the following div.</p>
       <div id="portal-target"></div>
     </div>`;
   }
