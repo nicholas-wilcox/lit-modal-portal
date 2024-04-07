@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Major refactor.
 
+### Added
+- Some tests! Can you even believe that?
+
 ### Changed
 - Almost everything, but especially the `portal` directive
 
