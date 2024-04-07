@@ -1,44 +1,23 @@
 # lit-modal-portal
 
-## Notice on version 0.5
+The `lit-modal-portal` package provides a [custom Lit directive](https://lit.dev/docs/templates/custom-directives/), `portal`, that renders a Lit template elsewhere in the DOM.
+Its main goals are:
 
-This library was heavily altered between versions 0.4 and 0.5.
+1. to provide an API that is similar to React's [`createPortal`](https://react.dev/reference/react-dom/createPortal) function, and
+2. to rely on the existing Lit API wherever possible.
+
+## :warning: Notice on version 0.6
+
+This package was heavily altered between versions 0.4 and 0.6.
 Changes include:
 
-- Add support for Lit v3 and fixed dependency declaration. (Thanks, [klasjersevi](https://github.com/klasjersevi).)
-- Remove dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
-- Refactor convoluted state management code.
-- Simplify usage and expand supported use cases.
-  - This was primarily inspired by the [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
-
-https://user-images.githubusercontent.com/10066251/174079212-95af47cf-685b-47a6-8b56-9bc7b3d1033f.mov
-
-The `lit-modal-portal` package provides a specialized portal mechanism for modals, developed with the [Lit](https://lit.dev) framework.
-It is inspired by [React Portals](https://reactjs.org/docs/portals.html) and also developed with
-the intent to utilize the Lit API wherever possible.
-
-Specifically, the package exports a `<modal-portal>` Lit component that should be added to the bottom of your application's DOM
-and implements a modal stack that can be manipulated via a singleton `modalController` that is attached to the `<modal-portal>`.
-The package also provides a `portal()` directive that encapsulates the behavior of evaluating the template
-for a modal and pushing/popping it from the modal stack based on a given boolean expression.
-
-### Note on UI/UX Best Practices for Modals, Dialogs, Overlays, etc.
-
-A fair number of guides on how to design and develop modals can be found online,
-and we encourage you to consult resources such as these when using this package.
-Many common suggestions fall into one of the two following categories:
-
-1. What types of content should appear in a modal, or what a modal's visual appearance should be.
-2. When and how a modal should (dis)appear.
-
-The responsibilities of the first category, as well as most of the second category, are left to you
-as the consumer of this package.
-
-Ironically, the ability to "nest" modals inside (or rather, _in front of_) each other is considered bad practice.
-While we do not expect you to purposefully create a large modal stack in production, the code in this package
-was designed with a specific use case in mind, in which a modal contains buttons whose actions require confirmation.
-
-Without further ado, let's dive in.
+- Add support for Lit v3 and fixed dependency declaration for v0.5. (Thanks, [klasjersevi](https://github.com/klasjersevi).)
+- Removed the following code:
+  - Dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
+  - The `modal-portal` component and the singleton `modalController`.
+- Refactor the `portal` directive to use Lit's `render` function.
+  - This was primarily inspired by [https://github.com/ronak-lm](ronak-lm)'s [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
+  - This simplifies usage of the package and expands the potential use cases.
 
 ## Installation and Usage
 
@@ -69,139 +48,99 @@ Suppose we have the following Lit application:
 
 #### `index.ts` (source code for `main.js`)
 
-```javascript
+```js
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { portal } from 'lit-modal-portal';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
   render() {
     return html`
       <h1>lit-modal-portal Usage Example</h1>
-      <hr />
-      <button>Show Modal</button>
+      ${portal(html`<p>portal content</p>`, document.body)}
     `;
   }
 }
 ```
 
-To install the modal portal, add an `import 'lit-modal-portal/modal-portal.js'` statement to your main script,
-and then add the `<modal-portal>` custom element to your HTML, preferably at the bottom of the `<body>` element.
+When the `<app-root>` component renders, it will activate the `portal` directive, which will return `nothing` but use Lit's API to asynchronously render the content in a container `<div>` and append that container to `document.body`.
 
-Next, to send a modal through the portal, you can use the `modalController` or the `portal` exports.
-Here is an example of what the code might look like:
+When the portal's content is updated, the directive will re-render the new content in the same container. Additionally, if the target changes, then the container will be removed from the old target and appended to the new target.
 
-#### `index.html`
+## API
 
-```html
-<!doctype html>
-<html>
-  <head>
-    <title>lit-modal-portal Usage Example</title>
-    <script type="module" src="main.js"></script>
-  </head>
-  <body>
-    <app-root></app-root>
-    <!-- Added modal portal element -->
-    <modal-portal></modal-portal>
-  </body>
-</html>
+```ts
+portal(value: unknown, targetOrSelector: HTMLElement | string | Promise<HTMLElement | string>): DirectiveResult<typeof PortalDirective>
 ```
 
-#### `index.ts` (source code for `main.js`)
+Parameters:
 
-```javascript
+- `value`: The content of the portal. This argument is passed as the same `value` argument in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
+- `targetOrSelector`: An element or a string (or a promise that resolves to an element or a string) that identifies the portal's target.
+
+  If the value (or the resolved value) is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
+  If no element is found with the selector, then an error is thrown.
+
+This function will always return [Lit's `nothing` value](https://lit.dev/docs/api/templates/#nothing), because nothing is supposed to render where the portal is used.
+
+## Advanced Usage
+
+### Targeting elements in the Shadow DOM
+
+Using a DOM node in a Lit component as a target for a portal is tricky (and perhaps inadvisable), for a number of reasons:
+
+1. The `querySelector` method does not penetrate through the shadow root, so running queries on the `document` node won't return anything.
+2. The `portal` directive is _asynchronous_, so if it renders at the same time as the component's first render, _then the target might not even exist yet_.
+
+We cannot simply call `querySelector` on a different render root, such as a component's shadow root, because it might be empty. However, this is still possible to accomplish safely with the use of [Lit's `queryAsync` decorator](https://lit.dev/docs/api/decorators/#queryAsync).
+
+```ts
 import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { customElement, queryAsync } from 'lit/decorators.js';
+import { portal } from 'lit-modal-portal';
 
-// Added imports
-import { modalController } from 'lit-modal-portal';
-import 'lit-modal-portal/modal-portal.js';
+@customElement('example-component')
+export class ExampleComponent extends LitElement {
+  @queryAsync('#portal-target')
+  portalTarget: Promise<HTMLElement>;
 
-// An example custom element from your project
-import './path/to/your-custom-modal.js';
-
-function pushModal() {
-  modalController.push(html`<your-custom-modal></your-custom-modal>`);
-}
-
-@customElement('app-root')
-export class AppRoot extends LitElement {
   render() {
-    return html`
-      <h1>lit-modal-portal Usage Example</h1>
-      <hr />
-      <button @click=${pushModal}>Show Modal</button>
-    `;
+    return html`<div>
+      ${portal(html`<p>Portal content</p>`, this.portalTarget)}
+      <p>
+        The portal isn't rendered before this paragraph, but in the following
+        <code>&lt;div&gt;</code>
+      </p>
+      <div id="portal-target"></div>
+    </div>`;
   }
 }
 ```
 
-When the button is clicked, the Lit template will be sent to the `<modal-portal>` element, which will render it.
+In this example, `this.portalTarget` is a promise that resolves to the `<div id="portal-target>` element after the `<example-component>` renders.
 
-### Using the `portal` Directive
+See [Lit's documentation](https://lit.dev/docs/components/shadow-dom/) for more information on components and the Shadow DOM.
 
-The `portal` directive offers a way for a modal to be more integrated with the component that is responsible
-for sending it through the portal in the first place.
-Observe the following example (`import`s removed for brevity):
+### Styling portal content
 
-```javascript
-@customElement('app-root')
-export class AppRoot extends LitElement {
-  @state()
-  showModal = false;
+Another consquence of the Shadow DOM is that only [inherited CSS properties](https://lit.dev/docs/components/styles/#inheritance) affect elements inside a shadow root. Coupled with the fact that a portal serves to render content in a different location, this makes it difficult for a component that uses the `portal` directive to style the portal's content.
 
-  render() {
-    return html`
-      <h1>lit-modal-portal Usage Example</h1>
-      <hr />
-      <button @click=${() => (this.showModal = true)}>Show Modal</button>
-      ${portal(
-        this.showModal,
-        html`<your-custom-modal></your-custom-modal>`,
-        () => (this.showModal = false),
-      )}
-    `;
-  }
-}
-```
+**It is recommended that the content of a portal should be another Lit component that can own its CSS.** Alternatively, the [`styleMap` directive](https://lit.dev/docs/templates/directives/#stylemap) can be used in the template provided to the `portal` directive.
 
-Here, the modal will appear as soon as the `AppRoot` component updates after setting `showModal = true`.
-Once the modal closes, the callback function (`() => this.showModal = false`) will execute.
-If the `AppRoot`'s template changes, including changes to the nested template inside of the `portal` directive,
-then those changes will propagate to the modal currently rendered in the `<modal-portal>`.
-
-## Overview
-
-The exports of the main module are the following:
-
-- `ModalPortal`: The class of the `<modal-portal>` element,
-- `modalController`: A singleton controller to manage the modal portal, and
-- `portal`: A directive to manage the behavior of conditionally and dynamically rendering a modal.
-
-There is also a `lib` module with the following exports:
-
-- `LitDialog`:
-  The class for a `<lit-dialog>` custom element,
-  which wraps a `<dialog>` inside itself in order to integrate it with the `ModalPortal`.
-- `WithLitDialog`:
-  A mixin for any web component that is composed with a `<lit-dialog>` element.
-  It provides a bit of boilerplate to manage the `<lit-dialog>`;
-- `ConfirmModal`: The class for an example component that uses `LitDialog`.
-
-Of course, these components should be imported directly if they are being used as custom elements,
-like the modal portal (i.e. `import 'lit-modal-portal/lib/confirm-modal.js'`).
+See [Lit's documentation](https://lit.dev/docs/components/styles/#shadow-dom) for more information on working with CSS styles and the Shadow DOM.
 
 ## Documentation
 
-The documentation for this package is included in the repo, under the `/docs` directory.
+More in-depth documentation for this package is included in the repo, under the `/docs` directory.
 It is also [hosted on GitHub Pages](https://nicholas-wilcox.github.io/lit-modal-portal/index.html).
 
 ## Development
 
-To see more examples of the package working in the browser, you can use `npm run dev`.
-This will launch a sandbox dev server at `localhost:8000`.
-You may override the port number by setting the PORT environment variable.
+For demonstration and testing purposes, you can start a local development server by running `npm run dev`.
+There are multiple examples of the `portal` directive that explain its features and supported usage.
+
+The default host is `localhost:8000`, and you may override the port number by setting the PORT environment variable.
 
 The development server is [Modern Web's server](https://modern-web.dev/docs/dev-server/overview/),
 running in watch mode, so you can see code changes reloaded into the browser automatically.
@@ -212,6 +151,3 @@ Note the middleware in `web-dev-server.config.mjs` that rewrites requests for th
 Currently, there is no standard procedure for contributing to this project.
 You are absolutely welcome to fork the repository and make a pull request,
 and to file issues if you encounter problems while using it.
-
-However, this is currently a side project of a single engineer that was developed in between sprints.
-So, I ask for your patience as I acclimate to the task of maintaining an open source repository.
