@@ -16,7 +16,7 @@ Changes include:
   - Dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
   - The `modal-portal` component and the singleton `modalController`.
 - Refactor the `portal` directive to use Lit's `render` function.
-  - This was primarily inspired by [https://github.com/ronak-lm](ronak-lm)'s [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
+  - This was primarily inspired by [ronak-lm](https://github.com/ronak-lm)'s [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
   - This simplifies usage of the package and expands the potential use cases.
 
 ## Installation and Usage
