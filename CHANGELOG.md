@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2024-04-07
+
 Major refactor.
 
 ### Added
@@ -60,7 +62,8 @@ Thanks to [klasjersevi](https://github.com/klasjersevi)
 ## [0.2.0] - 2022-06-10
 First release tag.
 
-[Unreleased]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.5.0-pre...HEAD
+[Unreleased]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.5.0-pre...v0.6.0
 [0.5.0-pre]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.4.1...v0.5.0-pre
 [0.4.1]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.3.1...v0.4.0
