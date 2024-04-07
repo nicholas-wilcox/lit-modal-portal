@@ -26,9 +26,9 @@ function getTarget(targetOrSelector: TargetOrSelector): HTMLElement {
  * See [Lit docs on Custom Directives](https://lit.dev/docs/templates/custom-directives/).
  */
 export class PortalDirective extends AsyncDirective {
-  protected containerId = `portal-${self.crypto.randomUUID()}`;
-  protected _container: HTMLElement | undefined;
-  protected target: HTMLElement | undefined;
+  private containerId = `portal-${self.crypto.randomUUID()}`;
+  private _container: HTMLElement | undefined;
+  private target: HTMLElement | undefined;
 
   /**
    * Dynamic getter to safeguard a reference to the portal container that might not be initialized yet.
@@ -76,13 +76,13 @@ export class PortalDirective extends AsyncDirective {
     return nothing;
   }
 
+  /** Remove container from target when the directive is disconnected. */
   protected disconnected(): void {
-    // Remove container from target when the directive is disconnected.
     this.target?.removeChild(this._container);
   }
 
+  /** Append container to target when the directive is reconnected. */
   protected reconnected(): void {
-    // Append container to target when the directive is reconnected.
     this.target?.appendChild(this._container);
   }
 }
@@ -90,6 +90,6 @@ export class PortalDirective extends AsyncDirective {
 /**
  * To be used in Lit templates.
  *
- * See [[PortalDirective.render]]
+ * See {@link PortalDirective.render | PortalDirective.render}
  */
 export const portal = directive(PortalDirective);
