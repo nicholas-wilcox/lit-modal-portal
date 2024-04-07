@@ -68,7 +68,7 @@ Thanks to [klasjersevi](https://github.com/klasjersevi)
 First release tag.
 
 [Unreleased]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.6.1...HEAD
-[0.6.0]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.6.0...v0.6.1
+[0.6.1]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.5.0-pre...v0.6.0
 [0.5.0-pre]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.4.1...v0.5.0-pre
 [0.4.1]: https://github.com/cirrus-logic/lit-modal-portal/compare/v0.4.0...v0.4.1
