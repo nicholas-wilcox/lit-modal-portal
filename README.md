@@ -6,7 +6,7 @@ Its main goals are:
 1. to provide an API that is similar to React's [`createPortal`](https://react.dev/reference/react-dom/createPortal) function, and
 2. to rely on the existing Lit API wherever possible.
 
-## :warning: Notice on version 0.6 (currently unreleased)
+## :warning: Notice on version 0.6
 
 This package was heavily altered between versions 0.4 and 0.6.
 Changes include:
