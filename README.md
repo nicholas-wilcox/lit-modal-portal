@@ -14,7 +14,8 @@ Changes include:
 - Add support for Lit v3 and fixed dependency declaration for v0.5. (Thanks, [klasjersevi](https://github.com/klasjersevi).)
 - Removed the following code:
   - Dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
-  - The `modal-portal` component and the singleton `modalController`.
+  - The `<modal-portal>` component and the singleton `modalController`.
+  - All pre-made components, such as the `<confirm-modal>`.
 - Refactor the `portal` directive to use Lit's `render` function.
   - This was primarily inspired by [ronak-lm](https://github.com/ronak-lm)'s [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
   - This simplifies usage of the package and expands the potential use cases.
@@ -29,9 +30,8 @@ npm install lit-modal-portal
 
 Suppose we have the following Lit application:
 
-#### `index.html`
-
 ```html
+<!-- index.html -->
 <!doctype html>
 <html>
   <head>
@@ -46,9 +46,8 @@ Suppose we have the following Lit application:
 </html>
 ```
 
-#### `index.ts` (source code for `main.js`)
-
 ```js
+// index.ts (source code for main.js)
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { portal } from 'lit-modal-portal';
@@ -89,9 +88,73 @@ This function will always return [Lit's `nothing` value](https://lit.dev/docs/ap
 
 ## Advanced Usage
 
+### Modals and dialogs
+
+This package no longer provides modal components. Instead, it focuses on a directive that is simple to use in different ways and encourages users to implement their own modals.
+
+One recommended approach is to use the [`dialog`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog) element and its [`showModal`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal) method,
+which can be accessed using [Lit's `ref` directive](https://lit.dev/docs/templates/directives/#referencing-rendered-dom).
+
+Consider the following:
+
+```ts
+// example-app.ts
+import { LitElement, html } from 'lit';
+import { customElement } from 'lit/decorators.js';
+import { ref, createRef } from 'lit/directives/ref.js';
+import { portal } from 'lit-modal-portal';
+
+import './lit-dialog';
+
+@customElement('example-app')
+export class ExampleApp extends LitElement {
+  dialogRef = createRef<HTMLDialogElement>();
+
+  render() {
+    return html`
+      <h1>lit-modal-portal Dialog Example</h1>
+      <button @click=${() => this.dialogRef.value?.showModal()}>Show Dialog</button>
+      ${portal(html`<lit-dialog .dialogRef=${this.dialogRef}></lit-dialog>`, document.body)}
+    `;
+  }
+}
+```
+
+```ts
+// lit-dialog.ts
+import { LitElement, html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { ref, createRef, Ref } from 'lit/directives/ref.js';
+
+@customElement('lit-dialog')
+export class LitDialog extends LitElement {
+  @property({ attribute: false })
+  dialogRef: Ref<HTMLDialogElement> = createRef();
+
+  render() {
+    return html`
+      <dialog ${ref(this.dialogRef)}>
+        <p>This is the dialog</p>
+        <button @click=${() => this.dialogRef.value?.close()}>Close Dialog</button>
+      </dialog>
+    `;
+  }
+}
+```
+
+In this example, we have a `<lit-dialog>` component that accepts a `dialogRef` from the parent `<example-app>`.
+This allows the parent to open the dialog and the child to imperatively close it on a button's `@click` event.
+
+This basic pattern can be extended as necessary. Examples include:
+
+- Listening to the dialog's `close` event, which would trigger if the dialog was closed with the Escape key.
+- Adding styles to the `<lit-dialog>` component.
+- Adding callback function properties to `<lit-dialog>`.
+- Using slotted content in the dialog component's template.
+
 ### Targeting elements in the Shadow DOM
 
-Using a DOM node in a Lit component as a target for a portal is tricky (and perhaps inadvisable), for a number of reasons:
+Using a DOM node in a Lit component as a target for a portal is tricky (and perhaps useless or inadvisable), for a number of reasons:
 
 1. The `querySelector` method does not penetrate through the shadow root, so running queries on the `document` node won't return anything.
 2. The `portal` directive is _asynchronous_, so if it renders at the same time as the component's first render, _then the target might not even exist yet_.
