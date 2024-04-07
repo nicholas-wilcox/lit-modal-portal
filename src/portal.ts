@@ -7,12 +7,13 @@ type TargetOrSelector = HTMLElement | string;
 /**
  * Utility function to get an HTMLElement by reference or by a document query selector.
  */
-function getTarget(target: TargetOrSelector): HTMLElement {
+function getTarget(targetOrSelector: TargetOrSelector): HTMLElement {
+  let target = targetOrSelector;
   // Treat the argument as a query selector if it's a string.
   if (typeof target === 'string') {
     target = document.querySelector(target) as HTMLElement;
     if (target === null) {
-      throw Error(`Could not locate portal target with selector "${target}".`);
+      throw Error(`Could not locate portal target with selector "${targetOrSelector}".`);
     }
   }
 
