@@ -23,7 +23,7 @@ const plugins = [
     name: 'on-rebuild-plugin',
     setup(build) {
       if (shouldWatch) {
-        build.onEnd((result) => {
+        build.onEnd((_result) => {
           const timeString = getNowAsString();
           if (error) console.log(`${timeString}: watch build failed`);
           else console.log(`${timeString}: watch build succeeded`);
@@ -34,18 +34,7 @@ const plugins = [
 ];
 
 const context = await esbuild.context({
-  entryPoints: [
-    'src/index.ts',
-    'src/modal-portal.ts',
-    'src/modal-controller.ts',
-    'src/portal.ts',
-    'src/lib/index.ts',
-    'src/lib/lit-dialog.ts',
-    'src/lib/confirm-modal.ts',
-    'src/lib/with-lit-dialog.ts',
-    'src/lib/uuid.ts',
-    'src/lib/state.ts',
-  ],
+  entryPoints: ['src/index.ts', 'src/portal.ts'],
   outdir: './',
   bundle: false,
   format: 'esm',

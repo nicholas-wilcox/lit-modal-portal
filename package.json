@@ -30,7 +30,7 @@
   "scripts": {
     "build": "npm run clean && npm run tsc && npm run esbuild",
     "build:watch": "concurrently \"npm:tsc:watch\" \"npm:esbuild:watch\"",
-    "clean": "rimraf --glob ./lib ./index.* ./modal-portal.* ./modal-controller.* ./portal.*",
+    "clean": "rimraf --glob ./index.* ./portal.*",
     "dev": "wds --watch",
     "docs": "typedoc",
     "docs:watch": "typedoc --watch",
