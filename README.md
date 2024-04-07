@@ -209,6 +209,12 @@ The development server is [Modern Web's server](https://modern-web.dev/docs/dev-
 running in watch mode, so you can see code changes reloaded into the browser automatically.
 Note the middleware in `web-dev-server.config.mjs` that rewrites requests for the root so that `dev/index.html` is served.
 
+### Testing
+
+There are some tests for the `portal` directive in `src/portal.test.ts`. They use [Modern Web's test runner](https://modern-web.dev/guides/test-runner/getting-started/) and the [Open Web Components `@open-wc/testing`](https://open-wc.org/guides/developing-components/testing/) framework.
+
+You can execute the tests by running `npm run test`.
+
 ## Contributing and Bug Reports
 
 Currently, there is no standard procedure for contributing to this project.
