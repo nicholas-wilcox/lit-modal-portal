@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+Major refactor.
+
+### Changed
+- Almost everything, but especially the `portal` directive
+
+### Removed
+- Almost everything else, notably the `modalController` and the `<modal-portal>` component.
+
 ## [0.5.0-pre] - 2024-03-27
 Thanks to [klasjersevi](https://github.com/klasjersevi)
 
