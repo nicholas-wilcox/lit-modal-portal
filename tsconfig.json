@@ -15,7 +15,8 @@
     "target": "es2019",
     "plugins": [{ "name": "ts-lit-plugin" }],
     "preserveWatchOutput": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "types": ["mocha"]
   },
   "watchOptions": {
     "excludeDirectories": ["**/node_modules"]

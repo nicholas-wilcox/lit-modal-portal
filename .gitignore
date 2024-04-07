@@ -9,3 +9,4 @@ node_modules
 /modal-controller.*
 /portal.*
 /lit-modal-portal-*
+/coverage

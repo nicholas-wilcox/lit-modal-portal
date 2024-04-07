@@ -23,11 +23,7 @@
     "/CHANGELOG.md",
     "/LICENSE.txt",
     "/index.{js,js.map,d.ts,d.ts.map}",
-    "/modal-portal.{js,js.map,d.ts,d.ts.map}",
-    "/modal-controller.{js,js.map,d.ts,d.ts.map}",
-    "/portal.{js,js.map,d.ts,d.ts.map}",
-    "/lib/",
-    "/docs/"
+    "/portal.{js,js.map,d.ts,d.ts.map}"
   ],
   "main": "./index.js",
   "type": "module",
@@ -43,11 +39,15 @@
     "lint": "prettier -w .",
     "tsc": "tsc",
     "tsc:watch": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "web-test-runner --puppeteer"
   },
   "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@types/mocha": "^10.0.6",
     "@web/dev-server": "^0.4.3",
     "@web/dev-server-esbuild": "^1.0.2",
+    "@web/test-runner": "^0.18.1",
+    "@web/test-runner-puppeteer": "^0.16.0",
     "concurrently": "^8.2.2",
     "esbuild": "^0.20.1",
     "prettier": "^3.2.5",
@@ -56,9 +56,6 @@
     "typedoc": "^0.25.9",
     "typescript": "^5.3.3",
     "yargs-parser": "^21.0.1"
-  },
-  "dependencies": {
-    "immutable": "^4.3.5"
   },
   "peerDependencies": {
     "lit": ">=2"
