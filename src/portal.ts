@@ -34,7 +34,7 @@ export class PortalDirective extends AsyncDirective {
    * Dynamic getter to safeguard a reference to the portal container that might not be initialized yet.
    * This allows the main render function to not worry about the difference between the first render and subsequent renders.
    */
-  get container() {
+  private get container() {
     if (this._container) {
       return this._container;
     }

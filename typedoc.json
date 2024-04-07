@@ -2,7 +2,5 @@
   "entryPoints": ["src/docs.index.ts"],
   "name": "Lit Modal Portal Documentation",
   "out": "docs",
-  "tsconfig": "docs.tsconfig.json",
-  "readme": "none",
-  "excludeExternals": true
+  "tsconfig": "docs.tsconfig.json"
 }
