@@ -2,7 +2,7 @@ import { render as litRender, nothing } from 'lit';
 import { directive } from 'lit/directive.js';
 import { AsyncDirective } from 'lit/async-directive.js';
 
-type TargetOrSelector = Node | string;
+export type TargetOrSelector = Node | string;
 
 /**
  * Utility function to get an HTMLElement by reference or by a document query selector.

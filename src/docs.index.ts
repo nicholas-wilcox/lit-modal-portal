@@ -1,5 +1,1 @@
-import { portal } from './portal';
-
-export { portal };
-
-export { PortalDirective } from './portal';
+export { portal, TargetOrSelector, PortalDirective } from './portal';
