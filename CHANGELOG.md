@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Refactored type of portal target to be `Node` instead of `HTMLElement`.
+
 ## [0.6.1] - 2024-04-07
 
 ### Changed
