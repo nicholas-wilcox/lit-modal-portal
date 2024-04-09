@@ -198,6 +198,9 @@ See [Lit's documentation](https://lit.dev/docs/components/styles/#shadow-dom) fo
 More in-depth documentation for this package is included in the repo, under the `/docs` directory.
 It is also [hosted on GitHub Pages](https://nicholas-wilcox.github.io/lit-modal-portal/index.html).
 
+The documentation is generated using [TypeDoc](https://typedoc.org/).
+Please note the separate `docs.tsconfig.json` and `src/docs.index.ts` files if you plan to make changes related to the documentation.
+
 ## Development
 
 For demonstration and testing purposes, you can start a local development server by running `npm run dev`.
