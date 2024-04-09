@@ -2,16 +2,16 @@ import { render as litRender, nothing } from 'lit';
 import { directive } from 'lit/directive.js';
 import { AsyncDirective } from 'lit/async-directive.js';
 
-type TargetOrSelector = HTMLElement | string;
+type TargetOrSelector = Node | string;
 
 /**
  * Utility function to get an HTMLElement by reference or by a document query selector.
  */
-function getTarget(targetOrSelector: TargetOrSelector): HTMLElement {
+function getTarget(targetOrSelector: TargetOrSelector): Node {
   let target = targetOrSelector;
   // Treat the argument as a query selector if it's a string.
   if (typeof target === 'string') {
-    target = document.querySelector(target) as HTMLElement;
+    target = document.querySelector(target) as Node;
     if (target === null) {
       throw Error(`Could not locate portal target with selector "${targetOrSelector}".`);
     }
@@ -28,7 +28,7 @@ function getTarget(targetOrSelector: TargetOrSelector): HTMLElement {
 export class PortalDirective extends AsyncDirective {
   private containerId = `portal-${self.crypto.randomUUID()}`;
   private _container: HTMLElement | undefined;
-  private target: HTMLElement | undefined;
+  private target: Node | undefined;
 
   /**
    * Dynamic getter to safeguard a reference to the portal container that might not be initialized yet.

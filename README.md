@@ -72,7 +72,7 @@ When the portal's content is updated, the directive will re-render the new conte
 ```ts
 portal(
   value: unknown,
-  targetOrSelector: HTMLElement | string | Promise<HTMLElement | string>
+  targetOrSelector: Node | string | Promise<Node | string>
 ): DirectiveResult<typeof PortalDirective>
 ```
 
