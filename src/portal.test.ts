@@ -10,15 +10,16 @@ async function createPortalFixture(portalTarget: HTMLElement | string) {
 }
 
 describe('portal', async () => {
+  afterEach(() => {
+    document.body.querySelectorAll('[id|=portal]').forEach((portal) => portal.remove());
+  });
+
   it('creates a portal in document.body', async () => {
     await createPortalFixture(document.body);
 
     expect(document.body.lastElementChild).to.be.instanceof(HTMLDivElement);
     expect(document.body.lastElementChild.id).match(PORTAL_CONTAINER_ID_REGEX);
     expect((document.body.lastElementChild as HTMLDivElement).innerText).to.equal(PORTAL_CONTENT);
-
-    // Manual cleanup
-    document.body.removeChild(document.body.lastChild);
   });
 
   it('creates a portal in a div using a query selector', async () => {
@@ -32,8 +33,5 @@ describe('portal', async () => {
     expect(portalTarget.lastElementChild).to.be.instanceof(HTMLDivElement);
     expect(portalTarget.lastElementChild.id).match(PORTAL_CONTAINER_ID_REGEX);
     expect((portalTarget.lastElementChild as HTMLDivElement).innerText).to.equal(PORTAL_CONTENT);
-
-    // Manual cleanup
-    portalTarget.removeChild(portalTarget.lastChild);
   });
 });

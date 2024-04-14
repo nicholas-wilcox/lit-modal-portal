@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Added `TargetOrSelector` type alias to typedoc.
 
+### Changed
+- Improved how portals can be cleaned up during tests.
+
 ## [0.6.2] - 2024-04-09
 
 ### Changed
