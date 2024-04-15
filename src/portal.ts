@@ -78,7 +78,13 @@ export class PortalDirective extends AsyncDirective {
 
   /** Remove container from target when the directive is disconnected. */
   protected disconnected(): void {
-    this.target?.removeChild(this._container);
+    if (this.target?.contains(this._container)) {
+      this.target?.removeChild(this._container);
+    } else {
+      console.warn(
+        'portal directive was disconnected after the portal container was removed from the target.',
+      );
+    }
   }
 
   /** Append container to target when the directive is reconnected. */

@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Improved how portals can be cleaned up during tests.
+- The disconnected method on the `portal` directive now checks that the portal container is in the target's children.
+  If not, then a warning will be printed that the container was already removed from the target.
+
+  The prevalence of this issue is unknown, but it was encountered while working with components in portals rendered using `open-wc`'s `fixture` helper.
 
 ### Added
 - Tests for Lit lifecycle methods called on components that are in portals.
