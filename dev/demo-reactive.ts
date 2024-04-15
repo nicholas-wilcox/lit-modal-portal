@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, state, queryAsync } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
 import { portal } from '../src/portal';
 
 import './example-component';
@@ -42,6 +43,10 @@ export class DemoReactive extends LitElement {
         flex-basis: 0;
         flex-grow: 1;
       }
+
+      #component-portal-target {
+        flex-basis: 100%;
+      }
     `,
   ];
 
@@ -58,6 +63,9 @@ export class DemoReactive extends LitElement {
 
   @queryAsync('.portal-target[data-current-portal-target=true]')
   multiPortalTarget: Promise<HTMLElement>;
+
+  @state()
+  showComponentPortal = false;
 
   @queryAsync('#component-portal-target')
   componentPortalTarget: Promise<HTMLElement>;
@@ -146,11 +154,20 @@ export class DemoReactive extends LitElement {
         work.
       </p>
       <div class="wrapper">
-        ${portal(html`<example-component></example-component>`, this.componentPortalTarget)}
+        ${when(this.showComponentPortal, () =>
+          portal(html`<example-component></example-component>`, this.componentPortalTarget),
+        )}
         <p>
           Right above this paragraph's <code>&lt;p&gt;</code> tag is a <code>portal</code> directive
           that renders an example component in the following portal target <code>&lt;div&gt;</code>.
         </p>
+        <p>
+          The portal can be toggled using the button below this text. You can observe that the
+          components lifecycle methods are called appropriately by looking at the console logs.
+        </p>
+        <button @click=${() => (this.showComponentPortal = !this.showComponentPortal)}>
+          Toggle Portal
+        </button>
         <div id="component-portal-target" class="portal-target">
           <h3>Portal target</h3>
         </div>

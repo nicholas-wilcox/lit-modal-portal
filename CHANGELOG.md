@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improved how portals can be cleaned up during tests.
 
+### Added
+- Tests for Lit lifecycle methods called on components that are in portals.
+
 ## [0.6.2] - 2024-04-09
 
 ### Changed

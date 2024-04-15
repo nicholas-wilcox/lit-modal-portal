@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, PropertyValueMap } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 
 @customElement('example-component')
@@ -18,6 +18,33 @@ export class ExampleComponent extends LitElement {
 
   @state()
   name: string = 'Your name here';
+
+  constructor() {
+    super();
+    console.log('ExampleComponent::constructor()');
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    console.log('ExampleComponent::connectedCallback()');
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    console.log('ExampleComponent::disconnectedCallback()');
+  }
+
+  firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    console.log('ExampleComponent::firstUpdated()');
+  }
+
+  updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    console.log('ExampleComponent::updated()');
+  }
+
+  willUpdate(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>) {
+    console.log('ExampleComponent::willUpdate()');
+  }
 
   render() {
     return html`<div id="wrapper">
