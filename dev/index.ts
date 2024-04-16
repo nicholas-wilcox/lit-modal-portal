@@ -22,8 +22,6 @@ export class AppRoot extends LitElement {
     `,
   ];
 
-  private clockInterval?: ReturnType<typeof setInterval>;
-
   @state()
   showModal4: boolean = false;
 
@@ -38,13 +36,10 @@ export class AppRoot extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    this.clockInterval = setInterval(() => (this.currentTime = new Date()), 1000);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    clearInterval(this.clockInterval);
-    this.clockInterval = undefined;
   }
 
   render() {
