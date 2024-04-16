@@ -80,19 +80,19 @@ portal(
 
 Parameters:
 
-- `content`: The content of the portal. This argument is passed as the same `value` argument in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
+- `content`: The content of the portal. This parameter is passed as the `value` parameter in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
 
   > Any renderable value typically a [`TemplateResult`](https://lit.dev/docs/api/templates/#TemplateResult)
   > created by evaluating a template tag like [`html`](https://lit.dev/docs/api/templates/#html) or [`svg`](https://lit.dev/docs/api/templates/#svg).
 
 - `targetOrSelector`: An element or a string that identifies the portal's target.
 
-  If the argument is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
+  If the value is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
   If no element is found with the selector, then an error is thrown.
 
 This function will always return [Lit's `nothing` value](https://lit.dev/docs/api/templates/#nothing), because nothing is supposed to render where the portal is used.
 
-Both the `content` and the `targetOrSelector` arguments may be promises. All promises must be resolved before the portal renders.
+Both the `content` and the `targetOrSelector` parameters may be promises. All promises must be resolved before the portal renders.
 
 ## Advanced Usage
 
