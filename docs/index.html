@@ -30,18 +30,23 @@ Changes include:</p>
 </code><button>Copy</button></pre>
 <p>When the <code>&lt;app-root&gt;</code> component renders, it will activate the <code>portal</code> directive, which will return <code>nothing</code> but use Lit&#39;s API to asynchronously render the content in a container <code>&lt;div&gt;</code> and append that container to <code>document.body</code>.</p>
 <p>When the portal&#39;s content is updated, the directive will re-render the new content in the same container. Additionally, if the target changes, then the container will be removed from the old target and appended to the new target.</p>
-<a id="md:api" class="tsd-anchor"></a><h2><a href="#md:api">API</a></h2><pre><code class="language-ts"><span class="hl-10">portal</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-0">value</span><span class="hl-1">: </span><span class="hl-0">unknown</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-0">targetOrSelector</span><span class="hl-1">: </span><span class="hl-0">Node</span><span class="hl-1"> | </span><span class="hl-0">string</span><span class="hl-1"> | </span><span class="hl-12">Promise</span><span class="hl-1">&lt;</span><span class="hl-0">Node</span><span class="hl-1"> | </span><span class="hl-0">string</span><span class="hl-1">&gt;</span><br/><span class="hl-1">): </span><span class="hl-0">DirectiveResult</span><span class="hl-1">&lt;</span><span class="hl-11">typeof</span><span class="hl-1"> </span><span class="hl-0">PortalDirective</span><span class="hl-1">&gt;</span>
+<a id="md:api" class="tsd-anchor"></a><h2><a href="#md:api">API</a></h2><pre><code class="language-ts"><span class="hl-11">type</span><span class="hl-1"> </span><span class="hl-12">TargetOrSelector</span><span class="hl-1"> = </span><span class="hl-12">Node</span><span class="hl-1"> | </span><span class="hl-12">string</span><span class="hl-1">;</span><br/><br/><span class="hl-10">portal</span><span class="hl-1">(</span><br/><span class="hl-1">  </span><span class="hl-0">content</span><span class="hl-1">: </span><span class="hl-0">unknown</span><span class="hl-1"> | </span><span class="hl-12">Promise</span><span class="hl-1">&lt;</span><span class="hl-0">unknown</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">  </span><span class="hl-0">targetOrSelector</span><span class="hl-1">: </span><span class="hl-0">TargetOrSelector</span><span class="hl-1"> | </span><span class="hl-12">Promise</span><span class="hl-1">&lt;</span><span class="hl-0">TargetOrSelector</span><span class="hl-1">&gt;,</span><br/><span class="hl-1">): </span><span class="hl-0">DirectiveResult</span><span class="hl-1">&lt;</span><span class="hl-11">typeof</span><span class="hl-1"> </span><span class="hl-0">PortalDirective</span><span class="hl-1">&gt;</span>
 </code><button>Copy</button></pre>
 <p>Parameters:</p>
 <ul>
-<li><p><code>value</code>: The content of the portal. This argument is passed as the same <code>value</code> argument in <a href="https://lit.dev/docs/api/templates/#render">Lit&#39;s <code>render</code> function</a>.</p>
+<li><p><code>content</code>: The content of the portal. This argument is passed as the same <code>value</code> argument in <a href="https://lit.dev/docs/api/templates/#render">Lit&#39;s <code>render</code> function</a>.</p>
+<blockquote>
+<p>Any renderable value typically a <a href="https://lit.dev/docs/api/templates/#TemplateResult"><code>TemplateResult</code></a>
+created by evaluating a template tag like <a href="https://lit.dev/docs/api/templates/#html"><code>html</code></a> or <a href="https://lit.dev/docs/api/templates/#svg"><code>svg</code></a>.</p>
+</blockquote>
 </li>
-<li><p><code>targetOrSelector</code>: An element or a string (or a promise that resolves to an element or a string) that identifies the portal&#39;s target.</p>
-<p>If the value (or the resolved value) is a string, then it is treated as a query selector and passed to <code>document.querySelector()</code> in order to locate the portal target.
+<li><p><code>targetOrSelector</code>: An element or a string that identifies the portal&#39;s target.</p>
+<p>If the argument is a string, then it is treated as a query selector and passed to <code>document.querySelector()</code> in order to locate the portal target.
 If no element is found with the selector, then an error is thrown.</p>
 </li>
 </ul>
 <p>This function will always return <a href="https://lit.dev/docs/api/templates/#nothing">Lit&#39;s <code>nothing</code> value</a>, because nothing is supposed to render where the portal is used.</p>
+<p>Both the <code>content</code> and the <code>targetOrSelector</code> arguments may be promises. All promises must be resolved before the portal renders.</p>
 <a id="md:advanced-usage" class="tsd-anchor"></a><h2><a href="#md:advanced-usage">Advanced Usage</a></h2><a id="md:modals-and-dialogs" class="tsd-anchor"></a><h3><a href="#md:modals-and-dialogs">Modals and dialogs</a></h3><p>This package no longer provides modal components. Instead, it focuses on a directive that is simple to use in different ways and encourages users to implement their own modals.</p>
 <p>One recommended approach is to use the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog"><code>dialog</code></a> element and its <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal"><code>showModal</code></a> method,
 which can be accessed using <a href="https://lit.dev/docs/templates/directives/#referencing-rendered-dom">Lit&#39;s <code>ref</code> directive</a>.</p>
@@ -74,6 +79,8 @@ This allows the parent to open the dialog and the child to imperatively close it
 <p>See <a href="https://lit.dev/docs/components/styles/#shadow-dom">Lit&#39;s documentation</a> for more information on working with CSS styles and the Shadow DOM.</p>
 <a id="md:documentation" class="tsd-anchor"></a><h2><a href="#md:documentation">Documentation</a></h2><p>More in-depth documentation for this package is included in the repo, under the <code>/docs</code> directory.
 It is also <a href="https://nicholas-wilcox.github.io/lit-modal-portal/index.html">hosted on GitHub Pages</a>.</p>
+<p>The documentation is generated using <a href="https://typedoc.org/">TypeDoc</a>.
+Please note the separate <code>docs.tsconfig.json</code> and <code>src/docs.index.ts</code> files if you plan to make changes related to the documentation.</p>
 <a id="md:development" class="tsd-anchor"></a><h2><a href="#md:development">Development</a></h2><p>For demonstration and testing purposes, you can start a local development server by running <code>npm run dev</code>.
 There are multiple examples of the <code>portal</code> directive that explain its features and supported usage.</p>
 <p>The default host is <code>localhost:8000</code>, and you may override the port number by setting the PORT environment variable.</p>
