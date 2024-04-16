@@ -73,14 +73,18 @@ When the portal's content is updated, the directive will re-render the new conte
 type TargetOrSelector = Node | string;
 
 portal(
-  value: unknown | Promise<unknown>,
+  content: unknown | Promise<unknown>,
   targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>,
 ): DirectiveResult<typeof PortalDirective>
 ```
 
 Parameters:
 
-- `value`: The content of the portal. This argument is passed as the same `value` argument in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
+- `content`: The content of the portal. This argument is passed as the same `value` argument in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
+
+  > Any renderable value typically a [`TemplateResult`](https://lit.dev/docs/api/templates/#TemplateResult)
+  > created by evaluating a template tag like [`html`](https://lit.dev/docs/api/templates/#html) or [`svg`](https://lit.dev/docs/api/templates/#svg).
+
 - `targetOrSelector`: An element or a string that identifies the portal's target.
 
   If the argument is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
@@ -88,7 +92,7 @@ Parameters:
 
 This function will always return [Lit's `nothing` value](https://lit.dev/docs/api/templates/#nothing), because nothing is supposed to render where the portal is used.
 
-Both the `value` and the `targetOrSelector` arguments may be promises. All promises must be resolved before the portal renders.
+Both the `content` and the `targetOrSelector` arguments may be promises. All promises must be resolved before the portal renders.
 
 ## Advanced Usage
 

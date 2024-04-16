@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   The prevalence of this issue is unknown, but it was encountered while working with components
   in portals rendered using `open-wc`'s `fixture` helper.
 - Refactor lambdas out of tests to support setting the Mocha timeout limit.
+- Refactor the `portal` directive's `value` argument to be named `content`.
 
 ### Added
 - Tests for Lit lifecycle methods called on components that are in portals.
