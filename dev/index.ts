@@ -5,6 +5,7 @@ import { createRef, Ref } from 'lit/directives/ref.js';
 import './demo-intro';
 import './demo-reactive';
 import './demo-modals';
+import './demo-async';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
@@ -50,6 +51,7 @@ export class AppRoot extends LitElement {
         <demo-intro></demo-intro>
         <demo-reactive></demo-reactive>
         <demo-modals></demo-modals>
+        <demo-async></demo-async>
       </div>
     `;
   }

@@ -53,8 +53,11 @@ export class PortalDirective extends AsyncDirective {
    *
    * This directive always returns `nothing` because nothing ever renders where the portal is used.
    */
-  render(value: unknown, targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>) {
-    Promise.resolve(targetOrSelector).then((targetOrSelector: TargetOrSelector) => {
+  render(
+    value: unknown | Promise<unknown>,
+    targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>,
+  ) {
+    Promise.all([value, targetOrSelector]).then(([value, targetOrSelector]) => {
       if (!targetOrSelector) {
         throw Error(
           "Target was falsy. Are you using a Lit ref before its value is defined? If so, try using Lit's @queryAsync decorator instead (https://lit.dev/docs/api/decorators/#queryAsync).",

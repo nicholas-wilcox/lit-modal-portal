@@ -97,16 +97,26 @@ async function createPortalFixtureWithToggledComponent() {
   return { exampleComponentRef, clickButtonAsync };
 }
 
-describe('portal', async () => {
+async function createAsynchronousPortalFixture(portalTarget: HTMLElement | string, delay = 1000) {
+  const sleepPromise = new Promise((resolve) => setTimeout(resolve, delay));
+  await fixture(
+    html`${portal(
+      sleepPromise.then(() => html`<p>${PORTAL_CONTENT}</p>`),
+      portalTarget,
+    )}`,
+  );
+}
+
+describe('portal', async function () {
   const getPortalsInDocumentBody = () => document.body.querySelectorAll('[id|=portal]');
 
-  afterEach(() => {
+  afterEach(function () {
     getPortalsInDocumentBody().forEach((portal) => portal.remove());
     sinon.restore();
     ExampleComponent.lifecycleSpy.resetHistory();
   });
 
-  it('creates a portal in document.body', async () => {
+  it('creates a portal in document.body', async function () {
     await createPortalFixture(document.body);
 
     expect(document.body.lastElementChild).to.be.instanceof(HTMLDivElement);
@@ -114,7 +124,7 @@ describe('portal', async () => {
     expect((document.body.lastElementChild as HTMLDivElement).innerText).to.equal(PORTAL_CONTENT);
   });
 
-  it('creates a portal in a div using a query selector', async () => {
+  it('creates a portal in a div using a query selector', async function () {
     const portalTarget = document.createElement('div');
     const portalTargetId = `portal-target`;
     portalTarget.id = portalTargetId;
@@ -127,45 +137,45 @@ describe('portal', async () => {
     expect((portalTarget.lastElementChild as HTMLDivElement).innerText).to.equal(PORTAL_CONTENT);
   });
 
-  describe('Lit lifecycle methods for components in portals', async () => {
+  describe('Lit lifecycle methods for components in portals', async function () {
     let clickButtonAsync: Function;
 
-    beforeEach(async () => {
+    beforeEach(async function () {
       ({ clickButtonAsync } = await createPortalFixtureWithToggledComponent());
       expect(ExampleComponent.lifecycleSpy).to.have.not.been.called;
     });
 
-    it("calls a component's constructor method", async () => {
+    it("calls a component's constructor method", async function () {
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy.getCall(0).calledWith('constructor'));
       await clickButtonAsync();
     });
 
-    it("calls a component's connectedCallback method", async () => {
+    it("calls a component's connectedCallback method", async function () {
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy.getCall(1).calledWith('connectedCallback'));
       await clickButtonAsync();
     });
 
-    it("calls a component's willUpdate method", async () => {
+    it("calls a component's willUpdate method", async function () {
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy.getCall(2).calledWith('willUpdate'));
       await clickButtonAsync();
     });
 
-    it("calls a component's firstUpdated method", async () => {
+    it("calls a component's firstUpdated method", async function () {
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy.getCall(3).calledWith('firstUpdated'));
       await clickButtonAsync();
     });
 
-    it("calls a component's updated method", async () => {
+    it("calls a component's updated method", async function () {
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy.getCall(4).calledWith('updated'));
       await clickButtonAsync();
     });
 
-    it("calls a component's disconnectedCallback method", async () => {
+    it("calls a component's disconnectedCallback method", async function () {
       await clickButtonAsync();
       await clickButtonAsync();
       expect(ExampleComponent.lifecycleSpy).callCount(6);
@@ -173,23 +183,35 @@ describe('portal', async () => {
     });
   });
 
-  describe('test helpers', async () => {
-    describe('afterEach', () => {
-      it('expects no portals on document.body before adding a portal', async () => {
+  describe('Asynchronous behavior', async function () {
+    it("doesn't render a portal with asynchronous content until it resolves", async function () {
+      this.timeout(2000);
+
+      await createAsynchronousPortalFixture(document.body, 1000);
+      expect(getPortalsInDocumentBody()).to.be.empty;
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      expect(getPortalsInDocumentBody()).to.not.be.empty;
+    });
+  });
+
+  describe('test helpers', async function () {
+    describe('afterEach', function () {
+      it('expects no portals on document.body before adding a portal', async function () {
         expect(getPortalsInDocumentBody()).to.be.empty;
         await createPortalFixture(document.body);
         expect(getPortalsInDocumentBody()).to.not.be.empty;
       });
 
-      it('expects (again) no portals on document.body before adding a portal', async () => {
+      it('expects (again) no portals on document.body before adding a portal', async function () {
         expect(getPortalsInDocumentBody()).to.be.empty;
         await createPortalFixture(document.body);
         expect(getPortalsInDocumentBody()).to.not.be.empty;
       });
     });
 
-    describe('createPortalFixtureWithToggledComponent', async () => {
-      it('creates and removes a portal with the returned values', async () => {
+    describe('createPortalFixtureWithToggledComponent', async function () {
+      it('creates and removes a portal with the returned values', async function () {
         const { clickButtonAsync } = await createPortalFixtureWithToggledComponent();
 
         await clickButtonAsync();
