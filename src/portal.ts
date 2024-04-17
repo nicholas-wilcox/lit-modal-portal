@@ -2,11 +2,18 @@ import { render as litRender, nothing } from 'lit';
 import { directive } from 'lit/directive.js';
 import { AsyncDirective } from 'lit/async-directive.js';
 
+/**
+ * The acceptable types used to specify a portal target.
+ */
 export type TargetOrSelector = Node | string;
 
-export type PortalOptions = {
+/**
+ * @property placeholder - When provided, `placeholder` will be immediately rendered in the portal.
+ * Assuming that `content` is a promise, it will replace the placeholder once it resolves.
+ */
+export interface PortalOptions {
   placeholder?: unknown;
-};
+}
 
 /**
  * Utility function to get an HTMLElement by reference or by a document query selector.
@@ -36,9 +43,44 @@ export class PortalDirective extends AsyncDirective {
 
   /**
    * Main render function for the directive.
-   * It uses references to other DOM elements to render elsewhere.
    *
-   * This directive always returns `nothing` because nothing ever renders where the portal is used.
+   * For clarity's sake, here is the outline of the function body::
+   *
+   * - Resolve `targetOrSelector` to an element.
+   *
+   * - If the directive's `container` property is `undefined`,
+   *   - then create the container element and store it in the property.
+   *
+   * - If the target has changed from one element to another,
+   *   - then migrate `container` to the new target and reassign the directive's `target` property.
+   *
+   * - If the directive's `target` property is `undefined`,
+   *   - then store the target element in the property.
+   *
+   *   - If a `placeholder` is provided in the `options`,
+   *     - then append `container` to `target` (if necessary) and render `placeholder` in `container`.
+   *
+   * - Resolve `content` (awaited).
+   *
+   * - Append `container` to `target` (if necessary) and render `content` in `container`.
+   *
+   * The steps are organized this way to balance the initalization and refreshing of cructial properties
+   * like `container` and `target` while ensuring that `container` isn't added to the DOM until
+   * the directive is about to render something (either `placeholder` or `content`).
+   *
+   * @param content - The content of the portal.
+   * This parameter is passed as the `value` parameter in [Lit's `render` function](https://lit.dev/docs/api/templates/#render).
+   *
+   * The `content` parameter can be a promise, which will be rendered in the portal once it resolves.
+   *
+   * @param targetOrSelector - The "target" for the portal.
+   * If the value is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
+   * If no element is found with the selector, then an error is thrown.
+   *
+   * @param options - See {@link PortalOptions}.
+   *
+   * @returns This function always returns Lit's [`nothing`](https://lit.dev/docs/api/templates/#nothing) value,
+   * because nothing ever renders where the portal is used.
    */
   render(
     content: unknown | Promise<unknown>,
@@ -52,6 +94,7 @@ export class PortalDirective extends AsyncDirective {
           "Target was falsy. Are you using a Lit ref before its value is defined? If so, try using Lit's @queryAsync decorator instead (https://lit.dev/docs/api/decorators/#queryAsync).",
         );
       }
+      const newTarget = getTarget(targetOrSelector);
 
       // Create container if it doesn't already exist.
       if (!this.container) {
@@ -59,8 +102,6 @@ export class PortalDirective extends AsyncDirective {
         newContainer.id = this.containerId;
         this.container = newContainer;
       }
-
-      const newTarget = getTarget(targetOrSelector);
 
       // If we are getting a new target, then migrate the container.
       if (this.target && this.target !== newTarget) {
