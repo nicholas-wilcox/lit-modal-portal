@@ -56,6 +56,7 @@ If no element is found with the selector, then an error is thrown.</p>
 The <code>targetOrSelector</code> must resolve before the portal renders.</p>
 <p>If the <code>content</code> is a promise, then an optional <code>placeholder</code> may be provided.
 If no <code>placeholder</code> is provided, then the portal will not render until the <code>content</code> resolves.</p>
+<p>See <a href="https://nicholas-wilcox.github.io/lit-modal-portal/classes/PortalDirective.html#render">the docs</a> for more information on how the <code>portal</code> directive works.</p>
 <a id="md:advanced-usage" class="tsd-anchor"></a><h2><a href="#md:advanced-usage">Advanced Usage</a></h2><a id="md:modals-and-dialogs" class="tsd-anchor"></a><h3><a href="#md:modals-and-dialogs">Modals and dialogs</a></h3><p>This package no longer provides modal components. Instead, it focuses on a directive that is simple to use in different ways and encourages users to implement their own modals.</p>
 <p>One recommended approach is to use the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog"><code>dialog</code></a> element and its <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal"><code>showModal</code></a> method,
 which can be accessed using <a href="https://lit.dev/docs/templates/directives/#referencing-rendered-dom">Lit&#39;s <code>ref</code> directive</a>.</p>

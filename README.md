@@ -109,6 +109,8 @@ The `targetOrSelector` must resolve before the portal renders.
 If the `content` is a promise, then an optional `placeholder` may be provided.
 If no `placeholder` is provided, then the portal will not render until the `content` resolves.
 
+See [the docs](https://nicholas-wilcox.github.io/lit-modal-portal/classes/PortalDirective.html#render) for more information on how the `portal` directive works.
+
 ## Advanced Usage
 
 ### Modals and dialogs
