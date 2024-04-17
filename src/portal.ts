@@ -64,7 +64,7 @@ export class PortalDirective extends AsyncDirective {
    *
    * - Append `container` to `target` (if necessary) and render `content` in `container`.
    *
-   * The steps are organized this way to balance the initalization and refreshing of cructial properties
+   * The steps are organized this way to balance the initalization and refreshing of crucial properties
    * like `container` and `target` while ensuring that `container` isn't added to the DOM until
    * the directive is about to render something (either `placeholder` or `content`).
    *
