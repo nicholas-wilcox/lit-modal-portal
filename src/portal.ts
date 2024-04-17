@@ -4,6 +4,10 @@ import { AsyncDirective } from 'lit/async-directive.js';
 
 export type TargetOrSelector = Node | string;
 
+export type PortalOptions = {
+  placeholder?: unknown;
+};
+
 /**
  * Utility function to get an HTMLElement by reference or by a document query selector.
  */
@@ -27,25 +31,8 @@ function getTarget(targetOrSelector: TargetOrSelector): Node {
  */
 export class PortalDirective extends AsyncDirective {
   private containerId = `portal-${self.crypto.randomUUID()}`;
-  private _container: HTMLElement | undefined;
+  private container: HTMLElement | undefined;
   private target: Node | undefined;
-
-  /**
-   * Dynamic getter to safeguard a reference to the portal container that might not be initialized yet.
-   * This allows the main render function to not worry about the difference between the first render and subsequent renders.
-   */
-  private get container() {
-    if (this._container) {
-      return this._container;
-    }
-
-    // Create new container, assign the id, and update the private reference.
-    const newContainer = document.createElement('div');
-    newContainer.id = this.containerId;
-    this._container = newContainer;
-
-    return this._container;
-  }
 
   /**
    * Main render function for the directive.
@@ -56,24 +43,54 @@ export class PortalDirective extends AsyncDirective {
   render(
     content: unknown | Promise<unknown>,
     targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>,
+    options?: PortalOptions,
   ) {
-    Promise.all([content, targetOrSelector]).then(([content, targetOrSelector]) => {
+    // Resolve targetOrSelector first, because nothing can happen without that.
+    Promise.resolve(targetOrSelector).then(async (targetOrSelector) => {
       if (!targetOrSelector) {
         throw Error(
           "Target was falsy. Are you using a Lit ref before its value is defined? If so, try using Lit's @queryAsync decorator instead (https://lit.dev/docs/api/decorators/#queryAsync).",
         );
       }
 
-      const target = getTarget(targetOrSelector);
-
-      // Move container to new target when it changes.
-      if (target !== this.target) {
-        this.target?.removeChild(this.container);
-        target.appendChild(this.container);
-        this.target = target;
+      // Create container if it doesn't already exist.
+      if (!this.container) {
+        const newContainer = document.createElement('div');
+        newContainer.id = this.containerId;
+        this.container = newContainer;
       }
 
-      litRender(content, this.container);
+      const newTarget = getTarget(targetOrSelector);
+
+      // If we are getting a new target, then migrate the container.
+      if (this.target && this.target !== newTarget) {
+        this.target?.removeChild(this.container);
+        newTarget.appendChild(this.container);
+        this.target = newTarget;
+      }
+
+      // Set the target if it's undefined
+      if (!this.target) {
+        this.target = newTarget;
+
+        // Render the placeholder if it's provided
+        if (options?.placeholder) {
+          // Only append the container to the target if we are about to render.
+          if (!this.target.contains(this.container)) {
+            this.target.appendChild(this.container);
+          }
+          litRender(options.placeholder, this.container);
+        }
+      }
+
+      const resolvedContent = await Promise.resolve(content);
+
+      // Add the container to the target if it isn't included already.
+      if (!this.target.contains(this.container)) {
+        this.target.appendChild(this.container);
+      }
+
+      litRender(resolvedContent, this.container);
     });
 
     return nothing;
@@ -81,8 +98,8 @@ export class PortalDirective extends AsyncDirective {
 
   /** Remove container from target when the directive is disconnected. */
   protected disconnected(): void {
-    if (this.target?.contains(this._container)) {
-      this.target?.removeChild(this._container);
+    if (this.target?.contains(this.container)) {
+      this.target?.removeChild(this.container);
     } else {
       console.warn(
         'portal directive was disconnected after the portal container was removed from the target.',
@@ -92,7 +109,7 @@ export class PortalDirective extends AsyncDirective {
 
   /** Append container to target when the directive is reconnected. */
   protected reconnected(): void {
-    this.target?.appendChild(this._container);
+    this.target?.appendChild(this.container);
   }
 }
 

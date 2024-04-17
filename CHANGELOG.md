@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Tests for Lit lifecycle methods called on components that are in portals.
 - Support for asynchronous portal content, with tests and demo code.
+  - Portals with asynchronous content can render a placeholder while the content resolves.
 
 ## [0.6.2] - 2024-04-09
 

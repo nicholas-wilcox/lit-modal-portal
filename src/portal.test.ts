@@ -97,12 +97,17 @@ async function createPortalFixtureWithToggledComponent() {
   return { exampleComponentRef, clickButtonAsync };
 }
 
-async function createAsynchronousPortalFixture(portalTarget: HTMLElement | string, delay = 1000) {
+async function createAsynchronousPortalFixture(
+  portalTarget: HTMLElement | string,
+  delay = 1000,
+  placeholder?: unknown,
+) {
   const sleepPromise = new Promise((resolve) => setTimeout(resolve, delay));
   await fixture(
     html`${portal(
       sleepPromise.then(() => html`<p>${PORTAL_CONTENT}</p>`),
       portalTarget,
+      { placeholder },
     )}`,
   );
 }
@@ -192,6 +197,18 @@ describe('portal', async function () {
 
       await new Promise((resolve) => setTimeout(resolve, 1500));
       expect(getPortalsInDocumentBody()).to.not.be.empty;
+    });
+
+    it('renders a placeholder while asynchronous content resolves', async function () {
+      this.timeout(2000);
+
+      await createAsynchronousPortalFixture(document.body, 1000, html`<p>placeholder</p>`);
+      const portals = getPortalsInDocumentBody();
+      expect(portals).to.not.be.empty;
+      expect((portals[0] as HTMLElement).innerText).to.equal('placeholder');
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      expect((portals[0] as HTMLElement).innerText).to.equal(PORTAL_CONTENT);
     });
   });
 

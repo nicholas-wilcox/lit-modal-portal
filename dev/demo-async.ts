@@ -24,6 +24,8 @@ export class DemoAsync extends LitElement {
       .portal-target {
         flex-basis: 0;
         flex-grow: 1;
+        border: 1px solid black;
+        padding: 0.25rem;
       }
     `,
   ];
@@ -31,9 +33,12 @@ export class DemoAsync extends LitElement {
   @queryAsync('#portal-target')
   portalTarget: Promise<HTMLElement>;
 
-  getAsynchronousContent() {
+  @queryAsync('#second-portal-target')
+  secondPortalTarget: Promise<HTMLElement>;
+
+  async getAsynchronousContent(content: unknown) {
     const sleepPromise = new Promise((resolve) => setTimeout(resolve, 3000));
-    return sleepPromise.then(() => html`<p>This portal renders three seconds later.</p>`);
+    return sleepPromise.then(() => content);
   }
 
   render() {
@@ -66,10 +71,41 @@ export class DemoAsync extends LitElement {
           few seconds. You may refresh this webpage in order to repeat the example.
         </p>
         ${portal(html`<p>This portal renders immediately.</p>`, this.portalTarget)}
-        ${portal(this.getAsynchronousContent(), this.portalTarget)}
+        ${portal(
+          this.getAsynchronousContent(html`<p>This portal renders three seconds later.</p>`),
+          this.portalTarget,
+        )}
         <div id="portal-target" class="portal-target">
           <h3>Portal target</h3>
         </div>
+      </div>
+      <p>You can provide a placeholder value to render until the content promise resolves.</p>
+      <div class="wrapper">
+        <p>
+          This example is similar to the previous one, except the second portal is also rendered
+          immediately with placeholder content. Like before, you may refresh the page to observe the
+          placeholder being replaced with the other content.
+        </p>
+        ${portal(html`<p>This portal renders immediately.</p>`, this.secondPortalTarget)}
+        ${portal(
+          this.getAsynchronousContent(
+            html`<p>
+              This portal rendered first with a placeholder and was updated after three seconds.
+            </p>`,
+          ),
+          this.secondPortalTarget,
+          {
+            placeholder: html`<p>Placeholder</p>`,
+          },
+        )}
+        <div id="second-portal-target" class="portal-target">
+          <h3>Portal target</h3>
+        </div>
+        <p>
+          Observe that the portal with a placeholder appears above the other portal. This behaviour
+          is unexpected and possibly results from a race condition, since both portals have the same
+          target.
+        </p>
       </div>
     `;
   }

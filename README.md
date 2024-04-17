@@ -72,9 +72,14 @@ When the portal's content is updated, the directive will re-render the new conte
 ```ts
 type TargetOrSelector = Node | string;
 
+type PortalOptions = {
+  placeholder?: unknown;
+};
+
 portal(
   content: unknown | Promise<unknown>,
   targetOrSelector: TargetOrSelector | Promise<TargetOrSelector>,
+  options?: PortalOptions,
 ): DirectiveResult<typeof PortalDirective>
 ```
 
@@ -90,9 +95,17 @@ Parameters:
   If the value is a string, then it is treated as a query selector and passed to `document.querySelector()` in order to locate the portal target.
   If no element is found with the selector, then an error is thrown.
 
+- `options`: Configuration parameters for the portal.
+
+  - `placeholder`: A value that will be rendered while the `content` is resolving.
+
 This function will always return [Lit's `nothing` value](https://lit.dev/docs/api/templates/#nothing), because nothing is supposed to render where the portal is used.
 
-Both the `content` and the `targetOrSelector` parameters may be promises. All promises must be resolved before the portal renders.
+Both the `content` and the `targetOrSelector` parameters may be promises.
+The `targetOrSelector` must resolve before the portal renders.
+
+If the `content` is a promise, then an optional `placeholder` may be provided.
+If no `placeholder` is provided, then the portal will not render until the `content` resolves.
 
 ## Advanced Usage
 
