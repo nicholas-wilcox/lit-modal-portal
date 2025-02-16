@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix typo in typedoc
+- Typos in README
 
 ## [0.7.0] - 2024-04-17
 
