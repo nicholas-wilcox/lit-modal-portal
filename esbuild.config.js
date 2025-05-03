@@ -23,9 +23,9 @@ const plugins = [
     name: 'on-rebuild-plugin',
     setup(build) {
       if (shouldWatch) {
-        build.onEnd((_result) => {
+        build.onEnd((result) => {
           const timeString = getNowAsString();
-          if (error) console.log(`${timeString}: watch build failed`);
+          if (result.errors.length) console.log(`${timeString}: watch build failed`);
           else console.log(`${timeString}: watch build succeeded`);
         });
       }
@@ -45,8 +45,8 @@ const context = await esbuild.context({
 if (shouldWatch) {
   await context.watch();
   console.log('watching...');
+  process.on('SIGINT', () => context.dispose());
 } else {
   await context.rebuild();
+  await context.dispose();
 }
-
-await context.dispose();
