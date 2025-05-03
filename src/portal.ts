@@ -56,6 +56,9 @@ export class PortalDirective extends AsyncDirective {
    * - If the directive's `container` property is `undefined`,
    *   - then create the container element and store it in the property.
    *
+   * - If `modifyContainer` is provided in the `options`,
+   *   - then call `modifyContainer(container)`.
+   *
    * - If the target has changed from one element to another,
    *   - then migrate `container` to the new target and reassign the directive's `target` property.
    *
