@@ -1,6 +1,6 @@
 {
   "name": "lit-modal-portal",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "A custom portal directive for the Lit framework to render content elsewhere in the DOM",
   "keywords": [
     "Lit",
