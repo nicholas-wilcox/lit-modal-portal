@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add `modifyContainer` function to `portal` directive options.
 
+### Fixed
+- Fixed bugs in esbuild.config.js
+
 ## [0.7.1] - 2025-02-16
 
 ### Fixed
