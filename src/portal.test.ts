@@ -3,7 +3,7 @@ import { ref, createRef, Ref } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 import { customElement, state, property } from 'lit/decorators.js';
 import { expect, fixture, nextFrame } from '@open-wc/testing';
-import { portal } from './portal';
+import { portal, PortalOptions } from './portal';
 import sinon, { spy } from 'sinon';
 
 @customElement('example-component-manager')
@@ -75,8 +75,8 @@ export class ExampleComponent extends LitElement {
 const PORTAL_CONTENT = 'portal content';
 const PORTAL_CONTAINER_ID_REGEX = /portal(-[0-9a-f])+/;
 
-async function createPortalFixture(portalTarget: HTMLElement | string) {
-  await fixture(html`${portal(html`<p>${PORTAL_CONTENT}</p>`, portalTarget)}`);
+async function createPortalFixture(portalTarget: HTMLElement | string, options?: PortalOptions) {
+  await fixture(html`${portal(html`<p>${PORTAL_CONTENT}</p>`, portalTarget, options)}`);
 }
 
 async function createPortalFixtureWithToggledComponent() {
@@ -140,6 +140,22 @@ describe('portal', async function () {
     expect(portalTarget.lastElementChild).to.be.instanceof(HTMLDivElement);
     expect(portalTarget.lastElementChild.id).match(PORTAL_CONTAINER_ID_REGEX);
     expect((portalTarget.lastElementChild as HTMLDivElement).innerText).to.equal(PORTAL_CONTENT);
+  });
+
+  it('modifies the portal container', async function () {
+    const portalTarget = document.createElement('div');
+    const portalTargetId = `portal-target`;
+    portalTarget.id = portalTargetId;
+
+    const className = 'modified-classname';
+    document.body.appendChild(portalTarget);
+    await createPortalFixture('#portal-target', {
+      modifyContainer: (div) => div.classList.add(className),
+    });
+
+    expect(portalTarget.lastElementChild).to.be.instanceof(HTMLDivElement);
+    expect(portalTarget.lastElementChild.id).match(PORTAL_CONTAINER_ID_REGEX);
+    expect(portalTarget.lastElementChild.classList.contains(className));
   });
 
   describe('Lit lifecycle methods for components in portals', async function () {

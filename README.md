@@ -76,6 +76,7 @@ type TargetOrSelector = Node | string;
 
 type PortalOptions = {
   placeholder?: unknown;
+  modifyContainer?: (container: HTMLElement) => void;
 };
 
 portal(
@@ -100,6 +101,9 @@ Parameters:
 - `options`: Configuration parameters for the portal.
 
   - `placeholder`: A value that will be rendered while the `content` is resolving.
+
+  - `modifyContainer`: A function that will be called with the portal's container provided as an argument.
+    This allows you to programmatically control the container before the portal renders.
 
 This function will always return [Lit's `nothing` value](https://lit.dev/docs/api/templates/#nothing), because nothing is supposed to render where the portal is used.
 

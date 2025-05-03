@@ -10,9 +10,14 @@ export type TargetOrSelector = Node | string;
 /**
  * @property placeholder - When provided, `placeholder` will be immediately rendered in the portal.
  * Assuming that `content` is a promise, it will replace the placeholder once it resolves.
+ *
+ * @property modifyContainer - When provided, the `modifyContainer` function will be called with
+ * the portal's container given as the argument. This allows you to programmatically control the
+ * container before the portal renders.
  */
 export interface PortalOptions {
   placeholder?: unknown;
+  modifyContainer?: (container: HTMLElement) => void;
 }
 
 /**
@@ -100,6 +105,9 @@ export class PortalDirective extends AsyncDirective {
       if (!this.container) {
         const newContainer = document.createElement('div');
         newContainer.id = this.containerId;
+        if (options?.modifyContainer) {
+          options.modifyContainer(newContainer);
+        }
         this.container = newContainer;
       }
 
