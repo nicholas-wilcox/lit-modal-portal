@@ -222,6 +222,25 @@ Another consquence of the Shadow DOM is that only [inherited CSS properties](htt
 
 See [Lit's documentation](https://lit.dev/docs/components/styles/#shadow-dom) for more information on working with CSS styles and the Shadow DOM.
 
+### Modifying portal containers
+
+A portal renders its content inside a container `<div>`. You can access and manipulate this element by supplying a `modifyContainer` function to the options for the `portal` directive. For example, the following code adds styles to the container:
+
+```ts
+portal(
+  html`<p>This is the portal content. Its container has a red border and some padding.</p>`,
+  document.body,
+  {
+    modifyContainer: (c) => {
+      c.style.border = '2px solid red';
+      c.style.padding = '0.5rem';
+    },
+  },
+);
+```
+
+Credit to [SimeonC](https://github.com/SimeonC) for suggesting this feature and even providing the code changes to make it possible.
+
 ## Documentation
 
 More in-depth documentation for this package is included in the repo, under the `/docs` directory.
