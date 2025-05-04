@@ -241,6 +241,12 @@ portal(
 
 Credit to [SimeonC](https://github.com/SimeonC) for suggesting this feature and even providing the code changes to make it possible.
 
+### Delegating portals
+
+You may wish to create a reusable component that implements certain behaviors around portalling while letting a parent component define the content that is sent through the portal. For example, consider a child component that dynamically renders content either in-place or through a portal, based on reactive state.
+
+There are many issues with using slotted content for this purpose. (See [this GitHub issue](https://github.com/nicholas-wilcox/lit-modal-portal/issues/6) for more context.) Instead, you should declare a property on the child component and pass a Lit template through the parent component. You may refer to [the example code](https://github.com/nicholas-wilcox/lit-modal-portal/blob/main/dev/demo-delegation.ts) in the `dev/` directory of this repository for an example.
+
 ## Documentation
 
 More in-depth documentation for this package is included in the repo, under the `/docs` directory.

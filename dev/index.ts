@@ -7,6 +7,7 @@ import './demo-reactive';
 import './demo-modals';
 import './demo-async';
 import './demo-modify-container';
+import './demo-delegation';
 
 @customElement('app-root')
 export class AppRoot extends LitElement {
@@ -54,6 +55,7 @@ export class AppRoot extends LitElement {
         <demo-modals></demo-modals>
         <demo-async></demo-async>
         <demo-modify-container></demo-modify-container>
+        <demo-delegation></demo-delegation>
       </div>
     `;
   }
