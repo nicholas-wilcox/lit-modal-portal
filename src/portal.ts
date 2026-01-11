@@ -1,5 +1,5 @@
 import { render as litRender, nothing } from 'lit';
-import { directive } from 'lit/directive.js';
+import { directive } from 'lit-html/directive.js';
 import { AsyncDirective } from 'lit/async-directive.js';
 
 /**
