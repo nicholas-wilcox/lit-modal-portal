@@ -1,3 +1,3 @@
-import { portal } from './portal';
+import { portal } from './portal.js';
 
 export { portal };
