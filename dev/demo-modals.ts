@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { StyleInfo, styleMap } from 'lit/directives/style-map.js';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, state, property } from 'lit/decorators.js';
 import { ref, createRef } from 'lit/directives/ref.js';
 import { when } from 'lit/directives/when.js';
 import { portal } from '../src/portal';
@@ -23,8 +23,10 @@ export class DemoModals extends LitElement {
   @state()
   enableModalPortal = false;
 
+  @property({ attribute: false })
   dialogRef = createRef<HTMLDialogElement>();
 
+  @property({ attribute: false })
   confirmationDialogRef = createRef<HTMLDialogElement>();
 
   @state()
@@ -60,85 +62,84 @@ export class DemoModals extends LitElement {
       )}
 
       <!-- Imperatively showing a dialog -->
+      <h3>Dialogs without <code>lit-modal-portal</code></h3>
       <p>
-        Alternatively, you can use the <code>portal</code> directive with
-        <code>&lt;dialog&gt;</code> elements. Rather than conditionally including a portal based on
-        a boolean flag, you can simply render the <code>&lt;dialog&gt;</code> in the portal and
-        imperatively call the
+        Instead of using this package, your requirements may be better satisfied by the
+        <code>&lt;dialog&gt;</code> element, also known as the <code>HTMLDialogElement</code>.
+        Dialogs render their content on the
+        <a href="https://developer.mozilla.org/en-US/docs/Glossary/Top_layer" target="_blank"
+          >top layer</a
+        >, which uses a separate stacking context that renders on top of all other content in the
+        viewport.
+      </p>
+      <p>
+        Rather than conditionally include a portal based on a boolean flag, you can simply render
+        the <code>&lt;dialog&gt;</code> and imperatively call the
         <a
           target="_blank"
           href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal"
           ><code>HTMLDialogElement.showModal()</code> method</a
-        >.
-      </p>
-      <p>
-        The button below does exactly that by using a
+        >. The button below does exactly that by using a
         <a
           target="_blank"
           href="https://lit.dev/docs/templates/directives/#referencing-rendered-dom"
           >Lit ref</a
         >
-        that is attached to the <code>&lt;dialog&gt;</code> element used in the portal.
+        that is attached to the <code>HTMLDialogElement</code> element.
       </p>
       <button @click=${() => this.dialogRef.value?.showModal()}>Show Dialog</button>
-      ${portal(
-        html`<dialog ${ref(this.dialogRef)}>
-          <p>
-            This is a paragraph in a <code>&lt;dialog&gt;</code> element. You are seeing it because
-            its <code>showModal</code> function was called.
-          </p>
-          <p>
-            You may close the dialog by clicking the button below or by pressing the Escape key.
-          </p>
-          <button @click=${() => this.dialogRef.value?.close()}>Close Dialog</button>
-        </dialog>`,
-        document.body,
-      )}
+      <dialog ${ref(this.dialogRef)}>
+        <p>
+          This is a paragraph in a <code>&lt;dialog&gt;</code> element. You are seeing it because
+          its <code>showModal</code> function was called.
+        </p>
+        <p>You may close the dialog by clicking the button below or by pressing the Escape key.</p>
+        <button @click=${() => this.dialogRef.value?.close()}>Close Dialog</button>
+      </dialog>
 
       <h3>Confirmation Dialogs</h3>
-      <p>Putting all of this together, we can create a confirmation dialog component.</p>
+      <p>You can even create a confirmation dialog without using <code>lit-modal-portal</code>.</p>
       <button @click=${() => this.confirmationDialogRef.value?.showModal()}>
         Show Confirmation Dialog
       </button>
-      ${portal(
-        html`<confirmation-dialog
-          @close=${() => {
-            this.confirmationResponse = this.confirmationDialogRef.value?.returnValue;
-          }}
-          .dialogRef=${this.confirmationDialogRef}
-        ></confirmation-dialog>`,
-        document.body,
-      )}
+      <dialog
+        ${ref(this.confirmationDialogRef)}
+        @close=${() => {
+          this.confirmationResponse = this.confirmationDialogRef.value?.returnValue;
+        }}
+      >
+        <p>This is the confirmation dialog</p>
+        <button @click=${() => this.confirmationDialogRef.value?.close('cancelled')}>Cancel</button>
+        <button @click=${() => this.confirmationDialogRef.value?.close('confirmed')}>
+          Confirm Action
+        </button>
+      </dialog>
       ${when(
         this.confirmationResponse,
         () => html`<span><strong>Return value:</strong> ${this.confirmationResponse}</span>`,
       )}
       <p>
-        The component shown with the button above accepts a Lit ref as a property. This means that
-        the parent component can call the dialog's <code>showModal</code> method to open the dialog.
-        The <code>&lt;confirmation-dialog&gt;</code> component that contains the dialog has two
-        buttons that each close it, but with a different return value. (See
+        The <code>&lt;dialog&gt;</code> shown by the button above contains buttons that close
+        itself, but with difference return values. (See
         <a
           target="_blank"
           href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close"
           >MDN documentation</a
         >
-        on the <code>HTMLDialogElement.close()</code> method.)
+        on the <code>HTMLDialogElement.close()</code> method.) The component that manages this
+        section of the demo hooks into the
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close_event"
+          ><code>close</code> event</a
+        >
+        to captures and conditionally render the return value. Note that closing the dialog with the
+        Escape key does not change the <code>returnValue</code> attribute of the dialog.
       </p>
       <p>
-        Additionally, the
-        <code>&lt;confirmation-dialog&gt;</code> component listens to and forwards the
-        <code>&lt;dialog&gt;</code>'s <code>close</code> event. This allows the parent component to
-        react and update based on the return value. Note that closing the dialog with the Escape key
-        does not change the <code>returnValue</code> attribute of the dialog.
-      </p>
-      <p>
-        On a final note, consider that there are many different ways that you might want to
-        implement and use a modal. You may want to avoid using a <code>&lt;dialog&gt;</code> tag, or
-        you may prefer a component that accepts callback functions over a component that dispatches
-        events. For these reasons, I've decided to focus on the utility of the
-        <code>portal</code> directive and not provide any modal components in this package's
-        exports.
+        Consider that there are many different ways that you might want to implement and use a
+        modal. You may want to avoid using a <code>&lt;dialog&gt;</code> tag, or you may prefer a
+        component that accepts callback functions over a component that dispatches events. For these
+        reasons, I've decided to focus on the utility of the <code>portal</code> directive and not
+        provide any modal components in this package's exports.
       </p>
     `;
   }

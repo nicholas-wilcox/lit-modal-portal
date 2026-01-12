@@ -8,19 +8,11 @@ Its main goals are:
 
 This package also supports _asynchronous_ portal content.
 
-## :warning: Notice on version 0.6
-
-This package was heavily altered between versions 0.4 and 0.6.
-Changes include:
-
-- Add support for Lit v3 and fixed dependency declaration for v0.5. (Thanks, [klasjersevi](https://github.com/klasjersevi).)
-- Removed the following code:
-  - Dependency of the [immutable](https://www.npmjs.com/package/immutable) package.
-  - The `<modal-portal>` component and the singleton `modalController`.
-  - All pre-made components, such as the `<confirm-modal>`.
-- Refactor the `portal` directive to use Lit's `render` function.
-  - This was primarily inspired by [ronak-lm](https://github.com/ronak-lm)'s [lit-portal](https://www.npmjs.com/package/lit-portal) package, which more closely resembles React's portal API than previous versions of this package.
-  - This simplifies usage of the package and expands the potential use cases.
+> [!TIP]
+> This package is unfortunately stuck with the name `lit-modal-portal`.
+>
+> However, you may be better off with the standard behavior of the `<dialog>` element if you wish to create a confirmation modal dialog or something like that.
+> See below for more information on [modals and dialogs](#modals-and-dialogs).
 
 ## Installation and Usage
 
@@ -99,7 +91,6 @@ Parameters:
   If no element is found with the selector, then an error is thrown.
 
 - `options`: Configuration parameters for the portal.
-
   - `placeholder`: A value that will be rendered while the `content` is resolving.
 
   - `modifyContainer`: A function that will be called with the portal's container provided as an argument.
@@ -131,9 +122,6 @@ Consider the following:
 import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { ref, createRef } from 'lit/directives/ref.js';
-import { portal } from 'lit-modal-portal';
-
-import './lit-dialog';
 
 @customElement('example-app')
 export class ExampleApp extends LitElement {
@@ -143,25 +131,6 @@ export class ExampleApp extends LitElement {
     return html`
       <h1>lit-modal-portal Dialog Example</h1>
       <button @click=${() => this.dialogRef.value?.showModal()}>Show Dialog</button>
-      ${portal(html`<lit-dialog .dialogRef=${this.dialogRef}></lit-dialog>`, document.body)}
-    `;
-  }
-}
-```
-
-```ts
-// lit-dialog.ts
-import { LitElement, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { ref, createRef, Ref } from 'lit/directives/ref.js';
-
-@customElement('lit-dialog')
-export class LitDialog extends LitElement {
-  @property({ attribute: false })
-  dialogRef: Ref<HTMLDialogElement> = createRef();
-
-  render() {
-    return html`
       <dialog ${ref(this.dialogRef)}>
         <p>This is the dialog</p>
         <button @click=${() => this.dialogRef.value?.close()}>Close Dialog</button>
@@ -171,15 +140,17 @@ export class LitDialog extends LitElement {
 }
 ```
 
-In this example, we have a `<lit-dialog>` component that accepts a `dialogRef` from the parent `<example-app>`.
-This allows the parent to open the dialog and the child to imperatively close it on a button's `@click` event.
+In this example, we have a component with a `dialogRef` attached to a `<dialog>` element.
+This allows the app to imperatively open and close the dialog on a button's `@click` event.
+
+> [!NOTE]
+> This example does not use the `lit-modal-portal` package. You should consider if a package such as this is necessary for your use case, as you might be better off the standard `<dialog>` behavior.
 
 This basic pattern can be extended as necessary. Examples include:
 
-- Listening to the dialog's `close` event, which would trigger if the dialog was closed with the Escape key.
-- Adding styles to the `<lit-dialog>` component.
-- Adding callback function properties to `<lit-dialog>`.
-- Using slotted content in the dialog component's template.
+- Listening to the dialog's `close` event, which would trigger if the dialog was closed with the Escape key or with the "Close Dialog" button.
+- Adding styles to the `<dialog>` element.
+- Creating a separate Lit component to manage tie `<dialog>` element.
 
 ### Targeting elements in the Shadow DOM
 
