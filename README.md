@@ -108,11 +108,9 @@ See [the docs](https://nicholas-wilcox.github.io/lit-modal-portal/classes/Portal
 
 ## Advanced Usage
 
-### Modals and dialogs
+### Modals and Dialogs
 
-This package no longer provides modal components. Instead, it focuses on a directive that is simple to use in different ways and encourages users to implement their own modals.
-
-One recommended approach is to use the [`dialog`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog) element and its [`showModal`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal) method,
+Modals are a long dicussed topic in web development. One recommended approach is to use the [`dialog`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog) element and its [`showModal`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal) method,
 which can be accessed using [Lit's `ref` directive](https://lit.dev/docs/templates/directives/#referencing-rendered-dom).
 
 Consider the following:
@@ -144,7 +142,7 @@ In this example, we have a component with a `dialogRef` attached to a `<dialog>`
 This allows the app to imperatively open and close the dialog on a button's `@click` event.
 
 > [!NOTE]
-> This example does not use the `lit-modal-portal` package. You should consider if a package such as this is necessary for your use case, as you might be better off the standard `<dialog>` behavior.
+> This example does not use the `lit-modal-portal` package. You should consider if a package such as this is necessary for your use case, as you might be better off with the standard `<dialog>` behavior.
 
 This basic pattern can be extended as necessary. Examples include:
 
