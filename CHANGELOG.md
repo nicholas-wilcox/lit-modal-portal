@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Notes about creating components that delegate portal behavior and render generic content provided by parent components.
 
+### Fixed
+
+- Updated module specifiers to support unbundled importmaps.
+
 ## [0.8.0] - 2025-05-03
 
 ### Added
